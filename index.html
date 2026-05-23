@@ -68,34 +68,42 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .tech-btn-wrap{background:var(--cream);padding:0 80px 48px;display:flex}
 
 /* PHIT TECH SECTION */
-.phit-main{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:20px;margin-bottom:32px;align-items:start}
-.phit-box{border-radius:12px;padding:20px 16px;border:2px solid}
-.phit-box-green{border-color:#4a9e5c;background:#f1f8f2}
-.phit-box-blue{border-color:#1565c0;background:#f0f4ff}
-.phit-box-title{font-size:.72rem;font-weight:800;text-align:center;margin-bottom:14px;letter-spacing:.03em}
-.phit-pollutants{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-.phit-poll-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.6rem;color:#555;text-align:center}
-.phit-poll-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.phit-molecules-left{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:10px}
-.phit-mol{display:inline-block;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;border-radius:20px;font-size:.65rem;font-weight:700;padding:2px 9px}
-.phit-result{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px;padding:10px;border:1.5px solid #e0e0e0}
-.phit-center{display:flex;flex-direction:column;align-items:center;gap:12px}
-.phit-center-title{font-size:.85rem;font-weight:700;text-align:center;color:#333;line-height:1.5}
-.phit-orbit{position:relative;display:flex;align-items:center;justify-content:center;width:100%;min-height:220px}
-.phit-orbit-mol{position:absolute;background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;border-radius:20px;font-size:.62rem;font-weight:700;padding:3px 8px;white-space:nowrap}
-.phit-pm-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:8px}
+.phit-main{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:24px;margin-bottom:32px;align-items:stretch}
+.phit-box{border-radius:14px;padding:22px 18px;border:2px solid;display:flex;flex-direction:column}
+.phit-box-green{border-color:#4a9e5c;background:linear-gradient(135deg,#f0f9f1 0%,#e8f5e9 100%)}
+.phit-box-blue{border-color:#1565c0;background:linear-gradient(135deg,#f0f4ff 0%,#e3f2fd 100%)}
+.phit-box-title{font-size:.7rem;font-weight:800;text-align:center;margin-bottom:16px;letter-spacing:.04em;line-height:1.4}
+.phit-pollutants{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.phit-poll-item{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:.6rem;color:#444;text-align:center}
+.phit-poll-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.phit-molecules-left{display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:12px}
+.phit-mol{display:inline-block;background:#fff;color:#2e7d32;border:1.5px solid #a5d6a7;border-radius:20px;font-size:.68rem;font-weight:700;padding:3px 11px;letter-spacing:.02em}
+.phit-result{display:flex;align-items:center;justify-content:center;background:#fff;border-radius:10px;padding:12px;border:1.5px solid #c8e6c9;margin-top:auto}
+/* 中欄 */
+.phit-center{display:flex;flex-direction:column;align-items:center;gap:10px}
+.phit-center-title{font-size:.88rem;font-weight:700;text-align:center;color:#333;line-height:1.6}
+.phit-orbit{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:300px}
+.phit-orbit img{width:200px;height:auto;filter:drop-shadow(0 12px 32px rgba(74,158,92,.25));position:relative;z-index:2}
+.phit-orbit-mol{position:absolute;background:rgba(227,242,253,.92);color:#1565c0;border:1.5px solid #90caf9;border-radius:20px;font-size:.65rem;font-weight:700;padding:4px 10px;white-space:nowrap;backdrop-filter:blur(4px);z-index:3}
+/* 右欄 */
+.phit-pm-steps{display:flex;flex-direction:column;gap:14px;margin-bottom:12px}
 .phit-pm-step{display:flex;align-items:flex-start;gap:10px}
-.phit-step-num{width:22px;height:22px;border-radius:50%;background:#1565c0;color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.phit-features{display:flex;justify-content:center;gap:32px;padding:20px 0;border-top:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;margin-bottom:24px;flex-wrap:wrap}
-.phit-feat{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;color:#333}
-.phit-banner{background:#e8f5e9;border:1.5px solid #a5d6a7;border-radius:10px;padding:14px 24px;text-align:center;font-size:.88rem;color:#333;margin-bottom:32px}
+.phit-step-num{width:24px;height:24px;border-radius:50%;background:#1565c0;color:#fff;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;box-shadow:0 2px 8px rgba(21,101,192,.3)}
+/* 底部功能列 */
+.phit-features{display:flex;justify-content:center;gap:36px;padding:22px 0;border-top:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;margin-bottom:24px;flex-wrap:wrap}
+.phit-feat{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;color:#333}
+/* 橫幅 */
+.phit-banner{background:linear-gradient(135deg,#e8f5e9,#f1f8f2);border:1.5px solid #a5d6a7;border-radius:12px;padding:16px 28px;text-align:center;font-size:.9rem;color:#333;margin-bottom:32px}
+/* 產品卡片 */
 .phit-products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-bottom:48px}
-.phit-prod{text-align:center;padding:20px 12px;background:#fff;border-radius:12px;border:1px solid #e8e8e8}
-.phit-prod img{width:80px;height:auto;margin-bottom:10px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.12))}
-.phit-prod-name{font-size:1.1rem;font-weight:800;color:#1a1a1a;margin-bottom:6px}
-.phit-prod-tag{display:inline-block;font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px}
-.phit-prod-space{font-size:.72rem;color:#555;margin-bottom:6px}
-.phit-prod-desc{font-size:.68rem;color:#777;line-height:1.6}
+.phit-prod{text-align:center;padding:24px 16px 20px;background:#fff;border-radius:14px;border:1px solid #e8e8e8;box-shadow:0 2px 12px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
+.phit-prod:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.phit-prod-imgwrap{height:140px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.phit-prod-imgwrap img{max-width:130px;max-height:130px;width:auto;height:auto;filter:drop-shadow(0 6px 16px rgba(0,0,0,.15));mix-blend-mode:multiply}
+.phit-prod-name{font-size:1.15rem;font-weight:800;color:#1a1a1a;margin-bottom:7px}
+.phit-prod-tag{display:inline-block;font-size:.62rem;font-weight:700;padding:3px 12px;border-radius:20px;margin-bottom:10px}
+.phit-prod-space{font-size:.74rem;color:#444;margin-bottom:6px}
+.phit-prod-desc{font-size:.69rem;color:#777;line-height:1.65}
 
 /* STATS — full image */
 .stats-section{background:#fff;padding:0;overflow:hidden}
@@ -442,27 +450,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
       <div class="phit-box-title" style="color:#2e7d32">PHÂN GIẢI MÙI HÔI &amp; TÁC NHÂN Ô NHIỄM</div>
       <div class="phit-pollutants">
         <div class="phit-poll-item">
-          <div class="phit-poll-icon" style="background:#fff3e0">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f57c00" stroke-width="1.5"><path d="M12 3 Q10 7 12 9 Q14 7 12 3z"/><path d="M8 7 Q6 11 8 13 Q10 11 8 7z"/><path d="M16 7 Q14 11 16 13 Q18 11 16 7z"/><path d="M12 11 Q10 15 12 17 Q14 15 12 11z"/></svg>
-          </div>
+          <div class="phit-poll-icon" style="background:#fff3e0">💨</div>
           <span>Mùi hôi</span>
         </div>
         <div class="phit-poll-item">
-          <div class="phit-poll-icon" style="background:#e8f5e9">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#388e3c" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><line x1="12" y1="5" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="19"/><line x1="5" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="19" y2="12"/><line x1="7.05" y1="7.05" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="16.95" y2="16.95"/><line x1="16.95" y1="7.05" x2="18.36" y2="5.64"/><line x1="5.64" y1="18.36" x2="7.05" y2="16.95"/></svg>
-          </div>
+          <div class="phit-poll-icon" style="background:#e8f5e9">🧪</div>
           <span>VOCs</span>
         </div>
         <div class="phit-poll-item">
-          <div class="phit-poll-icon" style="background:#fce4ec">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#c62828" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><circle cx="8" cy="8" r="1.5" fill="#c62828"/><circle cx="16" cy="8" r="1" fill="#c62828"/><circle cx="8" cy="16" r="1" fill="#c62828"/><circle cx="16" cy="16" r="1.5" fill="#c62828"/></svg>
-          </div>
+          <div class="phit-poll-icon" style="background:#fce4ec">🦠</div>
           <span>Vi khuẩn</span>
         </div>
         <div class="phit-poll-item">
-          <div class="phit-poll-icon" style="background:#e3f2fd">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1565c0" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><line x1="12" y1="8" x2="12" y2="5.5"/><circle cx="12" cy="5" r="1" fill="#1565c0"/><line x1="16" y1="12" x2="18.5" y2="12"/><circle cx="19" cy="12" r="1" fill="#1565c0"/><line x1="12" y1="16" x2="12" y2="18.5"/><circle cx="12" cy="19" r="1" fill="#1565c0"/><line x1="8" y1="12" x2="5.5" y2="12"/><circle cx="5" cy="12" r="1" fill="#1565c0"/></svg>
-          </div>
+          <div class="phit-poll-icon" style="background:#e3f2fd">🔬</div>
           <span>Virus</span>
         </div>
       </div>
@@ -489,15 +489,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <div class="phit-center">
       <div class="phit-center-title">Thiết bị ECOHEAL<br><span style="color:#4a9e5c">kích hoạt công nghệ PHIT</span></div>
       <div class="phit-orbit">
-        <span class="phit-orbit-mol" style="top:4%;left:50%;transform:translateX(-50%)">OH⁻</span>
-        <span class="phit-orbit-mol" style="top:22%;left:5%">H₂O₂</span>
-        <span class="phit-orbit-mol" style="bottom:22%;left:5%">O₂⁻</span>
-        <span class="phit-orbit-mol" style="bottom:4%;left:50%;transform:translateX(-50%)">H₃O⁺</span>
-        <span class="phit-orbit-mol" style="top:4%;right:10%">OH⁻</span>
-        <span class="phit-orbit-mol" style="top:22%;right:5%">H₂O₂</span>
-        <span class="phit-orbit-mol" style="bottom:22%;right:5%">O₂⁻</span>
-        <span class="phit-orbit-mol" style="bottom:18%;right:8%">H₃O⁺</span>
-        <img src="images/product-bm6.png.png" alt="ECOHEAL BM6+" style="width:160px;height:auto;filter:drop-shadow(0 8px 24px rgba(0,0,0,.15))">
+        <!-- 左側分子 -->
+        <span class="phit-orbit-mol" style="top:8%;left:2%">OH⁻</span>
+        <span class="phit-orbit-mol" style="top:32%;left:0%">H₂O₂</span>
+        <span class="phit-orbit-mol" style="top:56%;left:2%">O₂⁻</span>
+        <span class="phit-orbit-mol" style="top:78%;left:4%">H₃O⁺</span>
+        <!-- 右側分子 -->
+        <span class="phit-orbit-mol" style="top:8%;right:2%">OH⁻</span>
+        <span class="phit-orbit-mol" style="top:32%;right:0%">H₂O₂</span>
+        <span class="phit-orbit-mol" style="top:56%;right:2%">O₂⁻</span>
+        <span class="phit-orbit-mol" style="top:78%;right:4%">H₃O⁺</span>
+        <img src="images/product-bm6.png.png" alt="ECOHEAL BM6+">
       </div>
     </div>
 
@@ -562,28 +564,28 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   <!-- 4款產品橫排 -->
   <div class="phit-products">
     <div class="phit-prod">
-      <img src="images/product-commercial.png.png" alt="PRO9">
+      <div class="phit-prod-imgwrap"><img src="images/product-commercial.png.png" alt="PRO9"></div>
       <div class="phit-prod-name">PRO9</div>
       <div class="phit-prod-tag" style="background:#e8f5e9;color:#2e7d32">THƯƠNG MẠI</div>
       <div class="phit-prod-space">Không gian khoảng <strong>10–40 坪</strong></div>
       <div class="phit-prod-desc">Hiệu suất cao cho cửa hàng, phòng khám, văn phòng và không gian đông người.</div>
     </div>
     <div class="phit-prod">
-      <img src="images/product-bm6.png.png" alt="BM6+">
+      <div class="phit-prod-imgwrap"><img src="images/product-bm6.png.png" alt="BM6+"></div>
       <div class="phit-prod-name">BM6+</div>
       <div class="phit-prod-tag" style="background:#e8f5e9;color:#2e7d32">GIA ĐÌNH</div>
       <div class="phit-prod-space">Không gian khoảng <strong>7–15 坪</strong></div>
       <div class="phit-prod-desc">Turbine hỗ trợ lan tỏa yếu tố làm sạch trong không gian sống.</div>
     </div>
     <div class="phit-prod">
-      <img src="images/product-arc.png.png" alt="ARC plus">
+      <div class="phit-prod-imgwrap"><img src="images/product-arc.png.png" alt="ARC plus"></div>
       <div class="phit-prod-name">ARC plus</div>
       <div class="phit-prod-tag" style="background:#e3f2fd;color:#1565c0">Ô TÔ</div>
       <div class="phit-prod-space">Không gian khoảng <strong>1 坪</strong></div>
       <div class="phit-prod-desc">Tận dụng luồng gió điều hòa để lan tỏa yếu tố làm sạch trong xe.</div>
     </div>
     <div class="phit-prod">
-      <img src="images/product-arcii.png.png" alt="ARCII plus">
+      <div class="phit-prod-imgwrap"><img src="images/product-arcii.png.png" alt="ARCII plus"></div>
       <div class="phit-prod-name">ARCII plus</div>
       <div class="phit-prod-tag" style="background:#f3e5f5;color:#6a1b9a">DI ĐỘNG</div>
       <div class="phit-prod-space">Không gian khoảng <strong>1–3 坪</strong></div>
