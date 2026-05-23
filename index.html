@@ -68,88 +68,51 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .tech-btn-wrap{background:var(--cream);padding:0 80px 48px;display:flex}
 
 /* ===== 區塊3：PHIT là gì ===== */
-.phit3-what{background:#fff;padding:72px 80px;border-bottom:2px solid #f0f0f0}
-.phit3-what-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.phit-label-tag{display:inline-block;background:#e8f5e9;color:#4a9e5c;font-size:.8rem;font-weight:700;padding:5px 18px;border-radius:20px;letter-spacing:.08em;margin-bottom:16px}
+.phit3-what{background:#fff;padding:64px 80px;border-bottom:1px solid #eee}
+.phit3-what-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 .phit3-what-h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;color:#1a1a1a;margin-bottom:20px;line-height:1.15}
-.phit3-what-desc{font-size:1rem;color:#555;line-height:1.8;max-width:480px}
-.phit3-what-right{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.phit3-mol-card{background:#f9faf7;border-radius:14px;padding:20px 22px;border-left:4px solid var(--mc);border:1px solid #ebebeb;border-left:4px solid var(--mc)}
-.phit3-mol-formula{font-size:2rem;font-weight:900;color:var(--mc);font-family:monospace;margin-bottom:6px}
-.phit3-mol-name{font-size:.82rem;color:#555;line-height:1.5}
+.phit3-what-desc{font-size:1rem;color:#555;line-height:1.85}
+.phit3-what-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.phit3-mol-chip{background:#f9faf7;border-radius:12px;padding:18px 20px;border-top:3px solid var(--mc);text-align:center}
+.phit3-chip-formula{font-size:1.8rem;font-weight:900;color:var(--mc);font-family:monospace;margin-bottom:8px}
+.phit3-chip-name{font-size:.8rem;color:#666;line-height:1.5}
 
-/* ===== 區塊4-6：背景圖共用 ===== */
-.phit-bg-section{position:relative;background-size:cover;background-position:center;background-repeat:no-repeat;min-height:600px;display:flex;align-items:center}
-.phit-bg-overlay{position:absolute;inset:0;background:rgba(255,255,255,.82)}
-.phit-bg-content{position:relative;z-index:2;padding:72px 80px;width:100%;max-width:1200px;margin:0 auto}
-.phit-bg-h2{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;color:#1a1a1a;margin-bottom:14px;line-height:1.2}
-.phit-green-h{color:#4a9e5c}
-.phit-bg-sub{font-size:1rem;color:#444;line-height:1.8;margin-bottom:40px}
+/* ===== 區塊4-6：背景圖section共用 ===== */
+.phit-bg-sec{position:relative;background-size:cover;background-position:center;background-repeat:no-repeat;min-height:520px;display:flex;align-items:center}
+.phit-bg-overlay{position:absolute;inset:0}
+.phit-bg-inner{position:relative;z-index:2;width:100%;max-width:1100px;margin:0 auto;padding:60px 80px}
+.phit-sec-num{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:900;color:#1a1a1a;margin-bottom:10px;line-height:1.3}
+.phit-sec-sub{font-size:.95rem;color:#444;line-height:1.7;margin-bottom:36px}
 
-/* 區塊4 分子布局 */
-.phit4-layout{display:flex;flex-direction:column;gap:40px}
-.phit4-top{}
-.phit4-mols{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;margin-bottom:40px}
-.phit4-mol-left,.phit4-mol-right{display:flex;flex-direction:column;gap:16px}
-.phit4-mol-item{display:flex;align-items:center;gap:12px}
-.phit4-mol-item.right{justify-content:flex-end}
-.phit4-mol-label{font-size:1.6rem;font-weight:900;font-family:monospace;padding:6px 18px;border-radius:40px;background:rgba(255,255,255,.9);box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.phit4-mol-label.green{color:#4a9e5c}
-.phit4-mol-label.blue{color:#1565c0}
-.phit4-mol-label.orange{color:#b36200}
-.phit4-mol-desc{font-size:.85rem;color:#555;font-style:italic}
-.phit4-center-badge{display:flex;flex-direction:column;gap:12px;align-items:center}
-.phit4-badge-top,.phit4-badge-bot{background:rgba(255,255,255,.95);border:1.5px solid #c8e6c9;border-radius:10px;padding:10px 16px;font-size:.85rem;font-weight:600;color:#2e7d32;text-align:center;line-height:1.5;box-shadow:0 2px 10px rgba(0,0,0,.07)}
-/* 區塊4 底部產品 */
-.phit4-products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;background:rgba(255,255,255,.9);border-radius:14px;padding:20px;border:1px solid #e8e8e8}
-.phit4-prod-item{display:flex;align-items:center;gap:12px;padding:8px 0}
-.phit4-prod-item:not(:last-child){border-right:1px solid #e8e8e8;padding-right:16px}
-.phit4-prod-item img{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.12))}
-.phit4-prod-name{font-size:1rem;font-weight:800;color:#1a1a1a}
-.phit4-prod-type{font-size:.78rem;color:#666}
+/* 區塊4 */
+.phit4-title-block{margin-bottom:32px}
+.phit4-body{display:grid;grid-template-columns:260px 1fr;gap:48px;align-items:center}
+.phit4-features{display:flex;flex-direction:column;gap:20px}
+.phit4-feat{display:flex;align-items:flex-start;gap:14px;background:rgba(255,255,255,.88);border-radius:12px;padding:16px 18px;border-left:4px solid #4a9e5c}
+.phit4-feat-icon{font-size:1.5rem;flex-shrink:0}
+.phit4-feat-title{font-size:.95rem;font-weight:700;color:#1a1a1a;margin-bottom:3px}
+.phit4-feat-desc{font-size:.82rem;color:#666}
+.phit4-product-img{display:flex;justify-content:center}
+.phit4-product-img img{width:220px;filter:drop-shadow(0 16px 40px rgba(0,0,0,.15))}
 
-/* 區塊5 步驟 */
-.phit5-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:start;margin-bottom:32px}
-.phit5-step{background:rgba(255,255,255,.92);border-radius:14px;padding:24px 20px;border:1px solid #e0e0e0;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.phit5-arrow{font-size:2.2rem;color:#4a9e5c;font-weight:700;display:flex;align-items:center;padding:0 16px;margin-top:36px}
-.phit5-step-num{width:38px;height:38px;border-radius:50%;background:#4a9e5c;color:#fff;font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-.phit5-step-title{font-size:1rem;font-weight:700;color:#1a1a1a;margin-bottom:12px;line-height:1.4}
-.phit5-step-mols{display:flex;flex-direction:column;gap:6px}
-.phit5-step-mols span{font-size:.88rem;font-weight:700;color:#4a9e5c;background:#e8f5e9;padding:5px 10px;border-radius:6px;display:flex;justify-content:space-between}
-.phit5-step-mols span em{font-size:.72rem;font-weight:400;color:#777;font-style:normal}
-.phit5-result-row{display:flex;align-items:center;gap:12px;margin:12px 0}
+/* 區塊5、6 步驟 */
+.phit5-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:0;margin-bottom:0}
+.phit5-step{background:rgba(255,255,255,.9);border-radius:14px;padding:26px 22px;box-shadow:0 2px 16px rgba(0,0,0,.07)}
+.phit5-arrow{font-size:2rem;color:#4a9e5c;font-weight:700;display:flex;align-items:center;padding:0 14px;margin-top:30px}
+.phit5-num{width:38px;height:38px;border-radius:50%;background:#4a9e5c;color:#fff;font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.phit5-step-title{font-size:1.05rem;font-weight:700;color:#1a1a1a;margin-bottom:10px;line-height:1.35}
 .phit5-step-desc{font-size:.88rem;color:#555;line-height:1.6}
-.phit5-tags{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.phit5-tag{background:rgba(255,255,255,.92);border-radius:12px;padding:18px 16px;border:1px solid #e8e8e8}
-.phit5-tag-icon{font-size:1.5rem;margin-bottom:8px}
-.phit5-tag-title{font-size:.92rem;font-weight:700;color:#1a1a1a;margin-bottom:4px}
-.phit5-tag-desc{font-size:.8rem;color:#666;line-height:1.5}
-
-/* 區塊6 步驟 */
-.phit6-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:start;margin-bottom:28px}
-.phit6-step{background:rgba(255,255,255,.92);border-radius:14px;padding:28px 22px;border:1px solid #e0e0e0;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.phit6-arrow{font-size:2.2rem;color:#4a9e5c;font-weight:700;display:flex;align-items:center;padding:0 16px;margin-top:36px}
-.phit6-step-num{width:40px;height:40px;border-radius:50%;background:#4a9e5c;color:#fff;font-size:1.1rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-.phit6-step-title{font-size:1.05rem;font-weight:700;color:#1a1a1a;margin-bottom:10px}
-.phit6-step-desc{font-size:.88rem;color:#555;line-height:1.6}
-.phit6-summary{background:rgba(255,255,255,.95);border:1.5px solid #a5d6a7;border-radius:12px;padding:16px 22px;font-size:.95rem;color:#333;line-height:1.7;display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
-.phit6-results{display:flex;gap:16px}
-.phit6-result{background:rgba(255,255,255,.95);border:1.5px solid #a5d6a7;border-radius:10px;padding:13px 24px;font-size:1rem;font-weight:600;color:#2e7d32;flex:1;text-align:center}
+.phit5-formula-row{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:1.5rem;font-weight:900;font-family:monospace}
 
 /* Mobile */
 @media(max-width:900px){
   .phit3-what{padding:48px 20px}
   .phit3-what-inner{grid-template-columns:1fr;gap:32px}
-  .phit3-what-right{grid-template-columns:1fr 1fr}
-  .phit-bg-content{padding:48px 20px}
-  .phit4-mols{grid-template-columns:1fr;gap:12px}
-  .phit4-center-badge{flex-direction:row;justify-content:center}
-  .phit4-products{grid-template-columns:repeat(2,1fr)}
-  .phit4-prod-item:not(:last-child){border-right:none;border-bottom:1px solid #e8e8e8;padding-bottom:12px}
-  .phit5-steps,.phit6-steps{grid-template-columns:1fr;gap:14px}
-  .phit5-arrow,.phit6-arrow{transform:rotate(90deg);justify-content:center;padding:4px 0;margin-top:0}
-  .phit5-tags{grid-template-columns:1fr 1fr}
-  .phit6-results{flex-direction:column;gap:10px}
+  .phit-bg-inner{padding:48px 20px}
+  .phit4-body{grid-template-columns:1fr;gap:28px}
+  .phit4-product-img img{width:160px}
+  .phit5-steps{grid-template-columns:1fr;gap:14px}
+  .phit5-arrow{transform:rotate(90deg);justify-content:center;padding:4px 0;margin-top:0}
 }
 
 /* STATS — full image */
@@ -488,188 +451,132 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <section id="tech" class="phit3-what">
   <div class="phit3-what-inner">
     <div class="phit3-what-left">
-      <div class="phit-label-tag">CÔNG NGHỆ PHIT</div>
       <h2 class="phit3-what-h2">PHIT <span style="color:#1a3a6b">là gì?</span></h2>
       <p class="phit3-what-desc">PHIT (Photo-Hydro-Ionization Technology) là công nghệ lọc không khí chủ động dựa trên cơ chế AOP (Advanced Oxidation Process), tạo ra và giải phóng các yếu tố làm sạch để loại bỏ bụi mịn, vi khuẩn, virus, mùi và các chất ô nhiễm.</p>
     </div>
     <div class="phit3-what-right">
-      <div class="phit3-mol-card" style="--mc:#4a9e5c">
-        <div class="phit3-mol-formula">OH⁻</div>
-        <div class="phit3-mol-name">Hydroxyl gốc •OH</div>
+      <div class="phit3-mol-chip" style="--mc:#4a9e5c">
+        <div class="phit3-chip-formula">OH⁻</div>
+        <div class="phit3-chip-name">Hydroxyl gốc •OH</div>
       </div>
-      <div class="phit3-mol-card" style="--mc:#1565c0">
-        <div class="phit3-mol-formula">H₂O₂</div>
-        <div class="phit3-mol-name">Hydrogen Peroxide<br>Hydro Peroxide</div>
+      <div class="phit3-mol-chip" style="--mc:#1565c0">
+        <div class="phit3-chip-formula">H₂O₂</div>
+        <div class="phit3-chip-name">Hydrogen Peroxide<br>Hydro Peroxide</div>
       </div>
-      <div class="phit3-mol-card" style="--mc:#6a1b9a">
-        <div class="phit3-mol-formula">O₂⁻</div>
-        <div class="phit3-mol-name">Superoxide<br>ion siêu oxit</div>
+      <div class="phit3-mol-chip" style="--mc:#6a1b9a">
+        <div class="phit3-chip-formula">O₂⁻</div>
+        <div class="phit3-chip-name">Superoxide<br>ion siêu oxit</div>
       </div>
-      <div class="phit3-mol-card" style="--mc:#b36200">
-        <div class="phit3-mol-formula">H₃O⁺</div>
-        <div class="phit3-mol-name">Hydronium<br>ion hydronium</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 區塊4：PHIT hoạt động như thế nào — PHIT-1背景 -->
-<section class="phit-bg-section" style="background-image:url('images/PHIT-1.png')">
-  <div class="phit-bg-overlay"></div>
-  <div class="phit-bg-content phit4-layout">
-    <div class="phit4-top">
-      <div class="phit-label-tag">CÔNG NGHỆ PHIT</div>
-      <h2 class="phit-bg-h2"><span class="phit-green-h">PHIT</span> hoạt động như thế nào?</h2>
-      <p class="phit-bg-sub">Thiết bị <strong>ECOHEAL</strong> kích hoạt công nghệ Photo-Hydro-Ionization Technology (PHIT),<br>chủ động giải phóng các yếu tố làm sạch vào không gian.</p>
-    </div>
-    <div class="phit4-mols">
-      <div class="phit4-mol-left">
-        <div class="phit4-mol-item">
-          <span class="phit4-mol-label green">OH⁻</span>
-          <span class="phit4-mol-desc">ion hydroxyl</span>
-        </div>
-        <div class="phit4-mol-item">
-          <span class="phit4-mol-label blue">O₂⁻</span>
-          <span class="phit4-mol-desc">ion superoxide</span>
-        </div>
-      </div>
-      <div class="phit4-center-badge">
-        <div class="phit4-badge-top">⚡ Kích hoạt<br>công nghệ PHIT</div>
-        <div class="phit4-badge-bot">💨 Lan tỏa yếu tố<br>làm sạch chủ động</div>
-      </div>
-      <div class="phit4-mol-right">
-        <div class="phit4-mol-item right">
-          <span class="phit4-mol-desc">hydrogen peroxide</span>
-          <span class="phit4-mol-label blue">H₂O₂</span>
-        </div>
-        <div class="phit4-mol-item right">
-          <span class="phit4-mol-desc">ion hydronium</span>
-          <span class="phit4-mol-label orange">H₃O⁺</span>
-        </div>
-      </div>
-    </div>
-    <div class="phit4-products">
-      <div class="phit4-prod-item">
-        <img src="images/background-pr9.png" alt="PRO9">
-        <div class="phit4-prod-name">PRO9</div>
-        <div class="phit4-prod-type">— Thương mại</div>
-      </div>
-      <div class="phit4-prod-item">
-        <img src="images/product-bm6.png.png" alt="BM6+">
-        <div class="phit4-prod-name">BM6+</div>
-        <div class="phit4-prod-type">— Gia đình</div>
-      </div>
-      <div class="phit4-prod-item">
-        <img src="images/product-arc.png.png" alt="ARC plus">
-        <div class="phit4-prod-name">ARC plus</div>
-        <div class="phit4-prod-type">— Ô tô</div>
-      </div>
-      <div class="phit4-prod-item">
-        <img src="images/product-arcii.png.png" alt="ARCII plus">
-        <div class="phit4-prod-name">ARCII plus</div>
-        <div class="phit4-prod-type">— Di động</div>
+      <div class="phit3-mol-chip" style="--mc:#b36200">
+        <div class="phit3-chip-formula">H₃O⁺</div>
+        <div class="phit3-chip-name">Hydronium<br>ion hydronium</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 區塊5：PHIT phân giải mùi hôi — PHIT-2背景 -->
-<section class="phit-bg-section" style="background-image:url('images/PHIT-2.png')">
-  <div class="phit-bg-overlay"></div>
-  <div class="phit-bg-content">
-    <div class="phit-label-tag">CÔNG NGHỆ PHIT</div>
-    <h2 class="phit-bg-h2"><span class="phit-green-h">PHIT</span> phân giải mùi hôi như thế nào?</h2>
-    <p class="phit-bg-sub">Thiết bị <strong>ECOHEAL</strong> kích hoạt công nghệ PHIT và giải phóng các yếu tố làm sạch chủ động vào không gian.</p>
+<!-- 區塊4：PHIT-1背景 — PHIT giải phóng yếu tố làm sạch -->
+<section class="phit-bg-sec" style="background-image:url('images/PHIT-1.png')">
+  <div class="phit-bg-overlay" style="background:rgba(255,255,255,.45)"></div>
+  <div class="phit-bg-inner">
+    <div class="phit4-title-block">
+      <h2 class="phit-sec-num">1. PHIT giải phóng các yếu tố làm sạch hoạt tính</h2>
+      <p class="phit-sec-sub">Thiết bị tạo ra và lan tỏa các yếu tố hoạt tính vào không gian.</p>
+    </div>
+    <div class="phit4-body">
+      <div class="phit4-features">
+        <div class="phit4-feat">
+          <div class="phit4-feat-icon">🔄</div>
+          <div>
+            <div class="phit4-feat-title">Lan tỏa 360°</div>
+            <div class="phit4-feat-desc">Phủ rộng không gian</div>
+          </div>
+        </div>
+        <div class="phit4-feat">
+          <div class="phit4-feat-icon">⏰</div>
+          <div>
+            <div class="phit4-feat-title">Chủ động &amp; liên tục</div>
+            <div class="phit4-feat-desc">Bảo vệ 24/7</div>
+          </div>
+        </div>
+        <div class="phit4-feat">
+          <div class="phit4-feat-icon">🔒</div>
+          <div>
+            <div class="phit4-feat-title">An toàn cho người và vật nuôi</div>
+            <div class="phit4-feat-desc">Không hóa chất độc hại</div>
+          </div>
+        </div>
+      </div>
+      <div class="phit4-product-img">
+        <img src="images/product-bm6.png.png" alt="ECOHEAL BM6+">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 區塊5：PHIT-2背景 — PHIT tấn công vi khuẩn & VOCs -->
+<section class="phit-bg-sec" style="background-image:url('images/PHIT-2.png')">
+  <div class="phit-bg-overlay" style="background:rgba(255,255,255,.5)"></div>
+  <div class="phit-bg-inner">
+    <div class="phit4-title-block">
+      <h2 class="phit-sec-num">2. PHIT tấn công &amp; phân hủy mùi hôi, VOCs, chất ô nhiễm</h2>
+      <p class="phit-sec-sub">Các yếu tố hoạt tính phản ứng với phân tử gây mùi, vi khuẩn và phân hủy chúng.</p>
+    </div>
     <div class="phit5-steps">
       <div class="phit5-step">
-        <div class="phit5-step-num">1</div>
-        <div class="phit5-step-title">PHIT được kích hoạt và giải phóng</div>
-        <div class="phit5-step-mols">
-          <span>OH⁻ <em>ion hydroxyl</em></span>
-          <span>H₂O₂ <em>hydrogen peroxide</em></span>
-          <span>O₂⁻ <em>ion superoxide</em></span>
-          <span>H₃O⁺ <em>ion hydronium</em></span>
-        </div>
+        <div class="phit5-num">1</div>
+        <div class="phit5-step-title">Tiếp cận</div>
+        <div class="phit5-step-desc">Các yếu tố hoạt tính tiếp cận các phân tử gây hại</div>
       </div>
       <div class="phit5-arrow">→</div>
       <div class="phit5-step">
-        <div class="phit5-step-num">2</div>
-        <div class="phit5-step-title">Tấn công &amp; phân giải phân tử mùi hôi / VOCs</div>
-        <div class="phit5-step-desc">Oxy hóa và phá vỡ liên kết phân tử gây mùi, vi khuẩn và chất ô nhiễm</div>
+        <div class="phit5-num">2</div>
+        <div class="phit5-step-title">Phản ứng</div>
+        <div class="phit5-step-desc">Oxy hóa và phá vỡ liên kết phân tử</div>
       </div>
       <div class="phit5-arrow">→</div>
       <div class="phit5-step">
-        <div class="phit5-step-num">3</div>
-        <div class="phit5-step-title">Phân giải thành các thành phần ổn định</div>
-        <div class="phit5-result-row">
-          <span style="color:#1565c0;font-size:1.6rem;font-weight:900;font-family:monospace">O₂</span>
-          <span style="color:#555;font-size:1.2rem">+</span>
-          <span style="color:#388e3c;font-size:1.6rem;font-weight:900;font-family:monospace">CO₂</span>
-          <span style="color:#555;font-size:1.2rem">+</span>
-          <span style="color:#1565c0;font-size:1.6rem;font-weight:900;font-family:monospace">H₂O</span>
+        <div class="phit5-num">3</div>
+        <div class="phit5-step-title">Phân hủy</div>
+        <div class="phit5-step-desc">Biến đổi thành phần tử ổn định, vô hại</div>
+        <div class="phit5-formula-row">
+          <span style="color:#1565c0">O₂</span>
+          <span style="color:#555">+</span>
+          <span style="color:#388e3c">CO₂</span>
+          <span style="color:#555">+</span>
+          <span style="color:#1565c0">H₂O</span>
         </div>
-        <div class="phit5-step-desc">Sau va chạm, phân tử mùi hôi được phân giải thành O₂, CO₂ và H₂O.</div>
-      </div>
-    </div>
-    <div class="phit5-tags">
-      <div class="phit5-tag">
-        <div class="phit5-tag-icon">🌿</div>
-        <div class="phit5-tag-title">Giảm mùi hôi</div>
-        <div class="phit5-tag-desc">Loại bỏ mùi khó chịu từ gốc</div>
-      </div>
-      <div class="phit5-tag">
-        <div class="phit5-tag-icon">🧪</div>
-        <div class="phit5-tag-title">Phân giải VOCs</div>
-        <div class="phit5-tag-desc">Phân hủy các hợp chất hữu cơ bay hơi</div>
-      </div>
-      <div class="phit5-tag">
-        <div class="phit5-tag-icon">🛡️</div>
-        <div class="phit5-tag-title">Làm sạch chủ động</div>
-        <div class="phit5-tag-desc">Tạo các yếu tố làm sạch tự nhiên, an toàn</div>
-      </div>
-      <div class="phit5-tag">
-        <div class="phit5-tag-icon">🍃</div>
-        <div class="phit5-tag-title">Không khí dễ chịu hơn</div>
-        <div class="phit5-tag-desc">Không gian trong lành, tươi mát mỗi ngày</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 區塊6：PHIT làm lắng PM2.5 — PHIT-3背景 -->
-<section class="phit-bg-section" style="background-image:url('images/PHIT-3.png')">
-  <div class="phit-bg-overlay"></div>
-  <div class="phit-bg-content">
-    <div class="phit-label-tag">CÔNG NGHỆ PHIT</div>
-    <h2 class="phit-bg-h2"><span class="phit-green-h">PHIT</span> làm lắng bụi mịn PM2.5 như thế nào?</h2>
-    <p class="phit-bg-sub">Thiết bị <strong>ECOHEAL</strong> giải phóng các yếu tố PHIT vào không gian, bám vào bụi mịn PM2.5, làm hạt nặng hơn và dễ lắng xuống.</p>
-    <div class="phit6-steps">
-      <div class="phit6-step">
-        <div class="phit6-step-num">1</div>
-        <div class="phit6-step-title">Bám vào hạt bụi</div>
-        <div class="phit6-step-desc">Các yếu tố PHIT tiếp cận và bám vào hạt PM2.5 đang lơ lửng trong không khí</div>
-      </div>
-      <div class="phit6-arrow">→</div>
-      <div class="phit6-step">
-        <div class="phit6-step-num">2</div>
-        <div class="phit6-step-title">Kết tụ, nặng hơn</div>
-        <div class="phit6-step-desc">Hạt bụi kết tụ lại với nhau, trở nên nặng hơn và không còn lơ lửng được</div>
-      </div>
-      <div class="phit6-arrow">→</div>
-      <div class="phit6-step">
-        <div class="phit6-step-num">3</div>
-        <div class="phit6-step-title">Lắng xuống</div>
-        <div class="phit6-step-desc">Hạt bụi rơi xuống bề mặt, giảm bụi lơ lửng trong không khí một cách tự nhiên</div>
-      </div>
+<!-- 區塊6：PHIT-3背景 — PHIT làm lắng PM2.5 -->
+<section class="phit-bg-sec" style="background-image:url('images/PHIT-3.png')">
+  <div class="phit-bg-overlay" style="background:rgba(255,255,255,.5)"></div>
+  <div class="phit-bg-inner">
+    <div class="phit4-title-block">
+      <h2 class="phit-sec-num">3. PHIT bám dính &amp; làm nặng bụi mịn PM2.5</h2>
+      <p class="phit-sec-sub">Các yếu tố hoạt tính bám vào bụi mịn, kết tụ thành hạt lớn hơn và rơi xuống.</p>
     </div>
-    <div class="phit6-summary">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4a9e5c" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v6"/><path d="M9 17l3 3 3-3"/></svg>
-      Khi các yếu tố PHIT bám vào bụi mịn PM2.5, hạt bụi trở nên nặng hơn, dễ kết tụ và lắng xuống, giúp <strong>giảm bụi lơ lửng trong không khí.</strong>
-    </div>
-    <div class="phit6-results">
-      <div class="phit6-result">⬇️ Làm lắng bụi mịn PM2.5</div>
-      <div class="phit6-result">🌫️ Giảm bụi lơ lửng</div>
-      <div class="phit6-result">🌿 Không khí sạch hơn</div>
+    <div class="phit5-steps">
+      <div class="phit5-step">
+        <div class="phit5-num">1</div>
+        <div class="phit5-step-title">Bám dính</div>
+        <div class="phit5-step-desc">Các yếu tố hoạt tính bám vào hạt PM2.5 lơ lửng trong không khí</div>
+      </div>
+      <div class="phit5-arrow">→</div>
+      <div class="phit5-step">
+        <div class="phit5-num">2</div>
+        <div class="phit5-step-title">Kết tụ</div>
+        <div class="phit5-step-desc">Các hạt nhỏ kết hợp thành hạt lớn hơn, nặng hơn</div>
+      </div>
+      <div class="phit5-arrow">→</div>
+      <div class="phit5-step">
+        <div class="phit5-num">3</div>
+        <div class="phit5-step-title">Rơi lắng</div>
+        <div class="phit5-step-desc">Không còn lơ lửng trong không khí, giảm bụi mịn PM2.5</div>
+      </div>
     </div>
   </div>
 </section>
