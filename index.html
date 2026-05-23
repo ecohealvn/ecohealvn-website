@@ -15,8 +15,10 @@ body{font-family:'Be Vietnam Pro',sans-serif;color:#1a1a1a;overflow-x:hidden;max
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.logo{font-size:1.1rem;font-weight:800;color:var(--green);text-decoration:none}
-.logo-sub{font-size:.58rem;font-weight:400;color:var(--text3);display:block;letter-spacing:.06em;text-transform:uppercase;margin-top:-2px}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-icon{width:30px;height:30px;flex-shrink:0}
+.logo-name{font-size:1.1rem;font-weight:800;color:var(--green);line-height:1;display:block}
+.logo-sub{font-size:.5rem;font-weight:400;color:var(--text3);letter-spacing:.04em;display:block;margin-top:1px}
 .nav-links{display:flex;align-items:center;gap:24px;list-style:none}
 .nav-links a{text-decoration:none;font-size:.82rem;font-weight:500;color:var(--text2);transition:color .2s}
 .nav-links a:hover{color:var(--green)}
@@ -25,37 +27,30 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
 .hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;display:block}
 
-/* LOGO */
-.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
-.logo-icon{width:32px;height:32px;flex-shrink:0}
-.logo-text{display:flex;flex-direction:column}
-.logo-name{font-size:1.1rem;font-weight:800;color:var(--green);line-height:1}
-.logo-sub{font-size:.52rem;font-weight:400;color:var(--text3);letter-spacing:.04em;margin-top:1px}
-
 /* HERO */
 .hero{position:relative;height:100vh;min-height:580px;display:flex;align-items:center;padding-top:60px;overflow:hidden;width:100%}
 .hero-bg{position:absolute;inset:0;background:url('images/hero.jpg.png') center/cover no-repeat}
-.hero-content{position:relative;z-index:2;padding:0 80px;max-width:580px}
-.hero-h1{font-size:clamp(1.9rem,3.8vw,3rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.02em}
+.hero-content{position:relative;z-index:2;padding:0 80px;max-width:600px}
+.hero-h1{font-size:clamp(1.8rem,3.4vw,2.8rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.02em}
+.hero-h1 .nowrap{white-space:nowrap}
 .hero-sub{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:18px;max-width:400px}
-.hero-icons{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 10px;margin-bottom:26px}
-.hero-icon-item{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:.63rem;color:var(--text2);text-align:center;line-height:1.35}
+.hero-icons{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 8px;margin-bottom:22px}
+.hero-icon-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.6rem;color:var(--text2);text-align:center;line-height:1.3}
 .hero-icon-item .label-top{font-weight:600;color:var(--text);white-space:nowrap}
 .hero-icon-item .label-bot{color:var(--text2)}
-.hero-icon-c{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(74,158,92,.5);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.hero-icon-c svg{width:26px;height:26px;stroke:var(--green);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.hero-icon-c{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(74,158,92,.5);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hero-icon-c svg{width:20px;height:20px;stroke:var(--green);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:6px;font-weight:700;font-size:.875rem;text-decoration:none;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
 .btn-green{background:var(--green);color:#fff}
 .btn-green:hover{background:var(--green2);transform:translateY(-1px)}
 .btn-outline{background:#fff;color:var(--text);border:1.5px solid #ccc}
 .btn-outline:hover{border-color:var(--green);color:var(--green)}
-.hero-badges{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
-.hero-badge-item{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--text2);white-space:nowrap}
-.hero-badge-item svg{width:13px;height:13px;stroke:var(--green);fill:none;stroke-width:2;flex-shrink:0}
-.made-badge{position:absolute;bottom:28px;right:48px;z-index:2;background:#fff;border-radius:8px;padding:7px 14px;box-shadow:0 4px 16px rgba(0,0,0,.12);font-size:.75rem;font-weight:700;color:var(--text)}
-/* 手機版產品圖：預設隱藏 */
-.hero-mobile-product{display:none}
+.hero-badges{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px}
+.hero-badge-item{display:flex;align-items:center;gap:5px;font-size:.67rem;color:var(--text2);white-space:nowrap}
+.hero-badge-item svg{width:12px;height:12px;stroke:var(--green);fill:none;stroke-width:2;flex-shrink:0}
+/* MADE IN TAIWAN — 絕對定位在hero右下角，z-index確保顯示 */
+.made-badge{position:absolute;bottom:32px;right:5%;z-index:10;background:#fff;border-radius:8px;padding:7px 14px;box-shadow:0 4px 16px rgba(0,0,0,.15);font-size:.75rem;font-weight:700;color:var(--text)}
 
 /* PROBLEMS */
 .sec{padding:32px 80px}
@@ -178,19 +173,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   .nav-links{display:none}
   .hamburger{display:flex}
 
-  /* Hero */
+  /* Hero — 背景圖右移65%，讓手機版顯示產品 */
   .hero{height:auto;min-height:100svh;padding:80px 0 40px}
+  .hero-bg{background-position:65% center}
   .hero-content{padding:0 20px;max-width:100%}
   .hero-h1{font-size:1.75rem}
-  .hero-icons{gap:10px 8px}
-  .hero-icon-c{width:40px;height:40px}
-  .hero-icon-item{font-size:.6rem}
-  .hero-badges{grid-template-columns:1fr 1fr;gap:8px 8px}
-  .hero-badge-item{font-size:.65rem}
+  .hero-icons{gap:8px 6px}
+  .hero-icon-c{width:34px;height:34px}
+  .hero-icon-item{font-size:.58rem}
+  .hero-badges{grid-template-columns:1fr 1fr;gap:6px 8px}
+  .hero-badge-item{font-size:.62rem}
   .made-badge{right:16px;bottom:16px;font-size:.68rem;padding:5px 10px}
-  /* 手機版產品圖顯示 */
-  .hero-mobile-product{display:flex;justify-content:center;margin-top:16px;position:relative;z-index:2}
-  .hero-mobile-product img{width:55vw;max-width:220px;height:auto;filter:drop-shadow(0 8px 24px rgba(0,0,0,.15))}
 
   /* Sections */
   .sec,.cert-section,.kol-section,.product-section{padding:40px 16px}
@@ -231,9 +224,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 
 @media(max-width:580px){
   .hero-h1{font-size:1.5rem}
-  .hero-icons{gap:8px 6px}
-  .hero-icon-c{width:36px;height:36px}
-  .hero-icon-item{font-size:.58rem}
+  .hero-icons{gap:7px 5px}
+  .hero-icon-c{width:32px;height:32px}
+  .hero-icon-item{font-size:.55rem}
   .problems-grid{grid-template-columns:1fr 1fr}
   .kols-grid{grid-template-columns:1fr}
   .cert-docs-grid{grid-template-columns:repeat(2,1fr)}
@@ -256,18 +249,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <!-- NAV -->
 <nav>
   <a href="/" class="logo">
-    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- 盾牌外框 -->
-      <path d="M16 2L4 7v9c0 7 5.5 12.5 12 14 6.5-1.5 12-7 12-14V7z" fill="#e8f5e9" stroke="#4a9e5c" stroke-width="1.5" stroke-linejoin="round"/>
-      <!-- 盾牌中間裂縫/光合意象 -->
-      <path d="M16 6 L14 10 L16 9 L18 10 Z" fill="#4a9e5c"/>
-      <path d="M13 11 Q11 14 12 17 Q14 15 16 16 Q18 15 20 17 Q21 14 19 11 Q17 13 16 12 Q15 13 13 11Z" fill="#4a9e5c" opacity=".85"/>
-      <path d="M14 18 Q13 21 15 23 L16 22 L17 23 Q19 21 18 18 Q17 20 16 19 Q15 20 14 18Z" fill="#4a9e5c" opacity=".7"/>
-      <!-- 左右葉子小細節 -->
-      <path d="M11 14 Q9 13 9 15 Q11 16 11 14Z" fill="#4a9e5c" opacity=".5"/>
-      <path d="M21 14 Q23 13 23 15 Q21 16 21 14Z" fill="#4a9e5c" opacity=".5"/>
+    <svg class="logo-icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 2L4 6.5v8.5c0 6.5 5 11.5 11 13 6-1.5 11-6.5 11-13V6.5z" fill="#e8f5e9" stroke="#4a9e5c" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M15 5.5 L13.2 9 L15 8.2 L16.8 9 Z" fill="#4a9e5c"/>
+      <path d="M12.2 10.2 Q10.5 13 11.5 15.8 Q13.5 14 15 14.8 Q16.5 14 18.5 15.8 Q19.5 13 17.8 10.2 Q16.2 12 15 11.2 Q13.8 12 12.2 10.2Z" fill="#4a9e5c" opacity=".9"/>
+      <path d="M13.2 17 Q12.2 19.5 14 21.2 L15 20.5 L16 21.2 Q17.8 19.5 16.8 17 Q16 18.5 15 17.8 Q14 18.5 13.2 17Z" fill="#4a9e5c" opacity=".75"/>
+      <path d="M10.5 13 Q8.8 12.2 8.8 14 Q10.5 14.8 10.5 13Z" fill="#4a9e5c" opacity=".5"/>
+      <path d="M19.5 13 Q21.2 12.2 21.2 14 Q19.5 14.8 19.5 13Z" fill="#4a9e5c" opacity=".5"/>
     </svg>
-    <span class="logo-text">
+    <span>
       <span class="logo-name">ECOHEAL</span>
       <span class="logo-sub">Cây Điện Tử Quang Hợp</span>
     </span>
@@ -290,7 +280,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <h1 class="hero-h1">Hít thở khác biệt<br>Sống chất an nhiên</h1>
+    <h1 class="hero-h1">Hít thở khác biệt<br><span class="nowrap">Sống chất an nhiên</span></h1>
     <p class="hero-sub">Công nghệ PHIT độc quyền từ Đài Loan<br>Lọc sạch · Khử mùi · Diệt khuẩn chủ động</p>
     <div class="hero-icons">
       <div class="hero-icon-item">
@@ -303,8 +293,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <line x1="7.2" y1="7.2" x2="5.5" y2="5.5"/><circle cx="5" cy="5" r="0.6" fill="var(--green)" stroke="none"/>
           <line x1="12.8" y1="7.2" x2="14.5" y2="5.5"/><circle cx="15" cy="5" r="0.6" fill="var(--green)" stroke="none"/>
           <line x1="7.2" y1="12.8" x2="5.5" y2="14.5"/><circle cx="5" cy="15" r="0.6" fill="var(--green)" stroke="none"/>
-          <circle cx="9" cy="9.5" r="0.7" fill="var(--green)" stroke="none"/>
-          <circle cx="11.2" cy="11" r="0.7" fill="var(--green)" stroke="none"/>
+          <circle cx="9" cy="9.5" r="0.6" fill="var(--green)" stroke="none"/>
+          <circle cx="11.2" cy="11" r="0.6" fill="var(--green)" stroke="none"/>
           <path d="M16 12.8l3.5 1.2v2.8c0 1.3-3.5 2.7-3.5 2.7s-3.5-1.4-3.5-2.7V14z"/>
           <line x1="16" y1="14.5" x2="16" y2="17.5"/>
           <polyline points="14.5 16 16 17.5 17.5 16"/>
@@ -317,7 +307,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <text x="9" y="13.2" font-size="2.4" text-anchor="middle" stroke="none" fill="var(--green)" font-family="monospace" font-weight="700">HCHO</text>
           <circle cx="4.2" cy="10.5" r="0.55" stroke-width="1"/>
           <circle cx="15" cy="10" r="0.55" stroke-width="1"/>
-          <circle cx="14" cy="8.2" r="0.45" stroke-width="1"/>
           <path d="M4 17 Q5.5 15.8 7 17 Q8.5 18.2 10 17" stroke-width="1.2"/>
           <path d="M7 20 Q8.5 18.8 10 20 Q11.5 21.2 13 20" stroke-width="1.2"/>
         </svg></div>
@@ -351,7 +340,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <circle cx="4.8" cy="12" r="0.8" fill="var(--green)" stroke="none"/>
           <circle cx="11" cy="10.5" r="0.9" fill="var(--green)" stroke="none"/>
           <circle cx="14" cy="9" r="0.7" fill="var(--green)" stroke="none"/>
-          <circle cx="15.5" cy="7" r="0.5" fill="var(--green)" stroke="none"/>
           <path d="M4 17 Q6 15.5 8 17 Q10 18.5 12 17 Q14 15.5 16 17" stroke-width="1.2"/>
           <path d="M6 20.5 Q8 19 10 20.5 Q12 22 14 20.5" stroke-width="1.2"/>
         </svg></div>
@@ -360,7 +348,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
       <div class="hero-icon-item">
         <div class="hero-icon-c"><svg viewBox="0 0 24 24">
           <circle cx="10" cy="9" r="4.5"/>
-          <text x="15" y="13.5" font-size="4" stroke="none" fill="var(--green)" font-family="monospace" font-weight="700">3</text>
+          <text x="15.2" y="13.5" font-size="4" stroke="none" fill="var(--green)" font-family="monospace" font-weight="700">3</text>
           <path d="M5 19 Q7 15 11 17 Q9 21 5 19z"/>
           <path d="M11 21 Q13 17 17 19 Q15 23 11 21z"/>
           <circle cx="18.5" cy="8" r="3"/>
@@ -382,10 +370,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
       <div class="hero-badge-item"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 001 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>Chính ngạch Đài Loan</div>
       <div class="hero-badge-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Mã số thuế: 0318111262</div>
     </div>
-    <!-- 手機版專用產品圖 -->
-    <div class="hero-mobile-product">
-      <img src="images/product-bm6.png.png" alt="ECOHEAL BM6+">
-    </div>
+  </div>
   <div class="made-badge">🇹🇼 MADE IN TAIWAN</div>
 </section>
 
@@ -676,18 +661,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <script>
 function toggleNav(){
   const m=document.querySelector('.nav-links');
-  const isOpen = m.style.display==='flex';
-  if(isOpen){closeNav()}
+  if(m.style.display==='flex'){closeNav()}
   else{m.style.cssText='display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:#fff;padding:20px 24px;gap:18px;border-bottom:1px solid #e8e8e8;z-index:997;box-shadow:0 8px 24px rgba(0,0,0,.08)'}
 }
-function closeNav(){
-  const m=document.querySelector('.nav-links');
-  m.style.display='';
-}
-// 點選單外部自動關閉
+function closeNav(){document.querySelector('.nav-links').style.display=''}
 document.addEventListener('click',function(e){
-  const nav=document.querySelector('nav');
-  if(!nav.contains(e.target)){closeNav()}
+  if(!document.querySelector('nav').contains(e.target))closeNav();
 });
 
 function switchProduct(id, btn){
