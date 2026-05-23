@@ -50,12 +50,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .sec{padding:32px 80px}
 .sec-inner{max-width:1200px;margin:0 auto}
 .sec-center-title{text-align:center;font-size:clamp(1.1rem,1.8vw,1.4rem);font-weight:700;color:var(--text);margin-bottom:36px}
-.problems-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.problems-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
 .problem-card{border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .2s;border:1px solid var(--border)}
 .problem-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
-.problem-img{aspect-ratio:4/3;overflow:hidden}
+.problem-img{aspect-ratio:1/1;overflow:hidden}
 .problem-img img{width:100%;height:100%;object-fit:cover;display:block}
-.problem-text{padding:10px 8px 8px;font-size:.72rem;line-height:1.5;color:var(--text2);text-align:center}
+.problem-text{padding:8px 8px 10px;font-size:.67rem;line-height:1.5;color:var(--text2);text-align:left}
 
 /* TECH — full image */
 .tech-section{background:var(--cream);overflow:hidden}
@@ -154,7 +154,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .footer-copy{font-size:.65rem;color:rgba(255,255,255,.3)}
 
 /* FLOAT CART */
-.float-cart{position:fixed;right:18px;top:70%;transform:translateY(-50%);z-index:998;display:flex;flex-direction:column;align-items:center;gap:5px}
+.float-cart{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:998;display:flex;flex-direction:column;align-items:center;gap:5px}
 .float-btn{width:46px;height:46px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(46,107,62,.35);text-decoration:none;transition:transform .2s;position:relative}
 .float-btn:hover{transform:scale(1.1)}
 .float-btn svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2}
@@ -184,7 +184,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   .stats-img img{width:100%;height:auto}
 
   /* Problems */
-  .problems-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .problems-grid{grid-template-columns:repeat(3,1fr);gap:10px}
 
   /* Tech image */
   .tech-img{width:100%;overflow:hidden}
@@ -216,7 +216,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   .hero-h1{font-size:1.5rem}
   .hero-icons{gap:10px}
   .hero-icon-item{max-width:55px}
-  .problems-grid{grid-template-columns:1fr 1fr}
+  .problems-grid{grid-template-columns:repeat(3,1fr)}
   .kols-grid{grid-template-columns:1fr}
   .cert-docs-grid{grid-template-columns:repeat(2,1fr)}
   .product-tab{flex:1 1 100%}
@@ -229,7 +229,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <!-- FLOATING CART -->
 <div class="float-cart">
   <a href="#products" class="float-btn">
-    <svg viewBox="0 0 24 24"><path d="M6 2H3v2h1.5L8 14h10l2-9H6z" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
     <div class="float-cnt" id="cartCount">0</div>
   </a>
   <span class="float-lbl">Giỏ hàng</span>
@@ -297,11 +297,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   <div class="sec-inner">
     <h2 class="sec-center-title">Bạn có đang gặp những vấn đề này?</h2>
     <div class="problems-grid">
-      <div class="problem-card"><div class="problem-img"><img src="images/problem-1.jpg.png" alt="Không khí bị bẩn"></div><div class="problem-text">Không khí trong nhà bị bẩn, ngột ngạt, khó chịu</div></div>
-      <div class="problem-card"><div class="problem-img"><img src="images/problem-2.jpg.png" alt="Phòng ngủ ẩm mốc"></div><div class="problem-text">Phòng ngủ có mùi ẩm mốc, khó ngủ, hay mệt mỏi</div></div>
-      <div class="problem-card"><div class="problem-img"><img src="images/problem-3.jpg.png" alt="Mùi thú cưng"></div><div class="problem-text">Mùi thú cưng, mùi thức ăn ám trong không gian</div></div>
-      <div class="problem-card"><div class="problem-img"><img src="images/problem-4.jpg.png" alt="Không khí ô tô"></div><div class="problem-text">Không khí trong ô tô có mùi khó chịu</div></div>
-      <div class="problem-card"><div class="problem-img"><img src="images/problem-5.jpg.png" alt="Văn phòng điều hòa"></div><div class="problem-text">Văn phòng kín, điều hòa lâu đề đau đầu, mệt mỏi</div></div>
+      <div class="problem-card"><div class="problem-img"><img src="images/problem1.png" alt="Mùi thuốc lá"></div><div class="problem-text">Mùi thuốc lá trong phòng khách</div></div>
+      <div class="problem-card"><div class="problem-img"><img src="images/problem2.png" alt="Mùi ẩm mốc"></div><div class="problem-text">Mùi ẩm mốc trong nhà cũ</div></div>
+      <div class="problem-card"><div class="problem-img"><img src="images/problem3.png" alt="Mùi thú cưng"></div><div class="problem-text">Mùi khay cát &amp; thú cưng</div></div>
+      <div class="problem-card"><div class="problem-img"><img src="images/problem4.png" alt="Mùi ô tô"></div><div class="problem-text">Mùi khó chịu trong ô tô</div></div>
+      <div class="problem-card"><div class="problem-img"><img src="images/problem5.png" alt="Mùi công sở"></div><div class="problem-text">Mùi đồ ăn &amp; mùi cơ thể nơi công sở</div></div>
+      <div class="problem-card"><div class="problem-img"><img src="images/problem6.png" alt="Vi khuẩn virus"></div><div class="problem-text">Không gian đông người, nhiều vi khuẩn &amp; virus</div></div>
     </div>
   </div>
 </section>
