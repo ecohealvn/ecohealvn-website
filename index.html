@@ -67,15 +67,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .tech-img{width:100%;display:block}
 .tech-btn-wrap{background:var(--cream);padding:0 80px 48px;display:flex}
 
-/* ===== 區塊3：PHIT là gì ===== */
-.phit3-what{background:#fff;padding:64px 80px;border-bottom:1px solid #eee}
-.phit3-what-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-.phit3-what-h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;color:#1a1a1a;margin-bottom:20px;line-height:1.15}
-.phit3-what-desc{font-size:1rem;color:#555;line-height:1.85}
-.phit3-what-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.phit3-mol-chip{background:#f9faf7;border-radius:12px;padding:18px 20px;border-top:3px solid var(--mc);text-align:center}
-.phit3-chip-formula{font-size:1.8rem;font-weight:900;color:var(--mc);font-family:monospace;margin-bottom:8px}
-.phit3-chip-name{font-size:.8rem;color:#666;line-height:1.5}
+/* ===== 區塊3：左右兩欄，hero icon風格 ===== */
+.phit3-split{background:url('images/B1.jpg') center/cover no-repeat;padding:48px 80px;position:relative}.phit3-split::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.82)}
+.phit3-split-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 2px 1fr;gap:48px;align-items:end;position:relative;z-index:1}
+.phit3-divider{background:linear-gradient(to bottom,transparent,#c8e6c9 30%,#c8e6c9 70%,transparent);align-self:stretch}
+.phit3-col-tag{display:inline-block;font-size:.68rem;font-weight:700;color:#4a9e5c;letter-spacing:.08em;margin-bottom:10px;padding:3px 12px;background:#e8f5e9;border-radius:20px}
+.phit3-col-h2{font-size:clamp(1rem,1.6vw,1.3rem);font-weight:800;color:#1a1a1a;line-height:1.3;margin-bottom:10px}
+.phit3-accent{color:#4a9e5c}
+.phit3-col-body{font-size:.78rem;color:#555;line-height:1.75;margin-bottom:20px}
+.phit3-icons-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 8px}
+.phit3-icons-3{grid-template-columns:repeat(3,1fr)}
+.phit3-icon-item{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.phit3-icon-c{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(74,158,92,.45);display:flex;align-items:center;justify-content:center;margin-bottom:1px}
+.phit3-icon-c svg{width:20px;height:20px;stroke:var(--green);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.phit3-icon-label{font-size:.62rem;font-weight:600;color:#1a1a1a;line-height:1.3}
+.phit3-icon-sub{font-size:.6rem;color:#4a9e5c;font-weight:700;font-family:monospace}
 
 /* ===== 區塊4-6：背景圖section共用 ===== */
 .phit-bg-sec{position:relative;background-size:cover;background-position:center;background-repeat:no-repeat;min-height:520px;display:flex;align-items:center}
@@ -106,8 +112,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 
 /* Mobile */
 @media(max-width:900px){
-  .phit3-what{padding:48px 20px}
-  .phit3-what-inner{grid-template-columns:1fr;gap:32px}
+  .phit3-split{padding:36px 20px}
+  .phit3-split-inner{grid-template-columns:1fr;gap:28px}
+  .phit3-divider{display:none}
   .phit-bg-inner{padding:48px 20px}
   .phit4-body{grid-template-columns:1fr;gap:28px}
   .phit4-product-img img{width:160px}
@@ -433,7 +440,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 </section>
 
 <!-- PROBLEMS -->
-<section class="sec" style="background:#fff">
+<section class="sec" style="background:#fff;padding-bottom:0">
   <div class="sec-inner">
     <h2 class="sec-center-title">Bạn có đang gặp những vấn đề này?</h2>
     <div class="problems-grid">
@@ -447,31 +454,80 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   </div>
 </section>
 
-<!-- 區塊3：PHIT là gì — 純CSS -->
-<section id="tech" class="phit3-what">
-  <div class="phit3-what-inner">
-    <div class="phit3-what-left">
-      <h2 class="phit3-what-h2">PHIT <span style="color:#1a3a6b">là gì?</span></h2>
-      <p class="phit3-what-desc">PHIT (Photo-Hydro-Ionization Technology) là công nghệ lọc không khí chủ động dựa trên cơ chế AOP (Advanced Oxidation Process), tạo ra và giải phóng các yếu tố làm sạch để loại bỏ bụi mịn, vi khuẩn, virus, mùi và các chất ô nhiễm.</p>
+<!-- 區塊3：左右兩欄，hero icon風格 -->
+<section id="tech" class="phit3-split">
+  <div class="phit3-split-inner">
+
+    <!-- 左欄 -->
+    <div class="phit3-col">
+      <div class="phit3-col-tag">Công nghệ PHIT độc quyền</div>
+      <h2 class="phit3-col-h2">Khác biệt so với máy lọc không khí <span class="phit3-accent">truyền thống</span></h2>
+      <p class="phit3-col-body">Sau khi khởi động thiết bị, lò phản ứng ion quang hợp bắt đầu hoạt động với công nghệ PHIT, giải phóng vào không khí các yếu tố làm sạch <strong>vô hại cho cơ thể người.</strong></p>
+      <div class="phit3-icons-grid">
+        <div class="phit3-icon-item">
+          <div class="phit3-icon-c">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="8" x2="12" y2="5.5"/><circle cx="12" cy="5" r="1" fill="var(--green)" stroke="none"/><line x1="16" y1="12" x2="18.5" y2="12"/><circle cx="19" cy="12" r="1" fill="var(--green)" stroke="none"/><line x1="12" y1="16" x2="12" y2="18.5"/><circle cx="12" cy="19" r="1" fill="var(--green)" stroke="none"/><line x1="8" y1="12" x2="5.5" y2="12"/><circle cx="5" cy="12" r="1" fill="var(--green)" stroke="none"/></svg>
+          </div>
+          <span class="phit3-icon-label">Ion hydroxyl</span>
+          <span class="phit3-icon-sub">OH⁻</span>
+        </div>
+        <div class="phit3-icon-item">
+          <div class="phit3-icon-c">
+            <svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="3.5"/><circle cx="16" cy="12" r="3.5"/><line x1="11.5" y1="12" x2="12.5" y2="12"/></svg>
+          </div>
+          <span class="phit3-icon-label">Hydrogen peroxide</span>
+          <span class="phit3-icon-sub">H₂O₂</span>
+        </div>
+        <div class="phit3-icon-item">
+          <div class="phit3-icon-c">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="6" x2="12" y2="3.5"/><line x1="12" y1="18" x2="12" y2="20.5"/><line x1="6" y1="12" x2="3.5" y2="12"/><line x1="18" y1="12" x2="20.5" y2="12"/><text x="12" y="15" font-size="5" text-anchor="middle" fill="var(--green)" stroke="none">⁻</text></svg>
+          </div>
+          <span class="phit3-icon-label">Ion superoxide</span>
+          <span class="phit3-icon-sub">O₂⁻</span>
+        </div>
+        <div class="phit3-icon-item">
+          <div class="phit3-icon-c">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="4"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="17.5" cy="16.5" r="2.5"/><line x1="9.2" y1="13" x2="7.8" y2="14.5"/><line x1="14.8" y1="13" x2="16.2" y2="14.5"/></svg>
+          </div>
+          <span class="phit3-icon-label">Ion hydronium</span>
+          <span class="phit3-icon-sub">H₃O⁺</span>
+        </div>
+      </div>
     </div>
-    <div class="phit3-what-right">
-      <div class="phit3-mol-chip" style="--mc:#4a9e5c">
-        <div class="phit3-chip-formula">OH⁻</div>
-        <div class="phit3-chip-name">Hydroxyl gốc •OH</div>
-      </div>
-      <div class="phit3-mol-chip" style="--mc:#1565c0">
-        <div class="phit3-chip-formula">H₂O₂</div>
-        <div class="phit3-chip-name">Hydrogen Peroxide<br>Hydro Peroxide</div>
-      </div>
-      <div class="phit3-mol-chip" style="--mc:#6a1b9a">
-        <div class="phit3-chip-formula">O₂⁻</div>
-        <div class="phit3-chip-name">Superoxide<br>ion siêu oxit</div>
-      </div>
-      <div class="phit3-mol-chip" style="--mc:#b36200">
-        <div class="phit3-chip-formula">H₃O⁺</div>
-        <div class="phit3-chip-name">Hydronium<br>ion hydronium</div>
+
+    <!-- 分隔線 -->
+    <div class="phit3-divider"></div>
+
+    <!-- 右欄 -->
+    <div class="phit3-col">
+      <div class="phit3-col-tag">Kết quả làm sạch</div>
+      <h2 class="phit3-col-h2">Thực sự phân giải các 「phân tử」 ô nhiễm <span class="phit3-accent">trong không khí</span></h2>
+      <p class="phit3-col-body">Các thành phần độc hại trong không khí, bao gồm vi khuẩn, virus, mùi hôi, mùi khói thuốc, nấm mốc, formaldehyde, khi tiếp xúc với các yếu tố làm sạch, sẽ bị phân giải thành các <strong>phân tử vô hại cho cơ thể người.</strong></p>
+      <div class="phit3-icons-grid phit3-icons-3">
+        <div class="phit3-icon-item">
+          <div class="phit3-icon-c">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="3"/><circle cx="15" cy="12" r="3"/><line x1="12" y1="9" x2="12" y2="15" stroke-dasharray="2 1"/></svg>
+          </div>
+          <span class="phit3-icon-label">Oxy</span>
+          <span class="phit3-icon-sub">O₂</span>
+        </div>
+        <div class="phit3-icon-item">
+          <div class="phit3-icon-c">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="4.5"/><path d="M7 17 Q12 21 17 17" stroke-width="1.8"/></svg>
+          </div>
+          <span class="phit3-icon-label">Nước</span>
+          <span class="phit3-icon-sub">H₂O</span>
+        </div>
+        <div class="phit3-icon-item">
+          <div class="phit3-icon-c">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><line x1="7.5" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="16.5" y2="12"/></svg>
+          </div>
+          <span class="phit3-icon-label">Carbon dioxide</span>
+          <span class="phit3-icon-sub">CO₂</span>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
