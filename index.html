@@ -154,8 +154,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .kol-name{font-size:.7rem;font-weight:700;color:var(--green)}
 
 /* PRODUCT SWITCHER */
-.product-section{background:var(--cream);padding:28px 80px 56px}
-.product-inner{max-width:1200px;margin:0 auto}
+.product-section{background:url('images/B1.jpg') center/cover no-repeat;position:relative;padding:28px 80px 56px}
+.product-section::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.82)}
+.product-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .product-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:36px;background:#fff;width:fit-content}
 .product-tab{padding:12px 28px;font-size:.82rem;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:none;font-family:inherit;transition:all .2s;border-right:1px solid var(--border)}
 .product-tab:last-child{border-right:none}
