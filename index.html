@@ -84,16 +84,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .phit3-icon-sub{font-size:.6rem;color:#4a9e5c;font-weight:700;font-family:monospace}
 
 /* ===== 區塊4：兩張原理圖並排 ===== */
-.analysis-section{background:#fff;padding:0}
-.analysis-grid{display:grid;grid-template-columns:1fr 1fr}
-.analysis-img{width:100%;height:auto;display:block}
+.analysis-section{background:#fff;padding:32px 80px}
+.analysis-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.analysis-card{border-radius:12px;overflow:hidden;border:1px solid #e8e8e8;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.analysis-card img{width:100%;height:auto;display:block}
 
 /* Mobile */
 @media(max-width:900px){
   .phit3-split{padding:36px 20px}
   .phit3-split-inner{grid-template-columns:1fr;gap:28px}
   .phit3-divider{display:none}
-  .analysis-grid{grid-template-columns:1fr}
+  .analysis-section{padding:24px 16px}
+  .analysis-grid{grid-template-columns:1fr;gap:14px}
   .phit-bg-inner{padding:48px 20px}
   .phit4-body{grid-template-columns:1fr;gap:28px}
   .phit4-product-img img{width:160px}
@@ -513,8 +515,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <!-- 區塊4：兩張原理圖並排 -->
 <section class="analysis-section">
   <div class="analysis-grid">
-    <img src="images/Analysis-1.png" alt="PHIT Analysis 1" class="analysis-img">
-    <img src="images/Analysis-2.png" alt="PHIT Analysis 2" class="analysis-img">
+    <div class="analysis-card">
+      <img src="images/Analysis-1.png" alt="PHIT Analysis 1">
+    </div>
+    <div class="analysis-card">
+      <img src="images/Analysis-2.png" alt="PHIT Analysis 2">
+    </div>
   </div>
 </section>
 
