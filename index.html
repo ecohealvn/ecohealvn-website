@@ -163,8 +163,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .product-tab:hover:not(.active){background:var(--green-pale);color:var(--green)}
 .product-panels{display:none}
 .product-panels.active{display:grid;grid-template-columns:220px 1fr 1fr 180px;gap:36px;align-items:start}
-.prod-img-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
-.prod-img-wrap img{width:100%;max-width:200px;object-fit:contain;border-radius:12px}
+.prod-img-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;height:220px}
+.prod-img-wrap img{max-height:200px;max-width:180px;width:auto;height:auto;object-fit:contain}
 .prod-img-placeholder{width:180px;height:220px;background:linear-gradient(135deg,#e8f5ec,#c8e8d0);border-radius:12px;display:flex;align-items:center;justify-content:center}
 .prod-img-placeholder svg{width:60px;height:80px;stroke:var(--green2);fill:none;stroke-width:1.5;opacity:.5}
 .spec-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:16px}
@@ -660,7 +660,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <!-- BM6+ -->
     <div class="product-panels active" id="panel-bm6">
       <div class="prod-img-wrap">
-        <img src="images/product-bm6.png.png" alt="BM6+" style="max-height:220px;width:auto;object-fit:contain">
+        <img src="images/product-bm6.png.png" alt="BM6+" >
       </div>
       <div>
         <div class="spec-title">BM6+ – Phiên bản gia đình</div>
@@ -677,23 +677,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
         </table>
       </div>
       <div class="pricing-col">
-        <div style="text-align:center;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Chọn phiên bản phù hợp</div>
-        <div class="plan-card">
-          <div class="plan-name">PHIT TREE</div>
-          <div class="plan-range">Phù hợp phòng 10 – 20m²</div>
-          <div class="plan-price-row"><span class="plan-price">3.990.000₫</span><span class="plan-old">4.820.000₫</span></div>
-          <span class="plan-save">⬇ Tiết kiệm 830.000₫</span>
-          <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">BM6+</div><div class="plan-feat">Adapter nguồn</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
-        </div>
         <div class="plan-card best">
-          <div class="plan-best-badge">BEST SELLER</div>
-          <div class="plan-name">PHIT TREE PRO</div>
-          <div class="plan-range">Phù hợp phòng 20 – 30m²</div>
-          <div class="plan-price-row"><span class="plan-price">5.490.000₫</span><span class="plan-old">6.640.000₫</span></div>
-          <span class="plan-save">⬇ Tiết kiệm 1.150.000₫</span>
+          <div class="plan-best-badge">Thêm vào giỏ hàng</div>
+          <div class="plan-name">BM6+</div>
+          <div class="plan-range">Phiên bản gia đình – 7 đến 15 坪</div>
+          <div class="plan-price-row"><span class="plan-price">17.600.000₫</span></div>
+          <span class="plan-save" style="visibility:hidden">_</span>
           <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">BM6+ Pro</div><div class="plan-feat">Adapter nguồn</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng chính hãng</div></div>
+          <div class="plan-feats"><div class="plan-feat">BM6+</div><div class="plan-feat">Dây nguồn chuyên dụng</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng chính hãng</div></div>
         </div>
       </div>
       <div class="shipping-col">
@@ -706,7 +697,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <!-- ARCII plus -->
     <div class="product-panels" id="panel-arcii">
       <div class="prod-img-wrap">
-        <img src="images/product-arcii.png.png" alt="ARCII plus" style="max-height:220px;width:auto;object-fit:contain">
+        <img src="images/product-arcii.png.png" alt="ARCII plus" >
       </div>
       <div>
         <div class="spec-title">ARCII plus – Phiên bản di động</div>
@@ -723,15 +714,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
         </table>
       </div>
       <div class="pricing-col">
-        <div style="text-align:center;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Chọn phiên bản phù hợp</div>
         <div class="plan-card best">
-          <div class="plan-best-badge">PHỔ BIẾN NHẤT</div>
+          <div class="plan-best-badge">Thêm vào giỏ hàng</div>
           <div class="plan-name">ARCII plus</div>
           <div class="plan-range">Phiên bản di động – mang đi mọi nơi</div>
           <div class="plan-price-row"><span class="plan-price">5.800.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
           <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">ARCII plus</div><div class="plan-feat">Cáp USB</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
+          <div class="plan-feats"><div class="plan-feat">ARCII plus</div><div class="plan-feat">Cáp chuyển đổi từ Type sang USB</div><div class="plan-feat">Ốp bảo vệ silicone</div><div class="plan-feat">Dây đeo cổ</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
         </div>
       </div>
       <div class="shipping-col">
@@ -744,7 +734,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <!-- ARC plus -->
     <div class="product-panels" id="panel-arc">
       <div class="prod-img-wrap">
-        <img src="images/product-arc.png.png" alt="ARC plus" style="max-height:220px;width:auto;object-fit:contain">
+        <img src="images/product-arc.png.png" alt="ARC plus" >
       </div>
       <div>
         <div class="spec-title">ARC plus – Phiên bản dùng cho ô tô</div>
@@ -761,15 +751,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
         </table>
       </div>
       <div class="pricing-col">
-        <div style="text-align:center;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Chọn phiên bản phù hợp</div>
         <div class="plan-card best">
-          <div class="plan-best-badge">PHỔ BIẾN NHẤT</div>
+          <div class="plan-best-badge">Thêm vào giỏ hàng</div>
           <div class="plan-name">ARC plus</div>
           <div class="plan-range">Phiên bản dùng cho ô tô</div>
           <div class="plan-price-row"><span class="plan-price">3.500.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
           <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">ARC plus</div><div class="plan-feat">Cáp kết nối DC 12V</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
+          <div class="plan-feats"><div class="plan-feat">ARC plus</div><div class="plan-feat">Cáp chuyển đổi từ Type sang USB</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
         </div>
       </div>
       <div class="shipping-col">
@@ -782,7 +771,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <!-- PRO9 -->
     <div class="product-panels" id="panel-commercial">
       <div class="prod-img-wrap">
-        <img src="images/product-commercial.png.png" alt="PRO9" style="max-height:220px;width:auto;object-fit:contain">
+        <img src="images/product-commercial.png.png" alt="PRO9" >
       </div>
       <div>
         <div class="spec-title">PRO9 – Phiên bản thương mại</div>
@@ -799,13 +788,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
         </table>
       </div>
       <div class="pricing-col">
-        <div style="text-align:center;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Liên hệ báo giá</div>
-        <div class="plan-card" style="text-align:center;padding:32px 20px">
-          <div style="font-size:2rem;margin-bottom:12px;">📞</div>
-          <div class="plan-name" style="font-size:1rem;margin-bottom:8px;">PRO9 – Thương mại</div>
-          <div class="plan-range" style="margin-bottom:16px;">Phù hợp cửa hàng, phòng khám, văn phòng<br>Liên hệ để được tư vấn chi tiết</div>
-          <button class="plan-btn" style="background:var(--text2);">LIÊN HỆ TƯ VẤN</button>
-          <div style="margin-top:12px;font-size:.72rem;color:var(--text3);">Email: ecoheal@ecohealvn.com</div>
+        <div class="plan-card best">
+          <div class="plan-best-badge">Thêm vào giỏ hàng</div>
+          <div class="plan-name">PRO9</div>
+          <div class="plan-range">Phù hợp cửa hàng, phòng khám, văn phòng</div>
+          <div class="plan-price-row"><span class="plan-price">56.780.000₫</span></div>
+          <span class="plan-save" style="visibility:hidden">_</span>
+          <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
+          <div class="plan-feats"><div class="plan-feat">PRO9</div><div class="plan-feat">Dây nguồn chuyên dụng</div><div class="plan-feat">Vật liệu lắp ráp dạng đứng</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng chính hãng</div></div>
         </div>
       </div>
       <div class="shipping-col">
