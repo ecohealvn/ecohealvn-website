@@ -647,33 +647,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <!-- PRODUCT SWITCHER -->
 <section class="product-section" id="products">
   <div class="product-inner">
-    <h2 class="sec-center-title" style="text-align:left;margin-bottom:24px;">Thông số sản phẩm</h2>
+    <h2 class="sec-center-title" style="text-align:center;margin-bottom:24px;">Bắt đầu mua hàng / Chọn phiên bản phù hợp</h2>
 
     <!-- TABS -->
     <div class="product-tabs">
       <button class="product-tab active" onclick="switchProduct('bm6',this)">BM6+ (Gia đình)</button>
       <button class="product-tab" onclick="switchProduct('arcii',this)">ARCII plus (Di động)</button>
       <button class="product-tab" onclick="switchProduct('arc',this)">ARC plus (Ô tô)</button>
-      <button class="product-tab" onclick="switchProduct('commercial',this)">Commercial</button>
+      <button class="product-tab" onclick="switchProduct('commercial',this)">PRO9 (Thương mại)</button>
     </div>
 
     <!-- BM6+ -->
     <div class="product-panels active" id="panel-bm6">
       <div class="prod-img-wrap">
-        <img src="images/product-bm6.png.png" alt="BM6+" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-img-placeholder" style="display:none"><svg viewBox="0 0 80 120"><rect x="20" y="15" width="40" height="60" rx="8" stroke-width="2"/><rect x="16" y="73" width="48" height="10" rx="5" stroke-width="2"/><rect x="12" y="81" width="56" height="24" rx="8" stroke-width="2"/></svg></div>
+        <img src="images/product-bm6.png.png" alt="BM6+" style="max-height:220px;width:auto;object-fit:contain">
       </div>
       <div>
         <div class="spec-title">BM6+ – Phiên bản gia đình</div>
         <table class="spec-table">
-          <tr><td>Kích thước</td><td>220 × 220 × 420 mm</td></tr>
-          <tr><td>Trọng lượng</td><td>2.2 kg</td></tr>
-          <tr><td>Diện tích</td><td>10 – 50 m²</td></tr>
-          <tr><td>Công nghệ</td><td>Quang hợp nhân tạo PHIT</td></tr>
-          <tr><td>Độ ồn</td><td>20dB</td></tr>
-          <tr><td>Công suất</td><td>6W</td></tr>
-          <tr><td>Điện áp</td><td>100 – 240V</td></tr>
-          <tr><td>Màu sắc</td><td>Trắng ngọc</td></tr>
+          <tr><td>Kích thước</td><td>Đáy 132mm / Đỉnh 62mm / Cao 250mm</td></tr>
+          <tr><td>Diện tích hiệu quả</td><td>7 – 15 坪 (249 – 534 sqft)</td></tr>
+          <tr><td>Công suất</td><td>18W</td></tr>
+          <tr><td>Điện áp</td><td>AC 100–240V / DC 12V 2A</td></tr>
+          <tr><td>Độ ồn</td><td>Dưới 30dB</td></tr>
+          <tr><td>Tuổi thọ bóng đèn</td><td>25.000 giờ (thiết kế)</td></tr>
+          <tr><td>Vật liệu ngoài</td><td>ABS + PC</td></tr>
+          <tr><td>Màu sắc</td><td>Trắng / Đen</td></tr>
           <tr><td>Bảo hành</td><td>12 tháng</td></tr>
         </table>
       </div>
@@ -685,7 +684,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-price-row"><span class="plan-price">3.990.000₫</span><span class="plan-old">4.820.000₫</span></div>
           <span class="plan-save">⬇ Tiết kiệm 830.000₫</span>
           <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">PHIT Tree</div><div class="plan-feat">Adapter nguồn</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
+          <div class="plan-feats"><div class="plan-feat">BM6+</div><div class="plan-feat">Adapter nguồn</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
         </div>
         <div class="plan-card best">
           <div class="plan-best-badge">BEST SELLER</div>
@@ -694,13 +693,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-price-row"><span class="plan-price">5.490.000₫</span><span class="plan-old">6.640.000₫</span></div>
           <span class="plan-save">⬇ Tiết kiệm 1.150.000₫</span>
           <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">PHIT Tree Pro</div><div class="plan-feat">Adapter nguồn</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng chính hãng</div></div>
+          <div class="plan-feats"><div class="plan-feat">BM6+ Pro</div><div class="plan-feat">Adapter nguồn</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng chính hãng</div></div>
         </div>
       </div>
       <div class="shipping-col">
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><span class="ship-label">Miễn phí giao hàng toàn quốc</span></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi trả 7 ngày</span>nếu không hài lòng</div></div>
-        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div><span class="ship-label">Thanh toán khi nhận hàng (COD)</span></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><span class="ship-label">Bảo hành chính hãng</span>12 tháng</div></div>
       </div>
     </div>
@@ -708,17 +706,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <!-- ARCII plus -->
     <div class="product-panels" id="panel-arcii">
       <div class="prod-img-wrap">
-        <img src="images/product-arcii.png.png" alt="ARCII plus" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-img-placeholder" style="display:none"><svg viewBox="0 0 80 80"><rect x="10" y="10" width="60" height="60" rx="20" stroke-width="2"/></svg></div>
+        <img src="images/product-arcii.png.png" alt="ARCII plus" style="max-height:220px;width:auto;object-fit:contain">
       </div>
       <div>
         <div class="spec-title">ARCII plus – Phiên bản di động</div>
         <table class="spec-table">
-          <tr><td>Kích thước</td><td>75 × 75 × 135 mm</td></tr>
-          <tr><td>Nguồn điện</td><td>Pin sạc (USB-C)</td></tr>
-          <tr><td>Diện tích</td><td>Cá nhân / Di chuyển</td></tr>
-          <tr><td>Công nghệ</td><td>Quang hợp nhân tạo PHIT</td></tr>
-          <tr><td>Trọng lượng</td><td>Nhẹ, dễ mang theo</td></tr>
+          <tr><td>Kích thước</td><td>L95 × W95 × H32 mm</td></tr>
+          <tr><td>Trọng lượng</td><td>Khoảng 165g</td></tr>
+          <tr><td>Diện tích hiệu quả</td><td>1 – 3 坪 (cá nhân / di động)</td></tr>
+          <tr><td>Công suất</td><td>&lt;3W</td></tr>
+          <tr><td>Điện áp</td><td>DC 5V ⎓ 2A</td></tr>
+          <tr><td>Tuổi thọ bóng đèn</td><td>25.000 giờ (thiết kế)</td></tr>
+          <tr><td>Vật liệu ngoài</td><td>ABS + PC</td></tr>
           <tr><td>Màu sắc</td><td>Trắng</td></tr>
           <tr><td>Bảo hành</td><td>12 tháng</td></tr>
         </table>
@@ -732,13 +731,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-price-row"><span class="plan-price">5.800.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
           <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">ARCII plus</div><div class="plan-feat">Cáp sạc USB-C</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
+          <div class="plan-feats"><div class="plan-feat">ARCII plus</div><div class="plan-feat">Cáp USB</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
         </div>
       </div>
       <div class="shipping-col">
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><span class="ship-label">Miễn phí giao hàng toàn quốc</span></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi trả 7 ngày</span>nếu không hài lòng</div></div>
-        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div><span class="ship-label">Thanh toán khi nhận hàng (COD)</span></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><span class="ship-label">Bảo hành chính hãng</span>12 tháng</div></div>
       </div>
     </div>
@@ -746,17 +744,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <!-- ARC plus -->
     <div class="product-panels" id="panel-arc">
       <div class="prod-img-wrap">
-        <img src="images/product-arc.png.png" alt="ARC plus" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-img-placeholder" style="display:none"><svg viewBox="0 0 80 80"><polygon points="40,5 75,70 5,70" stroke-width="2"/></svg></div>
+        <img src="images/product-arc.png.png" alt="ARC plus" style="max-height:220px;width:auto;object-fit:contain">
       </div>
       <div>
         <div class="spec-title">ARC plus – Phiên bản dùng cho ô tô</div>
         <table class="spec-table">
-          <tr><td>Kích thước</td><td>60 × 60 × 85 mm</td></tr>
-          <tr><td>Nguồn điện</td><td>Cắm vào cổng 12V xe hơi</td></tr>
-          <tr><td>Diện tích</td><td>Khoang xe hơi</td></tr>
-          <tr><td>Công nghệ</td><td>Quang hợp nhân tạo PHIT</td></tr>
-          <tr><td>Thiết kế</td><td>Nhỏ gọn, cắm trực tiếp</td></tr>
+          <tr><td>Kích thước</td><td>L77 × W86 × H51 mm</td></tr>
+          <tr><td>Trọng lượng</td><td>Khoảng 90g</td></tr>
+          <tr><td>Diện tích hiệu quả</td><td>Khoang xe hơi (~1 坪)</td></tr>
+          <tr><td>Công suất</td><td>&lt;2W</td></tr>
+          <tr><td>Điện áp</td><td>DC 12V / 500mA</td></tr>
+          <tr><td>Nhiệt độ vận hành</td><td>-10°C ~ +45°C</td></tr>
+          <tr><td>Vật liệu ngoài</td><td>ABS + PC</td></tr>
           <tr><td>Màu sắc</td><td>Trắng</td></tr>
           <tr><td>Bảo hành</td><td>12 tháng</td></tr>
         </table>
@@ -770,30 +769,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-price-row"><span class="plan-price">3.500.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
           <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">ARC plus</div><div class="plan-feat">Cáp kết nối 12V</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
+          <div class="plan-feats"><div class="plan-feat">ARC plus</div><div class="plan-feat">Cáp kết nối DC 12V</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
         </div>
       </div>
       <div class="shipping-col">
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><span class="ship-label">Miễn phí giao hàng toàn quốc</span></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi trả 7 ngày</span>nếu không hài lòng</div></div>
-        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div><span class="ship-label">Thanh toán khi nhận hàng (COD)</span></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><span class="ship-label">Bảo hành chính hãng</span>12 tháng</div></div>
       </div>
     </div>
 
-    <!-- COMMERCIAL -->
+    <!-- PRO9 -->
     <div class="product-panels" id="panel-commercial">
       <div class="prod-img-wrap">
-        <img src="images/product-commercial.png.png" alt="Commercial" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="prod-img-placeholder" style="display:none"><svg viewBox="0 0 80 160"><rect x="20" y="10" width="40" height="120" rx="6" stroke-width="2"/><ellipse cx="40" cy="140" rx="24" ry="8" stroke-width="2"/></svg></div>
+        <img src="images/product-commercial.png.png" alt="PRO9" style="max-height:220px;width:auto;object-fit:contain">
       </div>
       <div>
-        <div class="spec-title">Commercial – Phiên bản thương mại</div>
+        <div class="spec-title">PRO9 – Phiên bản thương mại</div>
         <table class="spec-table">
-          <tr><td>Diện tích</td><td>Phòng khám, văn phòng, nhà hàng lớn</td></tr>
-          <tr><td>Công nghệ</td><td>Quang hợp nhân tạo PHIT công suất cao</td></tr>
-          <tr><td>Nguồn điện</td><td>Cắm điện trực tiếp</td></tr>
-          <tr><td>Tình trạng</td><td>Sắp ra mắt</td></tr>
+          <tr><td>Kích thước</td><td>450 × 165 × 82,5 mm (chân đế 40mm)</td></tr>
+          <tr><td>Trọng lượng</td><td>3,5 kg</td></tr>
+          <tr><td>Diện tích hiệu quả</td><td>10 – 40 坪 (33 – 132 m²)</td></tr>
+          <tr><td>Công suất</td><td>12W</td></tr>
+          <tr><td>Điện áp</td><td>AC 110V ~ 220V / 50Hz–60Hz</td></tr>
+          <tr><td>Lắp đặt</td><td>Đặt đứng hoặc treo tường</td></tr>
+          <tr><td>Vật liệu ngoài</td><td>Thép mạ kẽm sơn tĩnh điện</td></tr>
+          <tr><td>An toàn</td><td>Tắt tự động khi &gt;80°C</td></tr>
           <tr><td>Bảo hành</td><td>12 tháng</td></tr>
         </table>
       </div>
@@ -801,8 +802,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
         <div style="text-align:center;font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:8px;">Liên hệ báo giá</div>
         <div class="plan-card" style="text-align:center;padding:32px 20px">
           <div style="font-size:2rem;margin-bottom:12px;">📞</div>
-          <div class="plan-name" style="font-size:1rem;margin-bottom:8px;">Phiên bản thương mại</div>
-          <div class="plan-range" style="margin-bottom:16px;">Giá tham khảo ~50.000.000₫<br>Liên hệ để được tư vấn chi tiết</div>
+          <div class="plan-name" style="font-size:1rem;margin-bottom:8px;">PRO9 – Thương mại</div>
+          <div class="plan-range" style="margin-bottom:16px;">Phù hợp cửa hàng, phòng khám, văn phòng<br>Liên hệ để được tư vấn chi tiết</div>
           <button class="plan-btn" style="background:var(--text2);">LIÊN HỆ TƯ VẤN</button>
           <div style="margin-top:12px;font-size:.72rem;color:var(--text3);">Email: ecoheal@ecohealvn.com</div>
         </div>
