@@ -200,7 +200,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .footer-cta-ov{position:absolute;inset:0;background:rgba(20,50,30,.52)}
 .footer-cta-cnt{position:relative;z-index:2;color:#fff;max-width:520px}
 .footer-cta-cnt h2{font-size:clamp(1.4rem,3vw,2.1rem);font-weight:800;line-height:1.2;margin-bottom:8px;letter-spacing:-.02em}
-.footer-cta-cnt p{font-size:.88rem;opacity:.8;margin-bottom:26px}
+.footer-cta-cnt p{font-size:.88rem;opacity:.8;margin-bottom:20px}
+.footer-contact{display:flex;flex-direction:column;gap:7px;margin-top:40px}
+.footer-contact-item{display:flex;align-items:flex-start;gap:8px;font-size:.85rem;color:rgba(255,255,255,.9);line-height:1.5}
 .btn-white{background:#fff;color:var(--green);font-weight:800}
 .btn-white:hover{background:#f0f0f0}
 
@@ -815,11 +817,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   <div class="footer-cta-ov"></div>
   <div class="footer-cta-cnt">
     <h2>Mang hơi thở của cây xanh<br>đến mọi không gian sống</h2>
-    <p>PHIT Tree – Một cuộc sống trong lành và an nhiên hơn mỗi ngày.</p>
-    <a href="#products" class="btn btn-white" onclick="addCart()">
-      <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      MUA NGAY ƯU ĐÃI
-    </a>
+    <div class="footer-contact">
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        C5 31 Đ. Số 1, Bình Khánh, Thủ Đức, Thành phố Hồ Chí Minh
+      </div>
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.63 19.79 19.79 0 012 2.18 2 2 0 014 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+        Điện thoại / Zalo: 0943.973.977
+      </div>
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        ecoheal@ecohealvn.com
+      </div>
+    </div>
   </div>
 </section>
 
