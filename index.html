@@ -305,7 +305,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 
 <!-- FLOATING CART -->
 <div class="float-cart">
-  <a href="#products" class="float-btn">
+  <a href="cart.html" class="float-btn">
     <svg viewBox="0 0 24 24"><path d="M6 2H3v2h1.5L8 14h10l2-9H6z" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
     <div class="float-cnt" id="cartCount">0</div>
   </a>
@@ -859,8 +859,38 @@ function switchProduct(id, btn){
   btn.classList.add('active');
 }
 
-let n=0;
-function addCart(){n++;document.getElementById('cartCount').textContent=n}
+const CART_API = 'https://ecoheal-cart-api.ecoheal.workers.dev';
+const SID_KEY = 'ecoheal_sid';
+function getSid(){
+  let s=localStorage.getItem(SID_KEY);
+  if(!s){s='eco_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);localStorage.setItem(SID_KEY,s);}
+  return s;
+}
+const PROD_MAP={
+  bm6:        {sku:'BM6+',       name:'BM6+ – Phiên bản gia đình',          price:17600000},
+  arcii:      {sku:'ARCII PLUS', name:'ARCII plus – Phiên bản di động',      price:5800000},
+  arc:        {sku:'ARC PLUS',   name:'ARC plus – Phiên bản dùng cho ô tô',  price:3500000},
+  commercial: {sku:'PRO9',       name:'PRO9 – Phiên bản thương mại',         price:56780000},
+};
+async function addCart(){
+  const active=document.querySelector('.product-panels.active');
+  if(!active) return;
+  const panelId=active.id.replace('panel-','');
+  const prod=PROD_MAP[panelId];
+  if(!prod) return;
+  const sid=getSid();
+  const qs=new URLSearchParams({sid,name:prod.name,price:prod.price,qty:1,sku:prod.sku,product_id:''});
+  try{
+    await fetch(`${CART_API}/add?${qs}`);
+    const res=await fetch(`${CART_API}/cart?sid=${sid}`);
+    const data=await res.json();
+    const n=(data.cart||[]).reduce((s,i)=>s+i.qty,0);
+    document.getElementById('cartCount').textContent=n;
+    const btn=document.querySelector('#panel-'+panelId+' .plan-btn');
+    if(btn){const orig=btn.textContent;btn.textContent='✓ Đã thêm!';setTimeout(()=>btn.textContent=orig,1500);}
+  }catch(e){alert('Có lỗi, vui lòng thử lại');}
+}
+(async()=>{const sid=localStorage.getItem('ecoheal_sid');if(!sid)return;const res=await fetch(`${CART_API}/cart?sid=${sid}`).catch(()=>null);if(!res)return;const data=await res.json();const n=(data.cart||[]).reduce((s,i)=>s+i.qty,0);document.getElementById('cartCount').textContent=n;})();
 </script>
 </body>
 </html>
