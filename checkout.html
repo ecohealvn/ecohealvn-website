@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECOHEAL – Thanh toán</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f4f3ef;
+      --card:#ffffff;
+      --panel:#ecebe8;
+      --border:#e1dfda;
+      --text:#3f3f3f;
+      --muted:#8a8a8a;
+      --title:#2f2f2f;
+      --green:#2e6b3e;
+      --green2:#4a9e5c;
+      --green-hover:#256034;
+      --danger:#d9534f;
+      --info:#eef6dd;
+      --info-border:#d9e3c8;
+      --shadow:0 1px 0 rgba(0,0,0,.03);
+      --max-width:900px;
+      --checkout-left-width:600px;
+      --checkout-right-width:300px;
+      --summary-padding-x:28px;
+      --login-area-width:440px;
+      --step-circle-size:40px;
+      --step-title-gap:10px;
+      --section-body-left:calc(var(--step-circle-size) + var(--step-title-gap));
+      --section-gap:34px;
+      --section-head-bottom:14px;
+      --field-row-gap:14px;
+      --field-column-gap:18px;
+      --input-height:46px;
+      --input-email-width:380px;
+      --input-password-width:320px;
+      --input-name-width:380px;
+      --input-phone-width:380px;
+      --input-address-width:380px;
+      --input-remarks-width:380px;
+      --input-invoice-width:380px;
+      --input-bank-width:380px;
+      --textarea-height:86px;
+      --bank-box-width:380px;
+      --login-button-width:78px;
+      --login-line-width:380px;
+      --mobile-control-width:352px;
+      --mobile-login-button-width:76px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    html,body{
+      margin:0; padding:0;
+      font-family:'Be Vietnam Pro',sans-serif;
+      color:var(--text);
+      background-color:var(--bg);
+      background-image:
+        radial-gradient(rgba(0,0,0,.018) 1px, transparent 1px),
+        radial-gradient(rgba(255,255,255,.5) 1px, transparent 1px);
+      background-position:0 0, 12px 12px;
+      background-size:24px 24px;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+    .logo-name{font-size:1.1rem;font-weight:800;color:var(--green)}
+    .logo-sub{font-size:.5rem;color:var(--muted);letter-spacing:.04em;display:block;margin-top:1px}
+    .nav-back{font-size:.82rem;color:var(--green);display:flex;align-items:center;gap:5px;transition:opacity .2s}
+    .nav-back:hover{opacity:.7}
+    .nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+    /* HERO STRIP */
+    .hero-strip{
+      margin-top:60px;height:100px;
+      background:linear-gradient(135deg,#1a3a2a 0%,#2e6b3e 50%,#4a9e5c 100%);
+      display:flex;align-items:center;padding:0 48px;
+    }
+    .hero-strip h1{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.01em}
+    .hero-strip p{font-size:.8rem;color:rgba(255,255,255,.7);margin-top:3px}
+
+    .shell{
+      max-width:var(--max-width);
+      margin:0 auto 50px;
+      padding:0 20px;
+      position:relative;
+      z-index:3;
+    }
+
+    .card{
+      display:grid;
+      grid-template-columns:minmax(0,var(--checkout-left-width)) minmax(var(--checkout-right-width),var(--checkout-right-width));
+      grid-template-areas:"left right";
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      min-height:560px;
+      margin-top:24px;
+    }
+
+    .left{
+      grid-area:left;
+      background:var(--card);
+      border-right:1px solid var(--border);
+      padding:22px 24px 30px;
+    }
+
+    .right{
+      grid-area:right;
+      background:var(--panel);
+      display:flex;
+      flex-direction:column;
+      min-height:100%;
+    }
+
+    .summary-top{
+      display:flex;
+      justify-content:flex-end;
+      padding:16px 20px 0;
+    }
+
+    .continue-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:38px;
+      padding:0 14px;
+      border:1px solid #d8d5cf;
+      background:#f7f6f3;
+      color:#666;
+      font-size:13px;
+      cursor:pointer;
+      transition:all .2s;
+      font-family:inherit;
+    }
+    .continue-btn:hover{ background:#f0eeea; }
+
+    .summary-body{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      padding:30px var(--summary-padding-x) 24px;
+    }
+
+    .brand-title{
+      margin:0;
+      text-align:center;
+      font-size:2rem;
+      line-height:1.1;
+      color:var(--green);
+      font-weight:800;
+      letter-spacing:.02em;
+    }
+
+    .brand-sub{
+      margin:10px 0 0;
+      text-align:center;
+      font-size:1rem;
+      color:#555;
+      font-weight:600;
+    }
+
+    .summary-middle{
+      margin-top:28px;
+      border-top:1px solid #d9d6d1;
+      padding-top:18px;
+    }
+
+    .summary-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      font-size:15px;
+      font-weight:700;
+      color:#4a4a4a;
+      margin-top:16px;
+    }
+
+    .summary-value{ white-space:nowrap; color:var(--green); font-size:1.05rem; }
+
+    .summary-count{
+      margin-top:8px;
+      text-align:center;
+      font-size:13px;
+      color:#777;
+    }
+
+    .summary-items{
+      margin-top:22px;
+      border-top:1px solid #d9d6d1;
+      padding-top:12px;
+    }
+
+    .summary-cart-item{
+      width:100%;
+      padding:12px 0;
+      border-bottom:1px solid rgba(0,0,0,.07);
+    }
+
+    .summary-item-main{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:start;
+    }
+
+    .summary-item-name{
+      font-size:13px;
+      line-height:1.55;
+      font-weight:800;
+      color:#222;
+      word-break:normal;
+      overflow-wrap:break-word;
+    }
+
+    .summary-item-subtotal{
+      white-space:nowrap;
+      font-size:13px;
+      font-weight:800;
+      color:#222;
+    }
+
+    .summary-item-code{
+      margin-top:6px;
+      font-size:12px;
+      color:#888;
+    }
+
+    .summary-item-controls{
+      margin-top:8px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      color:#777;
+      font-size:12px;
+    }
+
+    .summary-item-controls .qty-input{ width:58px; height:36px; }
+    .summary-item-controls .remove-item-btn{ margin-left:auto; }
+
+    .summary-heading{
+      margin:22px 0 0;
+      padding-top:18px;
+      border-top:1px solid #d9d6d1;
+      text-align:center;
+      font-size:1.2rem;
+      font-weight:700;
+      color:#666;
+    }
+
+    /* SECTIONS */
+    .section{ margin-bottom:var(--section-gap); }
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:var(--section-head-bottom);
+    }
+
+    .step-badge{
+      width:40px; height:40px;
+      border-radius:50%;
+      background:var(--green);
+      color:#fff;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:1.2rem;
+      flex:0 0 auto;
+    }
+
+    .section-title{
+      font-size:1.05rem;
+      font-weight:700;
+      color:#333;
+      margin:0;
+    }
+
+    .qty-input{
+      width:64px; height:36px;
+      border:1px solid #d7d7d7;
+      border-radius:4px;
+      background:#f7f7f7;
+      text-align:center;
+      font-size:14px;
+      outline:none;
+      font-family:inherit;
+    }
+
+    .remove-item-btn{
+      border:none; background:none;
+      color:#999; cursor:pointer;
+      font-size:13px; padding:4px 0;
+      font-family:inherit;
+    }
+    .remove-item-btn:hover{ color:#d9534f; text-decoration:underline; }
+
+    .field{ margin-bottom:0; }
+    .field label{ display:none; }
+
+    .field input,
+    .field textarea{
+      width:auto; max-width:100%;
+      height:var(--input-height);
+      border:1px solid #d7d7d7;
+      border-radius:4px;
+      background:#f7f7f7;
+      padding:10px 12px;
+      font-size:14px;
+      color:#333;
+      outline:none;
+      font-family:inherit;
+    }
+
+    .field textarea{ resize:vertical; min-height:var(--textarea-height); height:var(--textarea-height); }
+    .field input:focus, .field textarea:focus{ border-color:var(--green2); background:#fff; }
+
+    #loginControls.hidden-controls{ display:none; }
+
+    .mini-btn{
+      min-height:43px;
+      border:none;
+      background:#ddd;
+      color:#333;
+      border-radius:4px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:700;
+      padding:0 16px;
+      min-width:166px;
+      font-family:inherit;
+    }
+    .mini-btn:hover{ background:#d2d2d2; }
+    .mini-btn.primary{ background:var(--green); color:#fff; min-width:196px; }
+    .mini-btn.primary:hover{ background:var(--green-hover); }
+
+    .login-msg{
+      margin-top:6px;
+      font-size:12px;
+      color:#666;
+      line-height:1.6;
+      min-height:18px;
+    }
+
+    .profile-box{
+      display:none;
+      margin-top:8px;
+      border:1px solid var(--info-border);
+      background:var(--info);
+      padding:10px 14px;
+      border-radius:4px;
+      font-size:14px;
+      line-height:1.7;
+      color:#55603f;
+    }
+    .profile-box.show{ display:block; }
+
+    .save-box{
+      margin-top:0;
+      padding:12px 14px;
+      border:1px solid #e4e4e4;
+      background:#fafafa;
+      border-radius:4px;
+      width:var(--input-address-width);
+      max-width:100%;
+    }
+
+    .checkbox-row{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:14px;
+      color:#555;
+    }
+    .checkbox-row input{ margin-top:2px; }
+
+    .password-wrap{ margin-top:10px; display:none; }
+    .password-wrap.show{ display:block; }
+
+    .hint{ margin-top:8px; font-size:12px; color:#888; line-height:1.6; }
+
+    /* BANK BOX */
+    .bank-box{
+      border:1px solid #d9e3c8;
+      background:#eef6dd;
+      padding:14px 14px 12px;
+      border-radius:4px;
+      line-height:1.8;
+      font-size:14px;
+      color:#55603f;
+      width:var(--bank-box-width);
+      max-width:100%;
+    }
+    .bank-title{ font-weight:700; margin-bottom:6px; color:#4c5a38; }
+
+    /* QR */
+    .qr-wrap{
+      margin-top:12px;
+      display:flex;
+      align-items:flex-start;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .qr-img{
+      width:140px; height:140px;
+      border-radius:8px;
+      border:1px solid #d9e3c8;
+      object-fit:contain;
+      background:#fff;
+      flex-shrink:0;
+    }
+    .qr-meta{ font-size:12px; color:#666; line-height:1.8; }
+    .qr-meta strong{ color:var(--green); font-size:13px; }
+
+    .submit-wrap{ margin-top:22px; text-align:center; }
+
+    .submit-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:170px;
+      min-height:48px;
+      padding:0 20px;
+      border:none;
+      background:var(--green);
+      color:#fff;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      border-radius:6px;
+      transition:all .2s;
+      font-family:inherit;
+      box-shadow:0 4px 14px rgba(46,107,62,.25);
+    }
+    .submit-btn:hover{ background:var(--green-hover); transform:translateY(-1px); }
+    .submit-btn:active{ transform:translateY(1px); }
+    .submit-btn[disabled], .mini-btn[disabled]{ cursor:not-allowed; opacity:.55; transform:none; }
+
+    .error{ margin-top:4px; font-size:12px; color:var(--danger); }
+    .error:empty{ display:none; }
+
+    .empty-cart{ padding:50px 20px 70px; text-align:center; }
+    .empty-cart h2{ margin:0 0 12px; font-size:1.4rem; color:#555; }
+    .empty-cart p{ margin:0 0 20px; color:#8a8a8a; line-height:1.8; }
+
+    .result-box{
+      display:none;
+      margin-top:24px;
+      border:1px solid #d8d8d8;
+      background:#fafafa;
+      padding:16px;
+      border-radius:4px;
+    }
+    .result-box h3{ margin:0 0 10px; font-size:16px; }
+    .result-box p{ margin:6px 0; font-size:14px; line-height:1.7; color:#444; }
+
+    .success-actions{
+      margin-top:16px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    .hidden{ display:none !important; }
+
+    .order-locked #checkoutForm input,
+    .order-locked #checkoutForm textarea,
+    .order-locked #checkoutForm button,
+    .order-locked .qty-input,
+    .order-locked .remove-item-btn{ opacity:.68; cursor:not-allowed !important; }
+
+    .order-locked .disabled-link{ opacity:.55; pointer-events:none; cursor:not-allowed !important; }
+    .order-locked .result-box, .order-locked .result-box a{ opacity:1; pointer-events:auto; cursor:pointer; }
+
+    .section-body{
+      margin-left:var(--section-body-left);
+      display:flex;
+      flex-direction:column;
+      gap:var(--field-row-gap);
+      align-items:flex-start;
+    }
+
+    .form-stack{
+      display:flex;
+      flex-direction:column;
+      gap:var(--field-row-gap);
+      align-items:flex-start;
+    }
+
+    .input-email    { width:var(--input-email-width)    !important; }
+    .input-password { width:var(--input-password-width) !important; }
+    .input-name     { width:var(--input-name-width)     !important; }
+    .input-phone    { width:var(--input-phone-width)    !important; }
+    .input-address  { width:var(--input-address-width)  !important; }
+    .input-remarks  { width:var(--input-remarks-width)  !important; }
+    .input-invoice  { width:var(--input-invoice-width)  !important; }
+    .input-bank     { width:var(--input-bank-width)     !important; }
+
+    .login-area{
+      max-width:none;
+      width:var(--login-area-width);
+      display:flex;
+      flex-direction:column;
+      gap:var(--field-row-gap);
+      align-items:flex-start;
+    }
+
+    .email-only-row{ width:var(--input-email-width); max-width:100%; margin-bottom:0; }
+    .email-only-row .input-email{ width:100% !important; }
+
+    #loginControls{
+      display:flex;
+      flex-direction:column;
+      gap:var(--field-row-gap);
+      align-items:flex-start;
+      width:100%;
+    }
+
+    .login-password-line{
+      display:flex;
+      align-items:stretch;
+      gap:0;
+      width:var(--login-line-width);
+      max-width:100%;
+      height:var(--input-height);
+      border:1px solid #d7d7d7;
+      border-radius:4px;
+      background:#f7f7f7;
+      overflow:hidden;
+    }
+    .login-password-line .input-password{
+      width:auto !important;
+      min-width:0;
+      flex:1 1 auto;
+      height:100%;
+      border:0;
+      border-radius:0;
+      background:#f7f7f7;
+    }
+    .login-password-line .input-password:focus{ background:#fff; }
+
+    .login-single-btn{
+      width:var(--login-button-width) !important;
+      min-width:var(--login-button-width) !important;
+      max-width:var(--login-button-width) !important;
+      height:100%;
+      min-height:100%;
+      padding:0 8px;
+      flex:0 0 var(--login-button-width);
+      border-radius:0;
+    }
+
+    .login-msg{ margin-top:0; min-height:0; }
+    .login-msg:empty{ display:none; }
+
+    .profile-box{
+      margin-top:0;
+      width:var(--input-address-width);
+      max-width:100%;
+      display:none !important;
+    }
+    .profile-box.show{ display:block !important; }
+
+    @media(max-width:860px){
+      nav{padding:0 16px}
+      .hero-strip{padding:0 20px;height:80px}
+      .hero-strip h1{font-size:1.2rem}
+      .shell{margin:0 auto 32px;padding:0 12px}
+      .card{grid-template-columns:1fr;grid-template-areas:"right" "left"}
+      .left{border-right:none;border-bottom:1px solid var(--border);padding:20px 16px 26px}
+      .right{border-bottom:1px solid var(--border)}
+      .summary-top{justify-content:flex-start;padding:14px 16px 0}
+      .summary-body{padding:22px 18px 20px}
+      .brand-title{font-size:1.6rem}
+      .section-body{margin-left:0;gap:14px}
+      .field{width:min(var(--mobile-control-width),100%) !important;max-width:100% !important;margin-left:auto;margin-right:auto}
+      .field input,.field textarea,.input-email,.input-name,.input-phone,.input-address,.input-remarks,.input-invoice,.input-bank,.bank-box,.save-box,.profile-box{width:100% !important;max-width:none !important}
+      .login-area{width:min(var(--mobile-control-width),100%) !important;max-width:100% !important;margin-left:auto;margin-right:auto}
+      .email-only-row{width:100% !important;max-width:100% !important}
+      .login-password-line{display:flex !important;flex-direction:row !important;align-items:stretch !important;gap:0 !important;width:100% !important;max-width:100% !important}
+      .login-password-line .input-password{width:auto !important;min-width:0 !important;flex:1 1 auto !important;max-width:none !important}
+      .mini-btn,.mini-btn.primary,.login-single-btn{width:var(--mobile-login-button-width) !important;min-width:var(--mobile-login-button-width) !important;max-width:var(--mobile-login-button-width) !important;min-height:var(--input-height) !important;height:var(--input-height) !important;font-size:14px;flex:0 0 var(--mobile-login-button-width) !important;padding:0 8px !important}
+      .qty-input{width:86px}
+      .qr-wrap{flex-direction:column}
+      .qr-img{width:180px;height:180px}
+    }
+  </style>
+</head>
+
+<body>
+<nav>
+  <a href="index.html" class="logo">
+    <span>
+      <span class="logo-name">ECOHEAL</span>
+      <span class="logo-sub">Cây Điện Tử Quang Hợp</span>
+    </span>
+  </a>
+  <a href="cart.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Quay lại giỏ hàng
+  </a>
+</nav>
+
+<div class="hero-strip">
+  <div>
+    <h1>Thanh toán đơn hàng</h1>
+    <p>Điền thông tin nhận hàng và hoàn tất đặt hàng</p>
+  </div>
+</div>
+
+<main class="shell">
+  <section class="card">
+    <div class="left">
+      <div id="emptyCart" class="empty-cart hidden">
+        <h2>Giỏ hàng đang trống</h2>
+        <p>Vui lòng quay lại trang sản phẩm để chọn mua.</p>
+        <a class="continue-btn" href="cart.html" data-keep-sid="1">← Quay lại giỏ hàng</a>
+      </div>
+
+      <form id="checkoutForm" novalidate autocomplete="off">
+
+        <!-- STEP 1: Email / Login -->
+        <div class="section">
+          <div class="section-head">
+            <div class="step-badge">1</div>
+            <h2 class="section-title">Email đặt hàng / Tải thông tin nhận hàng</h2>
+          </div>
+          <div class="section-body">
+            <div class="field login-area">
+              <div class="email-only-row">
+                <input class="input-email" type="email" id="email" name="email"
+                  placeholder="Vui lòng nhập Email *" autocomplete="off" />
+                <div class="error" data-error-for="email"></div>
+              </div>
+              <div id="loginControls">
+                <div class="password-row login-password-line">
+                  <input class="input-password" type="password" id="profile_password"
+                    placeholder="Nhập mật khẩu (tùy chọn, để tải thông tin)"
+                    autocomplete="new-password" />
+                  <button type="button" id="loginBtn" class="mini-btn primary login-single-btn">Đăng nhập</button>
+                </div>
+              </div>
+              <div id="loginMsg" class="login-msg"></div>
+              <div id="profileBox" class="profile-box">
+                <div id="profileMessage"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Shipping -->
+        <div class="section">
+          <div class="section-head">
+            <div class="step-badge">2</div>
+            <h2 class="section-title">Thông tin nhận hàng</h2>
+          </div>
+          <div class="section-body form-stack">
+            <div class="field">
+              <label for="recipient_name">Tên người nhận *</label>
+              <input class="input-name" type="text" id="recipient_name" name="recipient_name"
+                placeholder="Vui lòng nhập tên người nhận *" autocomplete="off" />
+              <div class="error" data-error-for="recipient_name"></div>
+            </div>
+            <div class="field">
+              <label for="recipient_phone">Số điện thoại *</label>
+              <input class="input-phone" type="tel" id="recipient_phone" name="recipient_phone"
+                placeholder="Vui lòng nhập số điện thoại người nhận *"
+                autocomplete="off" inputmode="numeric" />
+              <div class="error" data-error-for="recipient_phone"></div>
+            </div>
+            <div class="field">
+              <label for="recipient_address">Địa chỉ giao hàng *</label>
+              <input class="input-address" type="text" id="recipient_address" name="recipient_address"
+                placeholder="Vui lòng nhập địa chỉ nhận hàng *" autocomplete="off" />
+              <div class="error" data-error-for="recipient_address"></div>
+            </div>
+            <div class="field">
+              <label for="invoice_tax_id">Mã số thuế hóa đơn (nếu có)</label>
+              <input class="input-invoice" type="text" id="invoice_tax_id" name="invoice_tax_id"
+                placeholder="(Tùy chọn) Nhập mã số thuế nếu cần hóa đơn" autocomplete="off" />
+              <input type="hidden" id="invoice_title" name="invoice_title" value="" />
+              <div class="error" data-error-for="invoice_tax_id"></div>
+            </div>
+            <div class="field">
+              <label for="remarks">Ghi chú</label>
+              <textarea class="input-remarks" id="remarks" name="remarks"
+                placeholder="(Tùy chọn) Vui lòng nhập ghi chú đơn hàng"
+                autocomplete="off"></textarea>
+              <div class="error" data-error-for="remarks"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Payment -->
+        <div class="section">
+          <div class="section-head">
+            <div class="step-badge">3</div>
+            <h2 class="section-title">Thanh toán chuyển khoản</h2>
+          </div>
+          <div class="section-body form-stack">
+            <div class="bank-box">
+              <div class="bank-title">Thông tin tài khoản nhận tiền</div>
+              Ngân hàng: E.SUN BANK – Chi nhánh Đồng Nai (ESUNBANK)<br>
+              Tên tài khoản: CONG TY TNHH KNOWLEDGE CANDY<br>
+              Số tài khoản: <strong>9102121005638</strong>
+              <div class="qr-wrap">
+                <img class="qr-img" src="images/S__20692995.jpg" alt="QR thanh toán ECOHEAL" />
+                <div class="qr-meta">
+                  <strong>Quét mã QR để thanh toán nhanh</strong><br>
+                  Nhấn giữ ảnh để lưu mã QR<br>
+                  Vui lòng chuyển khoản trước khi gửi đơn hàng
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="bank_last5">Tên người chuyển khoản *</label>
+              <input class="input-bank" type="text" id="bank_last5" name="bank_last5"
+                maxlength="40"
+                placeholder="Nhập họ tên người chuyển khoản (để đối chiếu) *"
+                autocomplete="off" />
+              <div class="error" data-error-for="bank_last5"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Save profile -->
+        <div class="section" id="saveProfileSection">
+          <div class="section-head">
+            <div class="step-badge">4</div>
+            <h2 class="section-title">Gần xong rồi!</h2>
+          </div>
+          <div class="section-body">
+            <div class="save-box">
+              <label class="checkbox-row">
+                <input type="checkbox" id="saveProfileCheckbox" checked />
+                <span>Lưu thông tin nhận hàng lần này để sử dụng cho lần sau.</span>
+              </label>
+              <div id="passwordWrap" class="password-wrap">
+                <div class="field" style="margin-top:10px">
+                  <label for="new_password">Đặt mật khẩu</label>
+                  <input class="input-password" type="password" id="new_password" name="new_password"
+                    placeholder="Đặt mật khẩu để đăng nhập lần sau" autocomplete="new-password" />
+                  <div class="error" data-error-for="new_password"></div>
+                </div>
+                <div class="hint" id="passwordHint">
+                  Lần sau dùng email và mật khẩu này để tải lại thông tin nhận hàng
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-wrap">
+          <button type="submit" id="submitBtn" class="submit-btn">Gửi đơn hàng</button>
+        </div>
+
+        <div class="result-box" id="resultBox">
+          <h3>✅ Đặt hàng thành công!</h3>
+          <p id="resultText">Chúng tôi đã nhận được đơn hàng của bạn. Đội ngũ ECOHEAL sẽ liên hệ xác nhận trong vòng 24 giờ.</p>
+          <div class="success-actions">
+            <a class="continue-btn" href="index.html">← Về trang chủ</a>
+            <a class="continue-btn" href="index.html#products">Mua thêm sản phẩm</a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- RIGHT SUMMARY -->
+    <aside class="right">
+      <div class="summary-top">
+        <a class="continue-btn" href="cart.html" data-keep-sid="1">← Quay lại giỏ hàng</a>
+      </div>
+      <div class="summary-body">
+        <div>
+          <h2 class="brand-title">ECOHEAL</h2>
+          <div class="brand-sub">Giỏ hàng của bạn</div>
+          <div class="summary-count" id="summaryCount">0 sản phẩm</div>
+        </div>
+        <div class="summary-items" id="summaryItems"></div>
+        <div class="summary-heading">Tóm tắt đơn hàng</div>
+        <div class="summary-middle">
+          <div class="summary-row">
+            <div>Tổng cộng:</div>
+            <div class="summary-value" id="grandTotal">—</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<script>
+const CART_API       = 'https://ecoheal-cart-api.ecoheal.workers.dev';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzfNuSA7sMCHDBHAjOE9-7w1J4Mv8AMGCOcPUABq7FgO9UZ33GK-36DQ9briTLyh9nlOQ/exec';
+const SID_KEY        = 'ecoheal_sid';
+
+// ── sid ──────────────────────────────────────────────
+function getSid(){
+  try{
+    const url = new URLSearchParams(location.search).get('sid');
+    if(url){ localStorage.setItem(SID_KEY,url); return url; }
+    const local = localStorage.getItem(SID_KEY)||'';
+    if(local){
+      try{
+        const u=new URL(location.href);
+        u.searchParams.set('sid',local);
+        history.replaceState(null,'',u.toString());
+      }catch(_){}
+      return local;
+    }
+    return '';
+  }catch(_){ return ''; }
+}
+
+function withSid(url){
+  const sid=getSid();
+  if(!sid) return url;
+  try{
+    const u=new URL(url,location.href);
+    u.searchParams.set('sid',sid);
+    return u.toString();
+  }catch(_){
+    return url+(url.indexOf('?')>=0?'&':'?')+'sid='+encodeURIComponent(sid);
+  }
+}
+
+function refreshSidLinks(){
+  document.querySelectorAll('[data-keep-sid="1"]').forEach(function(link){
+    const base=link.getAttribute('data-base-href')||link.getAttribute('href')||'';
+    if(!link.getAttribute('data-base-href')) link.setAttribute('data-base-href',base);
+    link.setAttribute('href',withSid(base));
+  });
+}
+
+// ── profile state ─────────────────────────────────────
+const profileState={mode:'idle',loginAttempts:0,maxLoginAttempts:3,loggingIn:false};
+const DEFAULT_LOGIN_HINT='Khách hàng lần đầu chưa có mật khẩu, có thể điền thẳng thông tin nhận hàng bên dưới';
+
+let loginCountdownTimer=null;
+let submitCountdownTimer=null;
+let orderLocked=false;
+let cartItems=[];
+
+// ── cart API ─────────────────────────────────────────
+async function loadCart(){
+  try{
+    const sid=getSid();
+    if(!sid){ cartItems=[]; return; }
+    const res=await fetch(`${CART_API}/cart?sid=${encodeURIComponent(sid)}&_=${Date.now()}`,{cache:'no-store'});
+    const data=await res.json();
+    cartItems=(data.cart||[]).filter(i=>i.name&&i.qty>0);
+  }catch(err){ cartItems=[]; }
+}
+
+async function loadCartWithRetry(){
+  await loadCart();
+  if(!cartItems.length&&getSid()){
+    await new Promise(r=>setTimeout(r,900));
+    await loadCart();
+  }
+}
+
+async function clearCart(){
+  try{
+    const sid=getSid();
+    await fetch(`${CART_API}/clear?sid=${sid}`,{method:'POST'});
+  }catch(_){}
+}
+
+async function updateCartItemQty(index,qty){
+  if(orderLocked) return;
+  cartItems[index].qty=normalizeQty(qty);
+  await saveCartToServer();
+  renderSummary();
+}
+
+async function removeCartItem(index){
+  if(orderLocked) return;
+  cartItems.splice(index,1);
+  await saveCartToServer();
+  renderSummary();
+}
+
+async function saveCartToServer(){
+  const sid=getSid();
+  await fetch(`${CART_API}/clear?sid=${sid}`,{method:'POST'});
+  for(const item of cartItems){
+    const qs=new URLSearchParams({
+      sid,name:item.name,price:item.price,
+      qty:item.qty,sku:item.sku||item.code||'',product_id:''
+    });
+    await fetch(`${CART_API}/add?${qs}`);
+  }
+}
+
+// ── utils ─────────────────────────────────────────────
+function formatPrice(n){
+  return Number(n||0).toLocaleString('vi-VN')+'₫';
+}
+
+function escapeHtml(str){
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function normalizeQty(qty){
+  const n=parseInt(qty,10);
+  if(!Number.isFinite(n)||n<1) return 1;
+  if(n>99) return 99;
+  return n;
+}
+
+function getGrandTotal(cart){
+  return cart.reduce((sum,item)=>sum+Number(item.price||0)*Number(item.qty||0),0);
+}
+
+function normalizeCartItemForPayload(item){
+  const price=Number(item&&item.price||0);
+  const qty=normalizeQty(item&&item.qty||1);
+  const productId=String((item&&(item.product_id||item.sourceId))||'').trim();
+  return{sku:String(item&&item.sku||''),code:String(item&&(item.code||item.sku)||''),product_id:productId,sourceId:productId,name:String(item&&item.name||''),price,qty,subtotal:price*qty};
+}
+
+// ── render ─────────────────────────────────────────────
+function renderSummary(){
+  const summaryItemsEl=document.getElementById('summaryItems');
+  const summaryCountEl=document.getElementById('summaryCount');
+  const grandTotalEl=document.getElementById('grandTotal');
+  const emptyCartEl=document.getElementById('emptyCart');
+  const formEl=document.getElementById('checkoutForm');
+  const submitBtn=document.getElementById('submitBtn');
+  const total=getGrandTotal(cartItems);
+  const itemCount=cartItems.reduce((sum,item)=>sum+normalizeQty(item.qty||1),0);
+
+  grandTotalEl.textContent=itemCount?formatPrice(total):'—';
+  summaryCountEl.textContent=itemCount+' sản phẩm';
+
+  if(!cartItems.length){
+    summaryItemsEl.innerHTML='';
+    emptyCartEl.classList.remove('hidden');
+    formEl.classList.add('hidden');
+    submitBtn.disabled=true;
+    return;
+  }
+
+  emptyCartEl.classList.add('hidden');
+  formEl.classList.remove('hidden');
+  submitBtn.disabled=false;
+
+  summaryItemsEl.innerHTML=cartItems.map((item,index)=>{
+    const price=Number(item.price||0);
+    const qty=normalizeQty(item.qty||1);
+    const subtotal=price*qty;
+    return`<div class="summary-cart-item">
+      <div class="summary-item-main">
+        <div class="summary-item-name">${escapeHtml(item.name||'')}</div>
+        <div class="summary-item-subtotal">${formatPrice(subtotal)}</div>
+      </div>
+      <div class="summary-item-code">SKU: ${escapeHtml(item.sku||'')}</div>
+      <div class="summary-item-controls">
+        <span>Số lượng</span>
+        <input class="qty-input" type="number" min="1" max="99" value="${qty}" data-index="${index}" ${orderLocked?'disabled':''} />
+        <button type="button" class="remove-item-btn" data-index="${index}" ${orderLocked?'disabled':''}>Xoá</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── login ─────────────────────────────────────────────
+function startLoginCountdown(){
+  stopLoginCountdown();
+  const el=document.getElementById('loginMsg');
+  let sec=3;
+  el.textContent='Đang tải dữ liệu...'+sec;
+  loginCountdownTimer=setInterval(()=>{
+    sec-=1;
+    if(sec>0){el.textContent='Đang tải dữ liệu...'+sec;}
+    else{stopLoginCountdown();el.textContent='Đang tải dữ liệu...';}
+  },1000);
+}
+
+function stopLoginCountdown(){
+  if(loginCountdownTimer){clearInterval(loginCountdownTimer);loginCountdownTimer=null;}
+}
+
+function startSubmitCountdown(onDone){
+  stopSubmitCountdown();
+  const btn=document.getElementById('submitBtn');
+  let sec=3;
+  btn.textContent='Đang gửi đơn hàng...'+sec;
+  submitCountdownTimer=setInterval(()=>{
+    sec-=1;
+    if(sec>0){btn.textContent='Đang gửi đơn hàng...'+sec;}
+    else{stopSubmitCountdown();if(typeof onDone==='function')onDone();}
+  },1000);
+}
+
+function stopSubmitCountdown(){
+  if(submitCountdownTimer){clearInterval(submitCountdownTimer);submitCountdownTimer=null;}
+}
+
+function sendOrderWithoutWaiting(payload){
+  const json=JSON.stringify(payload);
+  const blob=new Blob([json],{type:'text/plain;charset=UTF-8'});
+  try{
+    if(navigator.sendBeacon&&navigator.sendBeacon(GAS_WEB_APP_URL,blob)) return true;
+  }catch(_){}
+  try{
+    fetch(GAS_WEB_APP_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain'},body:json}).catch(()=>{});
+    return true;
+  }catch(_){return false;}
+}
+
+function clearErrors(){
+  document.querySelectorAll('.error').forEach(el=>el.textContent='');
+}
+
+function setError(name,msg){
+  const el=document.querySelector('[data-error-for="'+name+'"]');
+  if(el) el.textContent=msg;
+}
+
+function isEmailValid(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function needsPasswordInput(saveChecked){
+  if(!saveChecked) return false;
+  if(profileState.mode==='loggedIn') return false;
+  return true;
+}
+
+function updateSaveProfileSection(){
+  const cb=document.getElementById('saveProfileCheckbox');
+  const pw=document.getElementById('passwordWrap');
+  pw.classList.toggle('show',needsPasswordInput(cb.checked));
+}
+
+function setLoginControlsVisible(v){
+  document.getElementById('loginControls').classList.toggle('hidden-controls',!v);
+}
+
+function showProfileMessage(msg){
+  const box=document.getElementById('profileBox');
+  const msgEl=document.getElementById('profileMessage');
+  if(msgEl) msgEl.textContent='';
+  if(box) box.classList.remove('show');
+  document.getElementById('loginMsg').textContent=msg||'';
+}
+
+function setResetPasswordMode(){
+  stopLoginCountdown();
+  profileState.mode='resetPassword';
+  profileState.loggingIn=false;
+  setLoginControlsVisible(false);
+  document.getElementById('saveProfileCheckbox').checked=true;
+  document.getElementById('profile_password').value='';
+  showProfileMessage('Sai mật khẩu 3 lần, vui lòng điền thông tin nhận hàng và đặt mật khẩu mới bên dưới');
+  updateSaveProfileSection();
+}
+
+function setLoggedIn(profile){
+  stopLoginCountdown();
+  profileState.mode='loggedIn';
+  profileState.loginAttempts=0;
+  profileState.loggingIn=false;
+  fillProfileFields(profile);
+  setLoginControlsVisible(false);
+  document.getElementById('saveProfileCheckbox').checked=true;
+  document.getElementById('profile_password').value='';
+  showProfileMessage('Mật khẩu đúng, đã tải thông tin thành công');
+  updateSaveProfileSection();
+}
+
+function fillProfileFields(profile){
+  document.getElementById('recipient_name').value=profile.recipient_name||'';
+  document.getElementById('recipient_phone').value=profile.recipient_phone||'';
+  document.getElementById('recipient_address').value=profile.recipient_address||'';
+  document.getElementById('remarks').value=profile.remarks||'';
+  document.getElementById('invoice_tax_id').value=profile.invoice_tax_id||'';
+  document.getElementById('invoice_title').value=profile.invoice_title||'';
+}
+
+function submitProfileLogin(email,password){
+  return new Promise((resolve,reject)=>{
+    const state='LOGIN_'+Date.now()+'_'+Math.floor(Math.random()*1000000);
+    const iframeName='loginFrame_'+state;
+    const iframe=document.createElement('iframe');
+    iframe.name=iframeName;
+    iframe.style.display='none';
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=GAS_WEB_APP_URL;
+    form.target=iframeName;
+    form.style.display='none';
+    const fields={action:'loginProfileBridge',email,password,state,parentOrigin:window.location.origin};
+    Object.keys(fields).forEach(key=>{
+      const input=document.createElement('input');
+      input.type='hidden';input.name=key;input.value=fields[key];
+      form.appendChild(input);
+    });
+    const cleanup=()=>{
+      window.removeEventListener('message',onMessage);
+      if(form.parentNode) form.parentNode.removeChild(form);
+      if(iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    };
+    const timer=setTimeout(()=>{cleanup();reject(new Error('login timeout'));},12000);
+    function onMessage(event){
+      const msg=event.data;
+      if(!msg||msg.type!=='amoProfileLogin'||msg.state!==state) return;
+      clearTimeout(timer);cleanup();resolve(msg.data);
+    }
+    window.addEventListener('message',onMessage);
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
+  });
+}
+
+async function runProfileLogin(){
+  if(profileState.loggingIn) return;
+  clearErrors();
+  const email=String(document.getElementById('email').value||'').trim().toLowerCase();
+  const password=String(document.getElementById('profile_password').value||'').trim();
+  const loginBtn=document.getElementById('loginBtn');
+  if(!isEmailValid(email)){setError('email','Vui lòng nhập Email hợp lệ');return;}
+  if(!password){showProfileMessage('Vui lòng nhập mật khẩu, hoặc điền thẳng thông tin nhận hàng');return;}
+  profileState.loggingIn=true;
+  loginBtn.disabled=true;
+  startLoginCountdown();
+  try{
+    const data=await submitProfileLogin(email,password);
+    if(!data||!data.ok||!data.login||!data.profile){handleLoginFailed();return;}
+    setLoggedIn(data.profile);
+  }catch(_){handleLoginFailed();}
+  finally{profileState.loggingIn=false;loginBtn.disabled=false;loginBtn.textContent='Đăng nhập';}
+}
+
+function handleLoginFailed(){
+  stopLoginCountdown();
+  profileState.loginAttempts+=1;
+  const pw=document.getElementById('profile_password');
+  if(pw) pw.value='';
+  const remaining=profileState.maxLoginAttempts-profileState.loginAttempts;
+  if(remaining>0){
+    document.getElementById('loginMsg').textContent='Tài khoản hoặc mật khẩu không đúng, còn '+remaining+' lần thử';
+    if(pw) pw.focus();
+  }else{setResetPasswordMode();}
+}
+
+// ── validate & submit ─────────────────────────────────
+function validateForm(){
+  clearErrors();
+  const form=document.getElementById('checkoutForm');
+  const data=new FormData(form);
+  let ok=true;
+  const email=String(data.get('email')||'').trim();
+  const name=String(data.get('recipient_name')||'').trim();
+  const phone=String(data.get('recipient_phone')||'').trim();
+  const address=String(data.get('recipient_address')||'').trim();
+  const bankLast5=String(data.get('bank_last5')||'').trim();
+  const saveProfile=document.getElementById('saveProfileCheckbox').checked;
+  const newPassword=String(data.get('new_password')||'').trim();
+
+  if(!cartItems.length){alert('Giỏ hàng đang trống');ok=false;}
+  if(!email){setError('email','Vui lòng nhập Email');ok=false;}
+  else if(!isEmailValid(email)){setError('email','Email không hợp lệ');ok=false;}
+  if(!name){setError('recipient_name','Vui lòng nhập tên người nhận');ok=false;}
+  if(!phone){setError('recipient_phone','Vui lòng nhập số điện thoại');ok=false;}
+  else if(!/^[0-9]+$/.test(phone)){setError('recipient_phone','Số điện thoại chỉ được nhập số');ok=false;}
+  if(!address){setError('recipient_address','Vui lòng nhập địa chỉ nhận hàng');ok=false;}
+  if(!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
+  if(needsPasswordInput(saveProfile)){
+    if(!newPassword){setError('new_password','Vui lòng đặt mật khẩu');ok=false;}
+    else if(newPassword.length<4){setError('new_password','Mật khẩu tối thiểu 4 ký tự');ok=false;}
+  }
+  return ok;
+}
+
+function buildPayload(){
+  const form=document.getElementById('checkoutForm');
+  const data=new FormData(form);
+  const cart=cartItems.map(normalizeCartItemForPayload);
+  const total=getGrandTotal(cart);
+  const saveProfile=document.getElementById('saveProfileCheckbox').checked;
+  return{
+    action:'saveOrder',
+    customer:{
+      email:String(data.get('email')||'').trim(),
+      recipient_name:String(data.get('recipient_name')||'').trim(),
+      recipient_phone:String(data.get('recipient_phone')||'').trim(),
+      recipient_address:String(data.get('recipient_address')||'').trim(),
+      remarks:String(data.get('remarks')||'').trim(),
+      bank_last5:String(data.get('bank_last5')||'').trim(),
+      invoice_tax_id:String(data.get('invoice_tax_id')||'').trim(),
+      invoice_title:'',
+      save_profile:saveProfile,
+      new_password:needsPasswordInput(saveProfile)?String(data.get('new_password')||'').trim():'',
+      change_password:profileState.mode==='resetPassword'
+    },
+    cart,
+    total,
+    created_at:new Date().toISOString()
+  };
+}
+
+function lockCheckout(){
+  orderLocked=true;
+  document.body.classList.add('order-locked');
+  document.querySelectorAll('#checkoutForm input,#checkoutForm textarea,#checkoutForm button').forEach(el=>el.disabled=true);
+  document.querySelectorAll('.qty-input,.remove-item-btn').forEach(el=>el.disabled=true);
+  document.querySelectorAll('.summary-top .continue-btn').forEach(el=>{el.classList.add('disabled-link');el.setAttribute('aria-disabled','true');});
+}
+
+function showSuccess(){
+  const resultBox=document.getElementById('resultBox');
+  const resultText=document.getElementById('resultText');
+  const submitBtn=document.getElementById('submitBtn');
+  resultText.textContent='Chúng tôi đã nhận được đơn hàng của bạn. Đội ngũ ECOHEAL sẽ liên hệ xác nhận trong vòng 24 giờ. Nếu có thắc mắc vui lòng liên hệ ecoheal@ecohealvn.com';
+  resultBox.style.display='block';
+  submitBtn.disabled=true;
+  clearCart();
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+
+function bindSubmit(){
+  const form=document.getElementById('checkoutForm');
+  const submitBtn=document.getElementById('submitBtn');
+  form.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&e.target&&e.target.tagName!=='TEXTAREA') e.preventDefault();
+  });
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!validateForm()) return;
+    const payload=buildPayload();
+    lockCheckout();
+    const queued=sendOrderWithoutWaiting(payload);
+    if(!queued){
+      orderLocked=false;
+      document.body.classList.remove('order-locked');
+      submitBtn.disabled=false;
+      submitBtn.textContent='Gửi đơn hàng';
+      alert('Gửi thất bại, vui lòng thử lại.');
+      return;
+    }
+    startSubmitCountdown(function(){
+      showSuccess();
+      submitBtn.textContent='Đã gửi đơn hàng ✓';
+    });
+  });
+}
+
+function bindInteractions(){
+  document.getElementById('loginBtn').addEventListener('click',()=>{if(!orderLocked)runProfileLogin();});
+  document.getElementById('profile_password').addEventListener('keydown',(e)=>{
+    if(e.key==='Enter'){e.preventDefault();runProfileLogin();}
+  });
+  document.getElementById('summaryItems').addEventListener('change',(e)=>{
+    if(orderLocked) return;
+    if(e.target.classList.contains('qty-input')) updateCartItemQty(Number(e.target.dataset.index),e.target.value);
+  });
+  document.getElementById('summaryItems').addEventListener('click',(e)=>{
+    if(orderLocked) return;
+    if(e.target.classList.contains('remove-item-btn')) removeCartItem(Number(e.target.dataset.index));
+  });
+  document.getElementById('saveProfileCheckbox').addEventListener('change',updateSaveProfileSection);
+  document.getElementById('email').addEventListener('input',()=>{
+    if(profileState.mode==='loggedIn'){
+      profileState.mode='idle';
+      setLoginControlsVisible(true);
+      document.getElementById('saveProfileCheckbox').checked=true;
+      updateSaveProfileSection();
+      showProfileMessage('Email đã thay đổi, vui lòng đăng nhập lại hoặc điền thẳng thông tin nhận hàng.');
+    }
+  });
+}
+
+async function init(){
+  refreshSidLinks();
+  await loadCartWithRetry();
+  renderSummary();
+  bindSubmit();
+  bindInteractions();
+  document.getElementById('saveProfileCheckbox').checked=true;
+  updateSaveProfileSection();
+  showProfileMessage(DEFAULT_LOGIN_HINT);
+}
+
+init();
+</script>
+</body>
+</html>
