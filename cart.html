@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ECOHEAL – Giỏ hàng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f3ef;--card:#fff;--panel:#ecebe8;--border:#e1dfda;
+  --text:#3f3f3f;--muted:#8a8a8a;--title:#2f2f2f;
+  --green:#2e6b3e;--green2:#4a9e5c;--green-hover:#256034;
+  --shadow:0 2px 8px rgba(0,0,0,.07);--max-width:960px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Be Vietnam Pro',sans-serif;color:var(--text);background:var(--bg);min-height:100vh}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-name{font-size:1.1rem;font-weight:800;color:var(--green)}
+.logo-sub{font-size:.5rem;color:var(--muted);letter-spacing:.04em;display:block;margin-top:1px}
+.nav-back{font-size:.82rem;color:var(--green);display:flex;align-items:center;gap:5px;transition:opacity .2s}
+.nav-back:hover{opacity:.7}
+.nav-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* HERO STRIP */
+.hero-strip{
+  margin-top:60px;height:120px;
+  background:linear-gradient(135deg,#1a3a2a 0%,#2e6b3e 50%,#4a9e5c 100%);
+  display:flex;align-items:center;padding:0 48px;
+}
+.hero-strip h1{font-size:1.6rem;font-weight:800;color:#fff;letter-spacing:-.01em}
+.hero-strip p{font-size:.82rem;color:rgba(255,255,255,.7);margin-top:4px}
+
+/* SHELL */
+.shell{max-width:var(--max-width);margin:0 auto 60px;padding:0 20px}
+
+/* CARD GRID */
+.card{
+  display:grid;grid-template-columns:2fr 1fr;
+  border:1px solid var(--border);box-shadow:var(--shadow);
+  min-height:460px;margin-top:24px;
+}
+.left{background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.right{background:var(--panel);display:flex;flex-direction:column;min-height:100%}
+
+/* LEFT */
+.left-top{display:flex;align-items:center;gap:10px;padding:18px 20px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.left-title{font-size:1.1rem;font-weight:700;color:var(--title)}
+.left-sub{font-size:.8rem;color:#6f6f6f;margin-top:1px}
+.table-head{display:grid;grid-template-columns:1.8fr 110px 90px 110px;gap:0;padding:12px 20px 10px;color:#4d4d4d;font-size:.78rem;font-weight:700;border-bottom:1px solid var(--border)}
+.items{flex:1}
+
+/* ITEM ROW */
+.item-row{display:grid;grid-template-columns:1.8fr 110px 90px 110px;gap:0;align-items:start;padding:16px 20px;border-bottom:1px solid #eceae5}
+.item-info{display:flex;align-items:center;gap:14px}
+.item-img{width:60px;height:60px;flex-shrink:0;background:#e8f5e9;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.item-img img{width:54px;height:54px;object-fit:contain}
+.item-name{font-size:.88rem;font-weight:700;color:#232323;margin-bottom:3px;line-height:1.4}
+.item-code{font-size:.72rem;color:#6a6a6a;margin-bottom:5px}
+.remove-btn{background:none;border:none;padding:0;font-size:.72rem;color:#9b9b9b;cursor:pointer;font-family:inherit}
+.remove-btn:hover{color:#e74c3c;text-decoration:underline}
+.price-col{padding-top:4px;font-size:.85rem;color:#9a9a9a}
+.total-col{padding-top:4px;font-size:.88rem;font-weight:700;color:#222}
+.qty-wrap{padding-top:2px}
+.qty-input{width:52px;height:34px;border:1px solid #d8d8d8;background:#f3f3f3;border-radius:4px;text-align:center;font-size:.88rem;color:#555;outline:none;font-family:inherit}
+.qty-input:focus{border-color:var(--green2);background:#fff}
+
+/* EMPTY */
+.empty{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 20px}
+.empty h3{font-size:1.1rem;color:#555;margin-bottom:10px;font-weight:700}
+.empty p{font-size:.82rem;color:#8d8d8d;line-height:1.8;margin-bottom:20px}
+.btn-shop{display:inline-flex;align-items:center;padding:10px 22px;background:var(--green);color:#fff;border-radius:6px;font-size:.85rem;font-weight:700;transition:all .2s}
+.btn-shop:hover{background:var(--green-hover)}
+
+/* RIGHT / SUMMARY */
+.summary-top{display:flex;justify-content:flex-end;padding:14px 18px 0}
+.continue-btn{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 14px;border:1px solid #d8d5cf;background:#f7f6f3;color:#666;font-size:.78rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.continue-btn:hover{background:#f0eeea}
+.summary-body{flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:24px 20px 22px}
+.brand-title{text-align:center;font-size:1.4rem;font-weight:800;color:var(--green);letter-spacing:.02em}
+.brand-sub{margin:8px 0 0;text-align:center;font-size:.8rem;color:#777;font-weight:500}
+.summary-middle{margin-top:28px;border-top:1px solid #d9d6d1;padding-top:18px}
+.summary-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.92rem;font-weight:700;color:#4a4a4a}
+.summary-value{color:var(--green);font-size:1.05rem}
+.checkout-wrap{margin-top:16px;display:flex;justify-content:center}
+.checkout-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:160px;min-height:46px;padding:0 20px;border:none;background:var(--green);color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;border-radius:6px;transition:all .2s;box-shadow:0 4px 14px rgba(46,107,62,.25)}
+.checkout-btn:hover{background:var(--green-hover);transform:translateY(-1px);box-shadow:0 6px 20px rgba(46,107,62,.3)}
+.checkout-btn[disabled]{cursor:not-allowed;opacity:.5;transform:none;box-shadow:none}
+.summary-spacer{flex:1}
+.trust-list{display:flex;flex-direction:column;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid #d9d6d1}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:.72rem;color:#777}
+.trust-item svg{width:12px;height:12px;stroke:var(--green2);fill:none;stroke-width:2;flex-shrink:0}
+.hidden{display:none!important}
+
+/* LOADING */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.2s infinite;border-radius:6px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+@media(max-width:860px){
+  nav{padding:0 16px}
+  .hero-strip{padding:0 20px;height:100px}
+  .hero-strip h1{font-size:1.3rem}
+  .shell{padding:0 12px}
+  .card{grid-template-columns:1fr}
+  .left{border-right:none;border-bottom:1px solid var(--border)}
+  .summary-top{justify-content:flex-start}
+}
+@media(max-width:680px){
+  .table-head{display:none}
+  .item-row{grid-template-columns:1fr;padding:14px;gap:10px}
+  .item-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .price-col,.qty-wrap,.total-col{padding-top:0}
+  .price-col::before,.total-col::before,.qty-wrap::before{display:block;font-size:.7rem;font-weight:700;color:#7b7b7b;margin-bottom:4px}
+  .price-col::before{content:"Đơn giá"}
+  .qty-wrap::before{content:"Số lượng"}
+  .total-col::before{content:"Thành tiền"}
+  .item-info{gap:10px}
+  .item-img{width:50px;height:50px}
+  .item-img img{width:44px;height:44px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <span>
+      <span class="logo-name">ECOHEAL</span>
+      <span class="logo-sub">Cây Điện Tử Quang Hợp</span>
+    </span>
+  </a>
+  <a href="index.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Tiếp tục mua hàng
+  </a>
+</nav>
+
+<div class="hero-strip">
+  <div>
+    <h1>Giỏ hàng của bạn</h1>
+    <p>Kiểm tra lại sản phẩm trước khi thanh toán</p>
+  </div>
+</div>
+
+<div class="shell">
+  <section class="card">
+    <!-- LEFT -->
+    <div class="left">
+      <div class="left-top">
+        <span class="left-title">Sản phẩm đã chọn</span>
+        <span class="left-sub" id="cartCountText">Đang tải...</span>
+      </div>
+
+      <div id="tableHead" class="table-head hidden">
+        <div>Sản phẩm</div>
+        <div>Đơn giá</div>
+        <div>Số lượng</div>
+        <div>Thành tiền</div>
+      </div>
+
+      <div id="itemsWrap" class="items">
+        <!-- skeleton -->
+        <div id="skeletonRow" style="padding:20px;display:flex;gap:14px">
+          <div class="skeleton" style="width:60px;height:60px;border-radius:8px;flex-shrink:0"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:8px;padding-top:4px">
+            <div class="skeleton" style="height:14px;width:55%"></div>
+            <div class="skeleton" style="height:11px;width:35%"></div>
+            <div class="skeleton" style="height:13px;width:25%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="emptyState" class="empty hidden">
+        <div>
+          <div style="font-size:2.5rem;margin-bottom:14px">🛒</div>
+          <h3>Giỏ hàng đang trống</h3>
+          <p>Hãy thêm sản phẩm vào giỏ hàng<br>để tiến hành đặt hàng.</p>
+          <a href="index.html#products" class="btn-shop">← Xem sản phẩm</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <aside class="right">
+      <div class="summary-top">
+        <a href="index.html" class="continue-btn">← Tiếp tục mua hàng</a>
+      </div>
+      <div class="summary-body">
+        <div>
+          <div class="brand-title">ECOHEAL</div>
+          <div class="brand-sub">Tóm tắt đơn hàng</div>
+        </div>
+        <div class="summary-middle">
+          <div class="summary-row">
+            <span>Tổng cộng:</span>
+            <span class="summary-value" id="grandTotal">—</span>
+          </div>
+          <div class="checkout-wrap">
+            <button id="checkoutBtn" class="checkout-btn" disabled>
+              🔒 Tiến hành thanh toán
+            </button>
+          </div>
+        </div>
+        <div class="summary-spacer"></div>
+        <div class="trust-list">
+          <div class="trust-item"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Miễn phí giao hàng toàn quốc</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Đổi trả 7 ngày</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Bảo hành 12 tháng chính hãng</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Hàng chính ngạch từ Đài Loan</div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</div>
+
+<script>
+const API = 'https://ecoheal-cart-api.ecoheal.workers.dev';
+const SID_KEY = 'ecoheal_sid';
+const CHECKOUT = 'checkout.html';
+
+const PROD_IMGS = {
+  'BM6+':       'images/product-bm6.png.png',
+  'ARCII PLUS': 'images/product-arcii.png.png',
+  'ARC PLUS':   'images/product-arc.png.png',
+  'PRO9':       'images/product-commercial.png.png',
+};
+
+function getSid(){
+  try{
+    const url = new URLSearchParams(location.search).get('sid');
+    if(url){ localStorage.setItem(SID_KEY,url); return url; }
+    return localStorage.getItem(SID_KEY) || '';
+  } catch(_){ return ''; }
+}
+
+let cartItems = [];
+
+function fmt(n){ return n.toLocaleString('vi-VN') + '₫'; }
+
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function updateSummary(){
+  const total = cartItems.reduce((s,i)=>s+(i.price*i.qty),0);
+  const qty   = cartItems.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCountText').textContent = qty + ' sản phẩm';
+  document.getElementById('grandTotal').textContent = total ? fmt(total) : '—';
+  document.getElementById('checkoutBtn').disabled = cartItems.length === 0;
+}
+
+async function saveCart(){
+  const sid = getSid();
+  await fetch(`${API}/clear?sid=${sid}`, {method:'POST'});
+  for(const item of cartItems){
+    const qs = new URLSearchParams({
+      sid, name:item.name, price:item.price,
+      qty:item.qty, sku:item.sku||'', product_id:''
+    });
+    await fetch(`${API}/add?${qs}`);
+  }
+}
+
+async function removeItem(idx){
+  cartItems.splice(idx,1);
+  await saveCart();
+  renderItems();
+}
+
+async function changeQty(idx, val){
+  const n = parseInt(val,10);
+  if(n > 0) cartItems[idx].qty = n;
+  await saveCart();
+  renderItems();
+}
+
+function buildRow(item, idx){
+  const img = PROD_IMGS[item.sku] || '';
+  const imgTag = img
+    ? `<img src="${img}" alt="${escHtml(item.name)}">`
+    : `<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#4a9e5c" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`;
+
+  const mobileMeta = `
+    <div class="item-meta-grid">
+      <div class="price-col">${fmt(item.price)}</div>
+      <div class="qty-wrap"><input class="qty-input" type="number" min="1" step="1" value="${item.qty}" data-index="${idx}"></div>
+      <div class="total-col">${fmt(item.price*item.qty)}</div>
+    </div>`;
+
+  const row = document.createElement('div');
+  row.className = 'item-row';
+  row.innerHTML = `
+    <div class="item-info">
+      <div class="item-img">${imgTag}</div>
+      <div>
+        <div class="item-name">${escHtml(item.name)}</div>
+        <div class="item-code">SKU: ${escHtml(item.sku||'')}</div>
+        <button class="remove-btn" data-remove="${idx}">Xoá sản phẩm</button>
+      </div>
+    </div>
+    <div class="price-col only-desktop">${fmt(item.price)}</div>
+    <div class="qty-wrap only-desktop"><input class="qty-input" type="number" min="1" step="1" value="${item.qty}" data-index="${idx}"></div>
+    <div class="total-col only-desktop">${fmt(item.price*item.qty)}</div>
+    <div class="mobile-meta hidden">${mobileMeta}</div>
+  `;
+  return row;
+}
+
+function applyResponsive(){
+  const mobile = window.innerWidth <= 680;
+  document.querySelectorAll('.item-row').forEach(row=>{
+    row.querySelectorAll('.only-desktop').forEach(el=>{ el.style.display = mobile?'none':''; });
+    const m = row.querySelector('.mobile-meta');
+    if(m) m.classList.toggle('hidden',!mobile);
+  });
+}
+
+function bindRowEvents(){
+  document.querySelectorAll('[data-remove]').forEach(btn=>{
+    btn.onclick = ()=>removeItem(parseInt(btn.dataset.remove,10));
+  });
+  document.querySelectorAll('.qty-input').forEach(input=>{
+    const handler = ()=>changeQty(parseInt(input.dataset.index,10), input.value);
+    input.onchange = handler;
+    input.onblur   = handler;
+  });
+}
+
+function renderItems(){
+  const wrap  = document.getElementById('itemsWrap');
+  const empty = document.getElementById('emptyState');
+  const head  = document.getElementById('tableHead');
+  const skel  = document.getElementById('skeletonRow');
+  if(skel) skel.remove();
+
+  wrap.innerHTML = '';
+
+  if(!cartItems.length){
+    empty.classList.remove('hidden');
+    head.classList.add('hidden');
+  } else {
+    empty.classList.add('hidden');
+    head.classList.remove('hidden');
+    cartItems.forEach((item,idx)=> wrap.appendChild(buildRow(item,idx)));
+  }
+  updateSummary();
+  applyResponsive();
+  bindRowEvents();
+}
+
+async function loadCart(){
+  const sid = getSid();
+  if(!sid){ cartItems=[]; renderItems(); return; }
+  try{
+    const res  = await fetch(`${API}/cart?sid=${sid}`);
+    const data = await res.json();
+    cartItems = (data.cart||[]).filter(i=>i.name&&i.qty>0);
+  } catch(e){ cartItems=[]; }
+  renderItems();
+}
+
+document.getElementById('checkoutBtn').onclick = ()=>{
+  if(!cartItems.length) return;
+  const sid = getSid();
+  window.location.href = `${CHECKOUT}?sid=${encodeURIComponent(sid)}`;
+};
+
+window.addEventListener('resize', applyResponsive);
+loadCart();
+</script>
+</body>
+</html>
