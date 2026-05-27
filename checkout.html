@@ -1205,6 +1205,8 @@ function showSuccess(payload){
   resultBox.style.display='block';
   submitBtn.disabled=true;
   clearCart();
+  // 清掉 sid，跳離後回來就是全新狀態
+  localStorage.removeItem(SID_KEY);
 
   // Lưu profile vào KV nếu người dùng yêu cầu
   const c=payload&&payload.customer;
