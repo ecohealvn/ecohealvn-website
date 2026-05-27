@@ -635,27 +635,34 @@
         <div class="section">
           <div class="section-head">
             <div class="step-badge">1</div>
-            <h2 class="section-title">Email đặt hàng / Tải thông tin nhận hàng</h2>
+            <h2 class="section-title">Email đặt hàng</h2>
           </div>
           <div class="section-body">
             <div class="field login-area">
+              <!-- Email + 繼續 -->
               <div class="email-only-row">
-                <input class="input-email" type="email" id="email" name="email"
-                  placeholder="Vui lòng nhập Email *" autocomplete="off" />
+                <div class="login-password-line" id="emailRow">
+                  <input class="input-email" type="email" id="email" name="email"
+                    placeholder="Vui lòng nhập Email *" autocomplete="off" />
+                  <button type="button" id="continueBtn" class="mini-btn primary login-single-btn"
+                    style="min-width:80px;max-width:80px;width:80px;flex:0 0 80px">Tiếp tục</button>
+                </div>
                 <div class="error" data-error-for="email"></div>
               </div>
-              <div id="loginControls">
+              <!-- 檢查中動態提示 -->
+              <div id="checkingMsg" style="display:none;font-size:12px;color:#999;margin-top:6px;display:none">
+                Đang kiểm tra<span id="checkingDots"></span>
+              </div>
+              <!-- 密碼框（只有已註冊才展開） -->
+              <div id="loginControls" class="hidden-controls">
                 <div class="password-row login-password-line">
                   <input class="input-password" type="password" id="profile_password"
-                    placeholder="Nhập mật khẩu (tùy chọn, để tải thông tin)"
+                    placeholder="Nhập mật khẩu"
                     autocomplete="new-password" />
                   <button type="button" id="loginBtn" class="mini-btn primary login-single-btn">Đăng nhập</button>
                 </div>
               </div>
               <div id="loginMsg" class="login-msg"></div>
-              <div id="profileBox" class="profile-box">
-                <div id="profileMessage"></div>
-              </div>
             </div>
           </div>
         </div>
@@ -977,17 +984,66 @@ function renderSummary(){
   }).join('');
 }
 
-// ── login ─────────────────────────────────────────────
+// ── email check & login ──────────────────────────────
+
+// 「檢查中...」動態點點
+let dotsTimer=null;
+function startCheckingAnim(){
+  const el=document.getElementById('checkingMsg');
+  const dots=document.getElementById('checkingDots');
+  el.style.display='block';
+  let n=0;
+  dotsTimer=setInterval(()=>{
+    n=(n+1)%4;
+    dots.textContent='.'.repeat(n)||'';
+  },300);
+}
+function stopCheckingAnim(){
+  if(dotsTimer){clearInterval(dotsTimer);dotsTimer=null;}
+  const el=document.getElementById('checkingMsg');
+  if(el) el.style.display='none';
+}
+
+// 檢查 email 是否有 profile
+async function checkEmail(){
+  const email=String(document.getElementById('email').value||'').trim().toLowerCase();
+  if(!isEmailValid(email)){setError('email','Vui lòng nhập Email hợp lệ');return;}
+  clearErrors();
+  startCheckingAnim();
+  try{
+    const res=await fetch(`${CART_API}/profile/check?email=${encodeURIComponent(email)}`);
+    const data=await res.json();
+    stopCheckingAnim();
+    if(data.exists){
+      // 有資料 → 展開密碼框
+      setLoginControlsVisible(true);
+      showProfileMessage('');
+      setTimeout(()=>document.getElementById('profile_password').focus(),50);
+    } else {
+      // 沒資料 or locked → 直接跳 Step2
+      setLoginControlsVisible(false);
+      showProfileMessage('');
+      goToStep2();
+    }
+  }catch(e){
+    stopCheckingAnim();
+    // 網路錯誤就直接讓客人繼續
+    goToStep2();
+  }
+}
+
+function goToStep2(){
+  const nameField=document.getElementById('recipient_name');
+  if(nameField){
+    nameField.scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(()=>nameField.focus(),300);
+  }
+}
+
 function startLoginCountdown(){
   stopLoginCountdown();
   const el=document.getElementById('loginMsg');
-  let sec=3;
-  el.textContent='Đang tải dữ liệu...'+sec;
-  loginCountdownTimer=setInterval(()=>{
-    sec-=1;
-    if(sec>0){el.textContent='Đang tải dữ liệu...'+sec;}
-    else{stopLoginCountdown();el.textContent='Đang tải dữ liệu...';}
-  },1000);
+  el.textContent='Đang kiểm tra mật khẩu...';
 }
 
 function stopLoginCountdown(){
@@ -1092,14 +1148,40 @@ function fillProfileFields(profile){
   document.getElementById('invoice_title').value=profile.invoice_title||'';
 }
 
-// 直接打 Worker KV，不用 iframe，速度從 3 秒變 < 0.5 秒
-async function submitProfileLogin(email,password){
-  const res=await fetch(`${CART_API}/profile/login`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({email,password}),
+function submitProfileLogin(email,password){
+  return new Promise((resolve,reject)=>{
+    const state='LOGIN_'+Date.now()+'_'+Math.floor(Math.random()*1000000);
+    const iframeName='loginFrame_'+state;
+    const iframe=document.createElement('iframe');
+    iframe.name=iframeName;
+    iframe.style.display='none';
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=GAS_WEB_APP_URL;
+    form.target=iframeName;
+    form.style.display='none';
+    const fields={action:'loginProfileBridge',email,password,state,parentOrigin:window.location.origin};
+    Object.keys(fields).forEach(key=>{
+      const input=document.createElement('input');
+      input.type='hidden';input.name=key;input.value=fields[key];
+      form.appendChild(input);
+    });
+    const cleanup=()=>{
+      window.removeEventListener('message',onMessage);
+      if(form.parentNode) form.parentNode.removeChild(form);
+      if(iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    };
+    const timer=setTimeout(()=>{cleanup();reject(new Error('login timeout'));},12000);
+    function onMessage(event){
+      const msg=event.data;
+      if(!msg||msg.type!=='amoProfileLogin'||msg.state!==state) return;
+      clearTimeout(timer);cleanup();resolve(msg.data);
+    }
+    window.addEventListener('message',onMessage);
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+    form.submit();
   });
-  return await res.json();
 }
 
 async function runProfileLogin(){
@@ -1117,7 +1199,7 @@ async function runProfileLogin(){
     const data=await submitProfileLogin(email,password);
     if(!data||!data.ok||!data.login||!data.profile){handleLoginFailed();return;}
     setLoggedIn(data.profile);
-  }catch(e){handleLoginFailed();}
+  }catch(_){handleLoginFailed();}
   finally{profileState.loggingIn=false;loginBtn.disabled=false;loginBtn.textContent='Đăng nhập';}
 }
 
@@ -1128,9 +1210,23 @@ function handleLoginFailed(){
   if(pw) pw.value='';
   const remaining=profileState.maxLoginAttempts-profileState.loginAttempts;
   if(remaining>0){
-    document.getElementById('loginMsg').textContent='Tài khoản hoặc mật khẩu không đúng, còn '+remaining+' lần thử';
+    document.getElementById('loginMsg').textContent=
+      'Mật khẩu không đúng, còn '+remaining+' lần thử. Nếu quên mật khẩu, hãy bỏ qua bước này và điền thông tin nhận hàng bên dưới để đặt lại.';
     if(pw) pw.focus();
-  }else{setResetPasswordMode();}
+  }else{
+    // 錯三次 → lock 帳號，隱藏密碼框，跳 Step2
+    const email=String(document.getElementById('email').value||'').trim().toLowerCase();
+    fetch(`${CART_API}/profile/lock`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email}),
+    }).catch(()=>{});
+    setLoginControlsVisible(false);
+    showProfileMessage('');
+    document.getElementById('loginMsg').textContent='';
+    profileState.mode='resetPassword';
+    goToStep2();
+  }
 }
 
 // ── validate & submit ─────────────────────────────────
@@ -1197,7 +1293,7 @@ function lockCheckout(){
   document.querySelectorAll('.summary-top .continue-btn').forEach(el=>{el.classList.add('disabled-link');el.setAttribute('aria-disabled','true');});
 }
 
-function showSuccess(payload){
+function showSuccess(){
   const resultBox=document.getElementById('resultBox');
   const resultText=document.getElementById('resultText');
   const submitBtn=document.getElementById('submitBtn');
@@ -1205,27 +1301,6 @@ function showSuccess(payload){
   resultBox.style.display='block';
   submitBtn.disabled=true;
   clearCart();
-  // 清掉 sid，跳離後回來就是全新狀態
-  localStorage.removeItem(SID_KEY);
-
-  // Lưu profile vào KV nếu người dùng yêu cầu
-  const c=payload&&payload.customer;
-  if(c&&c.save_profile&&c.new_password&&c.email){
-    fetch(`${CART_API}/profile/save`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        email:             c.email,
-        password:          c.new_password,
-        recipient_name:    c.recipient_name,
-        recipient_phone:   c.recipient_phone,
-        recipient_address: c.recipient_address,
-        remarks:           c.remarks,
-        invoice_tax_id:    c.invoice_tax_id,
-      }),
-    }).catch(()=>{});
-  }
-
   window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
 }
 
@@ -1250,13 +1325,19 @@ function bindSubmit(){
       return;
     }
     startSubmitCountdown(function(){
-      showSuccess(payload);
+      showSuccess();
       submitBtn.textContent='Đã gửi đơn hàng ✓';
     });
   });
 }
 
 function bindInteractions(){
+  // 繼續按鈕 + email Enter 觸發 checkEmail
+  document.getElementById('continueBtn').addEventListener('click',()=>{if(!orderLocked)checkEmail();});
+  document.getElementById('email').addEventListener('keydown',(e)=>{
+    if(e.key==='Enter'){e.preventDefault();checkEmail();}
+  });
+  // 登錄按鈕 + 密碼 Enter 觸發 runProfileLogin
   document.getElementById('loginBtn').addEventListener('click',()=>{if(!orderLocked)runProfileLogin();});
   document.getElementById('profile_password').addEventListener('keydown',(e)=>{
     if(e.key==='Enter'){e.preventDefault();runProfileLogin();}
@@ -1289,7 +1370,7 @@ async function init(){
   bindInteractions();
   document.getElementById('saveProfileCheckbox').checked=true;
   updateSaveProfileSection();
-  showProfileMessage(DEFAULT_LOGIN_HINT);
+  // email check 流程不再需要預設提示
 }
 
 init();
