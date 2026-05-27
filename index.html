@@ -305,7 +305,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 
 <!-- FLOATING CART -->
 <div class="float-cart">
-  <a href="cart.html" class="float-btn">
+  <a href="cart.html" class="float-btn" id="floatCartBtn" onclick="handleCartClick(event)">
     <svg viewBox="0 0 24 24"><path d="M6 2H3v2h1.5L8 14h10l2-9H6z" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
     <div class="float-cnt" id="cartCount">0</div>
   </a>
@@ -891,6 +891,15 @@ async function addCart(){
   }catch(e){alert('Có lỗi, vui lòng thử lại');}
 }
 (async()=>{const sid=localStorage.getItem('ecoheal_sid');if(!sid)return;const res=await fetch(`${CART_API}/cart?sid=${sid}`).catch(()=>null);if(!res)return;const data=await res.json();const n=(data.cart||[]).reduce((s,i)=>s+i.qty,0);document.getElementById('cartCount').textContent=n;})();
+
+function handleCartClick(e){
+  const n=parseInt(document.getElementById('cartCount').textContent||'0',10);
+  if(n===0){
+    e.preventDefault();
+    document.getElementById('products').scrollIntoView({behavior:'smooth'});
+  }
+  // n > 0 就讓原本 href="cart.html" 正常跳轉
+}
 </script>
 </body>
 </html>
