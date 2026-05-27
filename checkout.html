@@ -417,7 +417,7 @@
       border-radius:8px;
       border:1px solid #d9e3c8;
       object-fit:contain;
-      background:#fff;
+      background:#eef6dd;
       flex-shrink:0;
     }
     .qr-meta{ font-size:12px; color:#666; line-height:1.8; }
@@ -639,7 +639,6 @@
           </div>
           <div class="section-body">
             <div class="field login-area">
-              <!-- Email + 繼續 -->
               <div class="email-only-row">
                 <div class="login-password-line">
                   <input class="input-email" type="email" id="email" name="email"
@@ -649,11 +648,9 @@
                 </div>
                 <div class="error" data-error-for="email"></div>
               </div>
-              <!-- 檢查中動態提示 -->
               <div id="checkingMsg" style="display:none;font-size:12px;color:#999;margin-top:6px">
                 Đang kiểm tra<span id="checkingDots"></span>
               </div>
-              <!-- 密碼框（只有已註冊才展開） -->
               <div id="loginControls" class="hidden-controls">
                 <div class="password-row login-password-line">
                   <input class="input-password" type="password" id="profile_password"
@@ -986,7 +983,6 @@ function renderSummary(){
 
 // ── login ─────────────────────────────────────────────
 function startLoginCountdown(){
-  // 不做倒數，直接顯示loading，fetch完成就立刻更新
   document.getElementById('loginMsg').textContent='Đang kiểm tra...';
 }
 
@@ -1049,9 +1045,6 @@ function updateSaveProfileSection(){
 
 function setLoginControlsVisible(v){
   document.getElementById('loginControls').classList.toggle('hidden-controls',!v);
-  // 密碼框展開時隱藏繼續按鈕，收起時恢復
-  const continueBtn=document.getElementById('continueBtn');
-  if(continueBtn) continueBtn.style.display = v ? 'none' : '';
 }
 
 function showProfileMessage(msg){
@@ -1069,9 +1062,7 @@ function setResetPasswordMode(){
   setLoginControlsVisible(false);
   document.getElementById('saveProfileCheckbox').checked=true;
   document.getElementById('profile_password').value='';
-  // 確保 saveSection 可見（讓他重設密碼）
-  const saveSection=document.getElementById('saveProfileSection');
-  if(saveSection) saveSection.style.display='';
+  showProfileMessage('Sai mật khẩu 3 lần, vui lòng điền thông tin nhận hàng và đặt mật khẩu mới bên dưới');
   updateSaveProfileSection();
 }
 
@@ -1082,14 +1073,19 @@ function setLoggedIn(profile){
   profileState.loggingIn=false;
   fillProfileFields(profile);
   setLoginControlsVisible(false);
-  document.getElementById('saveProfileCheckbox').checked=true;
   document.getElementById('profile_password').value='';
+  // 鎖定 email 欄，登錄後不再觸發 checkEmail
+  const emailInput=document.getElementById('email');
+  if(emailInput) emailInput.readOnly=true;
+  const continueBtn=document.getElementById('continueBtn');
+  if(continueBtn) continueBtn.style.display='none';
   document.getElementById('loginMsg').textContent='✓ Đã tải thông tin thành công';
   document.getElementById('loginMsg').style.color='#2e6b3e';
-  updateSaveProfileSection();
-  // 登錄狀態不需要顯示儲存資料勾選框（資料已存在）
-  const saveSection=document.getElementById('saveProfileSection');
-  if(saveSection) saveSection.style.display='none';
+  // Fix2: 只隱藏勾選框和密碼設定，Step4 標題保留
+  const cbRow=document.querySelector('#saveProfileSection .checkbox-row');
+  if(cbRow) cbRow.style.display='none';
+  const pwWrap=document.getElementById('passwordWrap');
+  if(pwWrap) pwWrap.style.display='none';
 }
 
 function fillProfileFields(profile){
@@ -1101,7 +1097,6 @@ function fillProfileFields(profile){
   document.getElementById('invoice_title').value=profile.invoice_title||'';
 }
 
-// 直接打 Worker KV，瞬間完成
 async function submitProfileLogin(email,password){
   const res=await fetch(`${CART_API}/profile/login`,{
     method:'POST',
@@ -1111,7 +1106,6 @@ async function submitProfileLogin(email,password){
   return await res.json();
 }
 
-// 檢查 email 是否已有 profile
 async function checkEmail(){
   const email=String(document.getElementById('email').value||'').trim().toLowerCase();
   if(!isEmailValid(email)){setError('email','Vui lòng nhập Email hợp lệ');return;}
@@ -1144,7 +1138,6 @@ function goToStep2(){
   }
 }
 
-// 「檢查中」動態點點
 let dotsTimer=null;
 function startCheckingAnim(){
   const el=document.getElementById('checkingMsg');
@@ -1177,7 +1170,7 @@ async function runProfileLogin(){
     const data=await submitProfileLogin(email,password);
     if(!data||!data.ok||!data.login||!data.profile){handleLoginFailed();return;}
     setLoggedIn(data.profile);
-  }catch(e){handleLoginFailed();}
+  }catch(_){handleLoginFailed();}
   finally{profileState.loggingIn=false;loginBtn.disabled=false;loginBtn.textContent='Đăng nhập';}
 }
 
@@ -1188,23 +1181,15 @@ function handleLoginFailed(){
   if(pw) pw.value='';
   const remaining=profileState.maxLoginAttempts-profileState.loginAttempts;
   if(remaining>0){
-    document.getElementById('loginMsg').textContent=
-      'Mật khẩu không đúng, còn '+remaining+' lần thử. Nếu quên mật khẩu, hãy bỏ qua bước này và đặt lại ở bước 4.';
+    document.getElementById('loginMsg').textContent='Mật khẩu không đúng, còn '+remaining+' lần thử. Nếu quên mật khẩu, hãy bỏ qua và điền thẳng thông tin nhận hàng bên dưới.';
     document.getElementById('loginMsg').style.color='#d9534f';
     if(pw) pw.focus();
   }else{
-    // 錯三次 → lock，密碼框消失，跳 Step2
     const email=String(document.getElementById('email').value||'').trim().toLowerCase();
-    fetch(`${CART_API}/profile/lock`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email}),
-    }).catch(()=>{});
+    fetch(`${CART_API}/profile/lock`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})}).catch(()=>{});
     setLoginControlsVisible(false);
     document.getElementById('loginMsg').textContent='';
     profileState.mode='resetPassword';
-    const saveSection=document.getElementById('saveProfileSection');
-    if(saveSection) saveSection.style.display='';
     goToStep2();
   }
 }
@@ -1282,19 +1267,12 @@ function showSuccess(payload){
   submitBtn.disabled=true;
   clearCart();
   localStorage.removeItem(SID_KEY);
-  // 儲存 profile 到 KV
   const c=payload&&payload.customer;
   if(c&&c.save_profile&&c.new_password&&c.email){
-    fetch(`${CART_API}/profile/save`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        email:c.email, password:c.new_password,
-        recipient_name:c.recipient_name, recipient_phone:c.recipient_phone,
-        recipient_address:c.recipient_address, remarks:c.remarks,
-        invoice_tax_id:c.invoice_tax_id,
-      }),
-    }).catch(()=>{});
+    fetch(`${CART_API}/profile/save`,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:c.email,password:c.new_password,recipient_name:c.recipient_name,
+        recipient_phone:c.recipient_phone,recipient_address:c.recipient_address,
+        remarks:c.remarks,invoice_tax_id:c.invoice_tax_id})}).catch(()=>{});
   }
   window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
 }
@@ -1327,13 +1305,11 @@ function bindSubmit(){
 }
 
 function bindInteractions(){
-  // 繼續按鈕 + email Enter
   const continueBtn=document.getElementById('continueBtn');
-  if(continueBtn) continueBtn.addEventListener('click',()=>{if(!orderLocked)checkEmail();});
+  if(continueBtn) continueBtn.addEventListener('click',()=>{if(!orderLocked&&profileState.mode!=='loggedIn')checkEmail();});
   document.getElementById('email').addEventListener('keydown',(e)=>{
-    if(e.key==='Enter'){e.preventDefault();checkEmail();}
+    if(e.key==='Enter'&&profileState.mode!=='loggedIn'){e.preventDefault();checkEmail();}
   });
-  // 登錄按鈕 + 密碼 Enter
   document.getElementById('loginBtn').addEventListener('click',()=>{if(!orderLocked)runProfileLogin();});
   document.getElementById('profile_password').addEventListener('keydown',(e)=>{
     if(e.key==='Enter'){e.preventDefault();runProfileLogin();}
@@ -1366,7 +1342,7 @@ async function init(){
   bindInteractions();
   document.getElementById('saveProfileCheckbox').checked=true;
   updateSaveProfileSection();
-  // 不需要預設提示，email check 流程自動引導
+  // no default hint needed
 }
 
 init();
