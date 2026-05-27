@@ -1334,6 +1334,13 @@ async function init(){
   // no default hint
 }
 
+// 防止 bfcache 返回時顯示已完成的舊畫面
+window.addEventListener('pageshow', function(e){
+  if(e.persisted && !localStorage.getItem(SID_KEY)){
+    window.location.replace('index.html');
+  }
+});
+
 init();
 </script>
 </body>
