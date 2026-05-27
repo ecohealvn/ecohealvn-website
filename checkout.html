@@ -654,8 +654,7 @@
               <div id="loginControls" class="hidden-controls">
                 <div class="password-row login-password-line">
                   <input class="input-password" type="password" id="profile_password"
-                    placeholder="Nhập mật khẩu"
-                    autocomplete="new-password" />
+                    placeholder="Nhập mật khẩu" autocomplete="new-password" />
                   <button type="button" id="loginBtn" class="mini-btn primary login-single-btn">Đăng nhập</button>
                 </div>
               </div>
@@ -985,7 +984,6 @@ function renderSummary(){
 function startLoginCountdown(){
   document.getElementById('loginMsg').textContent='Đang kiểm tra...';
 }
-
 function stopLoginCountdown(){
   if(loginCountdownTimer){clearInterval(loginCountdownTimer);loginCountdownTimer=null;}
 }
@@ -1045,6 +1043,9 @@ function updateSaveProfileSection(){
 
 function setLoginControlsVisible(v){
   document.getElementById('loginControls').classList.toggle('hidden-controls',!v);
+  // 密碼框出現時隱藏繼續按鈕，且之後不再顯示（email已確認過）
+  const continueBtn=document.getElementById('continueBtn');
+  if(continueBtn && v) continueBtn.style.display='none';
 }
 
 function showProfileMessage(msg){
@@ -1074,18 +1075,16 @@ function setLoggedIn(profile){
   fillProfileFields(profile);
   setLoginControlsVisible(false);
   document.getElementById('profile_password').value='';
-  // 鎖定 email 欄，登錄後不再觸發 checkEmail
+  // 鎖定 email，不再觸發 checkEmail
   const emailInput=document.getElementById('email');
   if(emailInput) emailInput.readOnly=true;
   const continueBtn=document.getElementById('continueBtn');
   if(continueBtn) continueBtn.style.display='none';
   document.getElementById('loginMsg').textContent='✓ Đã tải thông tin thành công';
   document.getElementById('loginMsg').style.color='#2e6b3e';
-  // Fix2: 只隱藏勾選框和密碼設定，Step4 標題保留
-  const cbRow=document.querySelector('#saveProfileSection .checkbox-row');
-  if(cbRow) cbRow.style.display='none';
-  const pwWrap=document.getElementById('passwordWrap');
-  if(pwWrap) pwWrap.style.display='none';
+  // 隱藏 save-box 連框線，Step4 標題保留
+  const saveBox=document.querySelector('#saveProfileSection .save-box');
+  if(saveBox) saveBox.style.display='none';
 }
 
 function fillProfileFields(profile){
@@ -1099,8 +1098,7 @@ function fillProfileFields(profile){
 
 async function submitProfileLogin(email,password){
   const res=await fetch(`${CART_API}/profile/login`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
+    method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({email,password}),
   });
   return await res.json();
@@ -1124,18 +1122,12 @@ async function checkEmail(){
       document.getElementById('loginMsg').textContent='';
       goToStep2();
     }
-  }catch(e){
-    stopCheckingAnim();
-    goToStep2();
-  }
+  }catch(e){ stopCheckingAnim(); goToStep2(); }
 }
 
 function goToStep2(){
-  const nameField=document.getElementById('recipient_name');
-  if(nameField){
-    nameField.scrollIntoView({behavior:'smooth',block:'center'});
-    setTimeout(()=>nameField.focus(),300);
-  }
+  const el=document.getElementById('recipient_name');
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>el.focus(),300); }
 }
 
 let dotsTimer=null;
@@ -1144,10 +1136,7 @@ function startCheckingAnim(){
   const dots=document.getElementById('checkingDots');
   if(el) el.style.display='block';
   let n=0;
-  dotsTimer=setInterval(()=>{
-    n=(n+1)%4;
-    if(dots) dots.textContent='.'.repeat(n)||'';
-  },300);
+  dotsTimer=setInterval(()=>{ n=(n+1)%4; if(dots) dots.textContent='.'.repeat(n)||''; },300);
 }
 function stopCheckingAnim(){
   if(dotsTimer){clearInterval(dotsTimer);dotsTimer=null;}
@@ -1181,7 +1170,7 @@ function handleLoginFailed(){
   if(pw) pw.value='';
   const remaining=profileState.maxLoginAttempts-profileState.loginAttempts;
   if(remaining>0){
-    document.getElementById('loginMsg').textContent='Mật khẩu không đúng, còn '+remaining+' lần thử. Nếu quên mật khẩu, hãy bỏ qua và điền thẳng thông tin nhận hàng bên dưới.';
+    document.getElementById('loginMsg').textContent='Mật khẩu không đúng, còn '+remaining+' lần thử. Nếu quên mật khẩu, hãy bỏ qua và điền thẳng thông tin nhận hàng.';
     document.getElementById('loginMsg').style.color='#d9534f';
     if(pw) pw.focus();
   }else{
@@ -1305,8 +1294,8 @@ function bindSubmit(){
 }
 
 function bindInteractions(){
-  const continueBtn=document.getElementById('continueBtn');
-  if(continueBtn) continueBtn.addEventListener('click',()=>{if(!orderLocked&&profileState.mode!=='loggedIn')checkEmail();});
+  const cBtn=document.getElementById('continueBtn');
+  if(cBtn) cBtn.addEventListener('click',()=>{if(!orderLocked&&profileState.mode!=='loggedIn')checkEmail();});
   document.getElementById('email').addEventListener('keydown',(e)=>{
     if(e.key==='Enter'&&profileState.mode!=='loggedIn'){e.preventDefault();checkEmail();}
   });
@@ -1342,7 +1331,7 @@ async function init(){
   bindInteractions();
   document.getElementById('saveProfileCheckbox').checked=true;
   updateSaveProfileSection();
-  // no default hint needed
+  // no default hint
 }
 
 init();
