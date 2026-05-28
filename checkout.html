@@ -980,7 +980,6 @@ function renderSummary(){
     </div>`;
   }).join('');
 
-  // Cập nhật QR theo tổng tiền
   scheduleQRUpdate(total);
 }
 
@@ -1335,7 +1334,7 @@ async function init(){
   bindInteractions();
   document.getElementById('saveProfileCheckbox').checked=true;
   updateSaveProfileSection();
-  initQREngine(); // Khởi động engine QR động
+  initQREngine();
 }
 
 // 防止 bfcache 返回時顯示已完成的舊畫面
@@ -1346,20 +1345,18 @@ window.addEventListener('pageshow', function(e){
 });
 
 // ════════════════════════════════════════════════════
-// QR ĐỘNG – tự giải mã bank.jpg → lấy BIN → sinh QR có tiền
+// QR ĐỘNG: giải mã bank.jpg → BIN → sinh EMV động
 // ════════════════════════════════════════════════════
-var _qrBin=null;
-var _qrAcct='9102121005638';
-var _qrTimer=null;
+var _qrBin=null, _qrTimer=null;
+var _ACCT='9102121005638';
 
-/* 1. Khởi động: giải mã ảnh tĩnh lấy BIN */
 function initQREngine(){
   var s1=document.createElement('script');
   s1.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
   s1.onload=function(){
     var s2=document.createElement('script');
     s2.src='https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js';
-    s2.onload=function(){ _decodeStaticQR(); };
+    s2.onload=_decodeStaticQR;
     document.head.appendChild(s2);
   };
   document.head.appendChild(s1);
@@ -1374,38 +1371,41 @@ function _decodeStaticQR(){
     var ctx=cv.getContext('2d');
     ctx.drawImage(img,0,0);
     var id=ctx.getImageData(0,0,cv.width,cv.height);
-    var result=jsQR(id.data,cv.width,cv.height,{inversionAttempts:'dontInvert'});
-    if(result&&result.data){
-      _qrBin=_extractBIN(result.data);
+    var res=jsQR(id.data,cv.width,cv.height,{inversionAttempts:'dontInvert'});
+    if(res&&res.data){
+      var bin=_extractBIN(res.data);
+      if(bin){ _qrBin=bin; }
     }
-    // Dù có BIN hay không, vẽ lại QR lần nữa nếu giỏ đã có hàng
     if(cartItems.length>0) scheduleQRUpdate(getGrandTotal(cartItems));
   };
-  img.onerror=function(){};
   img.src='images/bank.jpg?_='+Date.now();
 }
 
-/* 2. Phân tích EMV → lấy BIN (6 số trong trường 00 của sub-ID 01 trong ID 38) */
+/* Phân tích EMV: lấy mã BIN từ sub-item 00 trong sub-item 01 của ID 38 */
 function _extractBIN(emv){
   try{
     var p=0;
-    while(p<emv.length-8){
+    while(p<=emv.length-4){
       var id=emv.substr(p,2);
       var ln=parseInt(emv.substr(p+2,2),10);
+      if(isNaN(ln)) break;
       var vl=emv.substr(p+4,ln);
       if(id==='38'){
         var sp=0;
-        while(sp<vl.length){
+        while(sp<=vl.length-4){
           var si=vl.substr(sp,2);
           var sl=parseInt(vl.substr(sp+2,2),10);
+          if(isNaN(sl)) break;
           var sv=vl.substr(sp+4,sl);
           if(si==='01'){
+            // bên trong sub-item 01 là BIN(00) và account(01)
             var bp=0;
-            while(bp<sv.length){
+            while(bp<=sv.length-4){
               var bi=sv.substr(bp,2);
               var bl=parseInt(sv.substr(bp+2,2),10);
+              if(isNaN(bl)) break;
               var bv=sv.substr(bp+4,bl);
-              if(bi==='00') return bv;
+              if(bi==='00') return bv; // BIN!
               bp+=4+bl;
             }
           }
@@ -1418,26 +1418,41 @@ function _extractBIN(emv){
   return null;
 }
 
-/* 3. Sinh chuỗi EMV VietQR có nhúng số tiền */
+/* ── EMV builder đúng chuẩn NAPAS ──────────────────────
+   Cấu trúc ID 38:
+     00 → A000000727  (GUID)
+     01 → { 00→BIN, 01→account }   (thông tin ngân hàng)
+     02 → QRIBFTTA                  (service code, cùng cấp với 00/01)
+*/
 function _buildEMV(bin,acct,amount,desc){
-  function tlv(id,v){return id+String(v.length).padStart(2,'0')+v;}
-  var bk=tlv('00',bin)+tlv('01',acct)+'0208QRIBFTTA';
-  var np=tlv('00','A000000727')+tlv('01',bk);
-  var s='000201'+(amount>0?'010212':'010211')+tlv('38',np)+'5303704';
+  function tlv(id,v){
+    return id+String(v.length).padStart(2,'0')+v;
+  }
+  // Sub-item 01: chỉ chứa BIN và số tài khoản
+  var bankData=tlv('00',bin)+tlv('01',acct);
+  // ID 38: guid + bankData + serviceCode (cùng cấp!)
+  var merchant=tlv('00','A000000727')+tlv('01',bankData)+'0208QRIBFTTA';
+
+  var s='000201';
+  s+=amount>0?'010212':'010211';
+  s+=tlv('38',merchant);
+  s+='5303704';                     // VND
   if(amount>0) s+=tlv('54',String(amount));
   s+='5802VN';
   if(desc) s+=tlv('62',tlv('08',desc));
   s+='6304';
+
   // CRC16/CCITT-FALSE
   var crc=0xFFFF;
   for(var i=0;i<s.length;i++){
     crc^=s.charCodeAt(i)<<8;
-    for(var j=0;j<8;j++) crc=(crc&0x8000)?((crc<<1)^0x1021)&0xFFFF:(crc<<1)&0xFFFF;
+    for(var j=0;j<8;j++)
+      crc=(crc&0x8000)?((crc<<1)^0x1021)&0xFFFF:(crc<<1)&0xFFFF;
   }
   return s+crc.toString(16).toUpperCase().padStart(4,'0');
 }
 
-/* 4. Vẽ QR lên canvas rồi gán vào <img> */
+/* Vẽ QR lên canvas → gán vào <img> */
 function scheduleQRUpdate(total){
   clearTimeout(_qrTimer);
   _qrTimer=setTimeout(function(){ _renderQR(total); },350);
@@ -1450,7 +1465,7 @@ function _renderQR(total){
     el.src='images/bank.jpg'; return;
   }
   try{
-    var emv=_buildEMV(_qrBin,_qrAcct,total,'ECOHEAL DH');
+    var emv=_buildEMV(_qrBin,_ACCT,total,'ECOHEAL DH');
     var qr=qrcode(0,'M');
     qr.addData(emv,'Byte');
     qr.make();
@@ -1461,8 +1476,9 @@ function _renderQR(total){
     var ctx=cv.getContext('2d');
     ctx.fillStyle='#fff'; ctx.fillRect(0,0,cv.width,cv.height);
     ctx.fillStyle='#000';
-    for(var r=0;r<n;r++) for(var c=0;c<n;c++)
-      if(qr.isDark(r,c)) ctx.fillRect(c*cell,r*cell,cell,cell);
+    for(var r=0;r<n;r++)
+      for(var c=0;c<n;c++)
+        if(qr.isDark(r,c)) ctx.fillRect(c*cell,r*cell,cell,cell);
     el.src=cv.toDataURL('image/png');
   }catch(e){ el.src='images/bank.jpg'; }
 }
