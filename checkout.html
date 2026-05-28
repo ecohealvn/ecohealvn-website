@@ -423,6 +423,8 @@
     .qr-meta{ font-size:12px; color:#666; line-height:1.8; }
     .qr-meta strong{ color:var(--green); font-size:13px; }
 
+    @keyframes qrSpin{to{transform:rotate(360deg)}}
+
     .submit-wrap{ margin-top:22px; text-align:center; }
 
     .submit-btn{
@@ -719,7 +721,22 @@
               Tên tài khoản: CONG TY TNHH KNOWLEDGE CANDY<br>
               Số tài khoản: <strong>9102121005638</strong>
               <div class="qr-wrap">
-                <img class="qr-img" id="qrImage" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
+                <div style="position:relative;width:220px;flex-shrink:0;">
+                  <img class="qr-img" id="qrImage"
+                    src="images/bank.jpg"
+                    alt="QR thanh toán ECOHEAL"
+                    style="opacity:0;transition:opacity .25s ease;" />
+                  <div id="qrSpinner" style="
+                    position:absolute;inset:0;
+                    display:flex;align-items:center;justify-content:center;
+                    background:#eef6dd;border-radius:8px;border:1px solid #d9e3c8;">
+                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none"
+                      style="animation:qrSpin 1s linear infinite">
+                      <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
+                      <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                </div>
                 <div class="qr-meta">
                   <strong>Quét mã QR để thanh toán nhanh</strong><br>
                   Số tiền đã được điền sẵn theo giỏ hàng<br>
@@ -1350,6 +1367,14 @@ window.addEventListener('pageshow', function(e){
 var _qrBin=null, _qrTimer=null;
 var _ACCT='9102121005638';
 
+function _showQR(src){
+  var el=document.getElementById('qrImage');
+  var sp=document.getElementById('qrSpinner');
+  if(!el) return;
+  el.onload=function(){ el.style.opacity='1'; if(sp) sp.style.display='none'; };
+  el.src=src;
+}
+
 function initQREngine(){
   var s1=document.createElement('script');
   s1.src='https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
@@ -1372,16 +1397,15 @@ function _decodeStaticQR(){
     ctx.drawImage(img,0,0);
     var id=ctx.getImageData(0,0,cv.width,cv.height);
     var res=jsQR(id.data,cv.width,cv.height,{inversionAttempts:'dontInvert'});
-    if(res&&res.data){
-      var bin=_extractBIN(res.data);
-      if(bin){ _qrBin=bin; }
-    }
-    if(cartItems.length>0) scheduleQRUpdate(getGrandTotal(cartItems));
+    if(res&&res.data) _qrBin=_extractBIN(res.data);
+    // Re-render với tổng tiền hiện tại
+    var total=getGrandTotal(cartItems);
+    scheduleQRUpdate(total>0?total:0);
   };
+  img.onerror=function(){ _showQR('images/bank.jpg'); };
   img.src='images/bank.jpg?_='+Date.now();
 }
 
-/* Phân tích EMV: lấy mã BIN từ sub-item 00 trong sub-item 01 của ID 38 */
 function _extractBIN(emv){
   try{
     var p=0;
@@ -1393,19 +1417,16 @@ function _extractBIN(emv){
       if(id==='38'){
         var sp=0;
         while(sp<=vl.length-4){
-          var si=vl.substr(sp,2);
-          var sl=parseInt(vl.substr(sp+2,2),10);
+          var si=vl.substr(sp,2), sl=parseInt(vl.substr(sp+2,2),10);
           if(isNaN(sl)) break;
           var sv=vl.substr(sp+4,sl);
           if(si==='01'){
-            // bên trong sub-item 01 là BIN(00) và account(01)
             var bp=0;
             while(bp<=sv.length-4){
-              var bi=sv.substr(bp,2);
-              var bl=parseInt(sv.substr(bp+2,2),10);
+              var bi=sv.substr(bp,2), bl=parseInt(sv.substr(bp+2,2),10);
               if(isNaN(bl)) break;
               var bv=sv.substr(bp+4,bl);
-              if(bi==='00') return bv; // BIN!
+              if(bi==='00') return bv;
               bp+=4+bl;
             }
           }
@@ -1418,51 +1439,33 @@ function _extractBIN(emv){
   return null;
 }
 
-/* ── EMV builder đúng chuẩn NAPAS ──────────────────────
-   Cấu trúc ID 38:
-     00 → A000000727  (GUID)
-     01 → { 00→BIN, 01→account }   (thông tin ngân hàng)
-     02 → QRIBFTTA                  (service code, cùng cấp với 00/01)
-*/
 function _buildEMV(bin,acct,amount,desc){
-  function tlv(id,v){
-    return id+String(v.length).padStart(2,'0')+v;
-  }
-  // Sub-item 01: chỉ chứa BIN và số tài khoản
+  function tlv(id,v){ return id+String(v.length).padStart(2,'0')+v; }
+  // Sub-item 01 bên trong ID 38: chỉ BIN + account
   var bankData=tlv('00',bin)+tlv('01',acct);
-  // ID 38: guid + bankData + serviceCode (cùng cấp!)
+  // ID 38: guid + bankData + serviceCode (QRIBFTTA ở cùng cấp, không phải bên trong 01)
   var merchant=tlv('00','A000000727')+tlv('01',bankData)+'0208QRIBFTTA';
-
-  var s='000201';
-  s+=amount>0?'010212':'010211';
-  s+=tlv('38',merchant);
-  s+='5303704';                     // VND
+  var s='000201'+(amount>0?'010212':'010211')+tlv('38',merchant)+'5303704';
   if(amount>0) s+=tlv('54',String(amount));
   s+='5802VN';
   if(desc) s+=tlv('62',tlv('08',desc));
   s+='6304';
-
-  // CRC16/CCITT-FALSE
   var crc=0xFFFF;
   for(var i=0;i<s.length;i++){
     crc^=s.charCodeAt(i)<<8;
-    for(var j=0;j<8;j++)
-      crc=(crc&0x8000)?((crc<<1)^0x1021)&0xFFFF:(crc<<1)&0xFFFF;
+    for(var j=0;j<8;j++) crc=(crc&0x8000)?((crc<<1)^0x1021)&0xFFFF:(crc<<1)&0xFFFF;
   }
   return s+crc.toString(16).toUpperCase().padStart(4,'0');
 }
 
-/* Vẽ QR lên canvas → gán vào <img> */
 function scheduleQRUpdate(total){
   clearTimeout(_qrTimer);
   _qrTimer=setTimeout(function(){ _renderQR(total); },350);
 }
 
 function _renderQR(total){
-  var el=document.getElementById('qrImage');
-  if(!el) return;
   if(!total||total<=0||!_qrBin||typeof qrcode==='undefined'){
-    el.src='images/bank.jpg'; return;
+    _showQR('images/bank.jpg'); return;
   }
   try{
     var emv=_buildEMV(_qrBin,_ACCT,total,'ECOHEAL DH');
@@ -1479,8 +1482,8 @@ function _renderQR(total){
     for(var r=0;r<n;r++)
       for(var c=0;c<n;c++)
         if(qr.isDark(r,c)) ctx.fillRect(c*cell,r*cell,cell,cell);
-    el.src=cv.toDataURL('image/png');
-  }catch(e){ el.src='images/bank.jpg'; }
+    _showQR(cv.toDataURL('image/png'));
+  }catch(e){ _showQR('images/bank.jpg'); }
 }
 
 init();
