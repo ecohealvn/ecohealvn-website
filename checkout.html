@@ -413,7 +413,7 @@
       flex-wrap:wrap;
     }
     .qr-img{
-      width:140px; height:140px;
+      width:220px; height:220px;
       border-radius:8px;
       border:1px solid #d9e3c8;
       object-fit:contain;
@@ -594,7 +594,7 @@
       .mini-btn,.mini-btn.primary,.login-single-btn{width:var(--mobile-login-button-width) !important;min-width:var(--mobile-login-button-width) !important;max-width:var(--mobile-login-button-width) !important;min-height:var(--input-height) !important;height:var(--input-height) !important;font-size:14px;flex:0 0 var(--mobile-login-button-width) !important;padding:0 8px !important}
       .qty-input{width:86px}
       .qr-wrap{flex-direction:column}
-      .qr-img{width:180px;height:180px}
+      .qr-img{width:240px;height:240px}
     }
   </style>
 </head>
@@ -719,9 +719,10 @@
               Tên tài khoản: CONG TY TNHH KNOWLEDGE CANDY<br>
               Số tài khoản: <strong>9102121005638</strong>
               <div class="qr-wrap">
-                <img class="qr-img" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
+                <img class="qr-img" id="qrImage" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
                 <div class="qr-meta">
                   <strong>Quét mã QR để thanh toán nhanh</strong><br>
+                  Số tiền đã được điền sẵn theo giỏ hàng<br>
                   Nhấn giữ ảnh để lưu mã QR<br>
                   Vui lòng chuyển khoản trước khi gửi đơn hàng
                 </div>
@@ -978,6 +979,21 @@ function renderSummary(){
       </div>
     </div>`;
   }).join('');
+
+  // ── Cập nhật mã QR theo tổng tiền ──────────────────
+  const qrImg = document.getElementById('qrImage');
+  if (qrImg) {
+    if (total > 0) {
+      const addInfo = encodeURIComponent('ECOHEAL DH');
+      const accountName = encodeURIComponent('CONG TY TNHH KNOWLEDGE CANDY');
+      qrImg.src = 'https://img.vietqr.io/image/ESUNBANK-9102121005638-compact.jpg'
+        + '?amount=' + total
+        + '&addInfo=' + addInfo
+        + '&accountName=' + accountName;
+    } else {
+      qrImg.src = 'images/bank.jpg';
+    }
+  }
 }
 
 // ── login ─────────────────────────────────────────────
