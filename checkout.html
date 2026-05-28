@@ -981,17 +981,24 @@ function renderSummary(){
   }).join('');
 
   // ── Cập nhật mã QR theo tổng tiền ──────────────────
-  const qrImg = document.getElementById('qrImage');
-  if (qrImg) {
-    if (total > 0) {
-      const addInfo = encodeURIComponent('ECOHEAL DH');
-      const accountName = encodeURIComponent('CONG TY TNHH KNOWLEDGE CANDY');
-      qrImg.src = 'https://img.vietqr.io/image/ESUNBANK-9102121005638-compact.jpg'
-        + '?amount=' + total
-        + '&addInfo=' + addInfo
-        + '&accountName=' + accountName;
-    } else {
-      qrImg.src = 'images/bank.jpg';
+  var qrImg=document.getElementById('qrImage');
+  if(qrImg){
+    if(total>0){
+      var addInfo=encodeURIComponent('ECOHEAL DH');
+      var accountName=encodeURIComponent('CONG TY TNHH KNOWLEDGE CANDY');
+      var dynamicSrc='https://img.vietqr.io/image/ESUN-9102121005638-compact.jpg'
+        +'?amount='+total
+        +'&addInfo='+addInfo
+        +'&accountName='+accountName;
+      qrImg.onerror=function(){
+        // Nếu không load được, fallback về ảnh tĩnh
+        this.onerror=null;
+        this.src='images/bank.jpg';
+      };
+      qrImg.src=dynamicSrc;
+    }else{
+      qrImg.onerror=null;
+      qrImg.src='images/bank.jpg';
     }
   }
 }
