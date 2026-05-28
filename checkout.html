@@ -391,39 +391,128 @@
     .hint{ margin-top:8px; font-size:12px; color:#888; line-height:1.6; }
 
     /* BANK BOX */
-    .bank-box{
+    /* ── Step 3: Payment card ─────────────────────────── */
+    .pay-card{
       border:1px solid #d9e3c8;
       background:#eef6dd;
-      padding:14px 14px 12px;
-      border-radius:4px;
-      line-height:1.8;
-      font-size:14px;
-      color:#55603f;
+      border-radius:10px;
+      overflow:hidden;
       width:var(--bank-box-width);
       max-width:100%;
     }
-    .bank-title{ font-weight:700; margin-bottom:6px; color:#4c5a38; }
 
-    /* QR */
-    .qr-wrap{
-      margin-top:12px;
+    /* Bank header row */
+    .pay-bank-header{
+      padding:12px 16px 10px;
+      border-bottom:1px solid #d0e0be;
       display:flex;
-      align-items:flex-start;
-      gap:16px;
-      flex-wrap:wrap;
+      align-items:center;
+      gap:10px;
     }
-    .qr-img{
-      width:220px; height:220px;
-      border-radius:8px;
-      border:1px solid #d9e3c8;
-      object-fit:contain;
-      background:#eef6dd;
+    .pay-bank-icon{
+      width:36px;height:36px;border-radius:50%;
+      background:#2e6b3e;
+      display:flex;align-items:center;justify-content:center;
       flex-shrink:0;
     }
-    .qr-meta{ font-size:12px; color:#666; line-height:1.8; }
-    .qr-meta strong{ color:var(--green); font-size:13px; }
+    .pay-bank-icon svg{ width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2; }
+    .pay-bank-name{ font-size:12px;font-weight:700;color:#3a5228;line-height:1.4; }
+    .pay-bank-sub{ font-size:11px;color:#6a7a58;margin-top:1px; }
 
+    /* Account row */
+    .pay-acct-row{
+      padding:10px 16px;
+      border-bottom:1px solid #d0e0be;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .pay-acct-label{ font-size:11px;color:#7a8a68; }
+    .pay-acct-num{
+      font-size:15px;font-weight:800;
+      color:#2e6b3e;letter-spacing:.04em;font-family:monospace;
+    }
+    .pay-copy-btn{
+      background:none;border:1px solid #b5d090;border-radius:5px;
+      padding:3px 9px;font-size:11px;font-weight:700;color:#3a6228;
+      cursor:pointer;white-space:nowrap;font-family:inherit;
+      transition:background .15s;flex-shrink:0;
+    }
+    .pay-copy-btn:hover{ background:#d6edbe; }
+    .pay-copy-btn.copied{ color:#fff;background:#2e6b3e;border-color:#2e6b3e; }
+
+    /* Main body: QR left, info right */
+    .pay-body{
+      padding:14px 16px 16px;
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+    }
+
+    /* QR wrapper */
+    .pay-qr-wrap{
+      position:relative;
+      flex-shrink:0;
+      width:160px;height:160px;
+      border-radius:8px;
+      background:#fff;
+      border:1px solid #c8ddb0;
+      padding:6px;
+      box-sizing:border-box;
+    }
+    .pay-qr-wrap img{
+      width:100%;height:100%;
+      object-fit:contain;border-radius:4px;
+      display:block;
+      opacity:0;
+      transition:opacity .25s ease;
+    }
+    .pay-qr-spinner{
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:center;
+      border-radius:8px;
+    }
     @keyframes qrSpin{to{transform:rotate(360deg)}}
+    .pay-qr-spinner svg{ animation:qrSpin 1s linear infinite; }
+
+    /* Info panel */
+    .pay-info{ flex:1;min-width:0; }
+
+    .pay-amount-label{
+      font-size:11px;color:#7a8a68;margin-bottom:3px;
+      text-transform:uppercase;letter-spacing:.04em;
+    }
+    .pay-amount-value{
+      font-size:1.45rem;font-weight:800;
+      color:#2e6b3e;line-height:1.2;
+      margin-bottom:10px;
+    }
+    .pay-amount-value.empty{ color:#aaa;font-size:1rem;font-weight:400; }
+
+    .pay-hints{ list-style:none;margin:0;padding:0; }
+    .pay-hints li{
+      font-size:11px;color:#667755;
+      display:flex;align-items:flex-start;gap:5px;
+      margin-bottom:5px;line-height:1.45;
+    }
+    .pay-hints li::before{
+      content:'✓';color:#4a9e5c;font-weight:700;
+      flex-shrink:0;margin-top:0px;
+    }
+
+    .pay-save-hint{
+      margin-top:10px;padding:7px 9px;
+      background:rgba(46,107,62,.08);border-radius:5px;
+      font-size:11px;color:#4c5a38;line-height:1.5;
+    }
+
+    @media(max-width:860px){
+      .pay-body{ flex-direction:column;align-items:center; }
+      .pay-qr-wrap{ width:200px;height:200px; }
+      .pay-info{ width:100%; }
+      .pay-card{ width:100% !important;max-width:none !important; }
+    }
 
     .submit-wrap{ margin-top:22px; text-align:center; }
 
@@ -595,8 +684,6 @@
       .login-password-line .input-password{width:auto !important;min-width:0 !important;flex:1 1 auto !important;max-width:none !important}
       .mini-btn,.mini-btn.primary,.login-single-btn{width:var(--mobile-login-button-width) !important;min-width:var(--mobile-login-button-width) !important;max-width:var(--mobile-login-button-width) !important;min-height:var(--input-height) !important;height:var(--input-height) !important;font-size:14px;flex:0 0 var(--mobile-login-button-width) !important;padding:0 8px !important}
       .qty-input{width:86px}
-      .qr-wrap{flex-direction:column}
-      .qr-img{width:240px;height:240px}
     }
   </style>
 </head>
@@ -715,36 +802,68 @@
             <h2 class="section-title">Thanh toán chuyển khoản</h2>
           </div>
           <div class="section-body form-stack">
-            <div class="bank-box">
-              <div class="bank-title">Thông tin tài khoản nhận tiền</div>
-              Ngân hàng: E.SUN BANK – Chi nhánh Đồng Nai (ESUNBANK)<br>
-              Tên tài khoản: CONG TY TNHH KNOWLEDGE CANDY<br>
-              Số tài khoản: <strong>9102121005638</strong>
-              <div class="qr-wrap">
-                <div style="position:relative;width:220px;flex-shrink:0;">
-                  <img class="qr-img" id="qrImage"
-                    src="images/bank.jpg"
-                    alt="QR thanh toán ECOHEAL"
-                    style="opacity:0;transition:opacity .25s ease;" />
-                  <div id="qrSpinner" style="
-                    position:absolute;inset:0;
-                    display:flex;align-items:center;justify-content:center;
-                    background:#eef6dd;border-radius:8px;border:1px solid #d9e3c8;">
-                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none"
-                      style="animation:qrSpin 1s linear infinite">
+
+            <div class="pay-card">
+              <!-- Header: bank info -->
+              <div class="pay-bank-header">
+                <div class="pay-bank-icon">
+                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3V10.5z"/></svg>
+                </div>
+                <div>
+                  <div class="pay-bank-name">E.SUN BANK – Chi nhánh Đồng Nai</div>
+                  <div class="pay-bank-sub">CONG TY TNHH KNOWLEDGE CANDY</div>
+                </div>
+              </div>
+
+              <!-- Account number + copy -->
+              <div class="pay-acct-row">
+                <div>
+                  <div class="pay-acct-label">Số tài khoản</div>
+                  <div class="pay-acct-num">9102121005638</div>
+                </div>
+                <button type="button" class="pay-copy-btn" id="copyAcctBtn"
+                  onclick="
+                    navigator.clipboard.writeText('9102121005638').then(function(){
+                      var b=document.getElementById('copyAcctBtn');
+                      b.textContent='Đã sao chép ✓';
+                      b.classList.add('copied');
+                      setTimeout(function(){ b.textContent='Sao chép'; b.classList.remove('copied'); },2000);
+                    });
+                  ">Sao chép</button>
+              </div>
+
+              <!-- Body: QR + info -->
+              <div class="pay-body">
+                <!-- QR -->
+                <div class="pay-qr-wrap">
+                  <img id="qrImage" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
+                  <div class="pay-qr-spinner" id="qrSpinner">
+                    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
                       <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
                       <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
                     </svg>
                   </div>
                 </div>
-                <div class="qr-meta">
-                  <strong>Quét mã QR để thanh toán nhanh</strong><br>
-                  Số tiền đã được điền sẵn theo giỏ hàng<br>
-                  Nhấn giữ ảnh để lưu mã QR<br>
-                  Vui lòng chuyển khoản trước khi gửi đơn hàng
+
+                <!-- Info panel -->
+                <div class="pay-info">
+                  <div class="pay-amount-label">Số tiền cần chuyển</div>
+                  <div class="pay-amount-value empty" id="payAmountDisplay">Đang tải...</div>
+
+                  <ul class="pay-hints">
+                    <li>Số tiền đã điền sẵn khi quét QR</li>
+                    <li>Nhấn giữ ảnh để lưu QR về máy</li>
+                    <li>Chuyển khoản trước khi gửi đơn</li>
+                  </ul>
+
+                  <div class="pay-save-hint">
+                    Nội dung chuyển khoản ghi<br>
+                    <strong>ECOHEAL DH</strong>
+                  </div>
                 </div>
               </div>
             </div>
+
             <div class="field">
               <label for="bank_last5">Tên người chuyển khoản *</label>
               <input class="input-bank" type="text" id="bank_last5" name="bank_last5"
@@ -753,6 +872,7 @@
                 autocomplete="off" />
               <div class="error" data-error-for="bank_last5"></div>
             </div>
+
           </div>
         </div>
 
@@ -997,7 +1117,7 @@ function renderSummary(){
     </div>`;
   }).join('');
 
-  scheduleQRUpdate(total);
+  if(typeof scheduleQRUpdate==='function') scheduleQRUpdate(total);
 }
 
 // ── login ─────────────────────────────────────────────
@@ -1362,7 +1482,7 @@ window.addEventListener('pageshow', function(e){
 });
 
 // ════════════════════════════════════════════════════
-// QR ĐỘNG: giải mã bank.jpg → BIN → sinh EMV động
+// QR ĐỘNG: giải mã bank.jpg → BIN → sinh EMV + hiển thị tiền
 // ════════════════════════════════════════════════════
 var _qrBin=null, _qrTimer=null;
 var _ACCT='9102121005638';
@@ -1373,6 +1493,18 @@ function _showQR(src){
   if(!el) return;
   el.onload=function(){ el.style.opacity='1'; if(sp) sp.style.display='none'; };
   el.src=src;
+}
+
+function _updateAmountDisplay(total){
+  var el=document.getElementById('payAmountDisplay');
+  if(!el) return;
+  if(total>0){
+    el.textContent=formatPrice(total);
+    el.classList.remove('empty');
+  } else {
+    el.textContent='—';
+    el.classList.add('empty');
+  }
 }
 
 function initQREngine(){
@@ -1398,7 +1530,6 @@ function _decodeStaticQR(){
     var id=ctx.getImageData(0,0,cv.width,cv.height);
     var res=jsQR(id.data,cv.width,cv.height,{inversionAttempts:'dontInvert'});
     if(res&&res.data) _qrBin=_extractBIN(res.data);
-    // Re-render với tổng tiền hiện tại
     var total=getGrandTotal(cartItems);
     scheduleQRUpdate(total>0?total:0);
   };
@@ -1441,9 +1572,7 @@ function _extractBIN(emv){
 
 function _buildEMV(bin,acct,amount,desc){
   function tlv(id,v){ return id+String(v.length).padStart(2,'0')+v; }
-  // Sub-item 01 bên trong ID 38: chỉ BIN + account
   var bankData=tlv('00',bin)+tlv('01',acct);
-  // ID 38: guid + bankData + serviceCode (QRIBFTTA ở cùng cấp, không phải bên trong 01)
   var merchant=tlv('00','A000000727')+tlv('01',bankData)+'0208QRIBFTTA';
   var s='000201'+(amount>0?'010212':'010211')+tlv('38',merchant)+'5303704';
   if(amount>0) s+=tlv('54',String(amount));
@@ -1460,6 +1589,7 @@ function _buildEMV(bin,acct,amount,desc){
 
 function scheduleQRUpdate(total){
   clearTimeout(_qrTimer);
+  _updateAmountDisplay(total);
   _qrTimer=setTimeout(function(){ _renderQR(total); },350);
 }
 
@@ -1473,7 +1603,7 @@ function _renderQR(total){
     qr.addData(emv,'Byte');
     qr.make();
     var n=qr.getModuleCount();
-    var cell=Math.max(3,Math.floor(660/n));
+    var cell=Math.max(3,Math.floor(500/n));
     var cv=document.createElement('canvas');
     cv.width=cv.height=cell*n;
     var ctx=cv.getContext('2d');
