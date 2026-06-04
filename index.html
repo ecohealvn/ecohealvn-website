@@ -872,12 +872,10 @@ const PROD_MAP={
   arc:        {sku:'ARC PLUS',   name:'ARC plus – Phiên bản dùng cho ô tô',  price:3500000},
   commercial: {sku:'PRO9',       name:'PRO9 – Phiên bản thương mại',         price:56780000},
 };
-let _lastAddTime=0;
 let _btnResetTimer=null;
 const COOLDOWN=1500;
 
 async function addCart(){
-  const now=Date.now();
   const active=document.querySelector('.product-panels.active');
   if(!active) return;
   const panelId=active.id.replace('panel-','');
@@ -885,33 +883,36 @@ async function addCart(){
   if(!prod) return;
   const btn=document.querySelector('#panel-'+panelId+' .plan-btn');
 
-  // 節流防呆：1.5秒內重複點擊 → 提示按太快
-  if(now-_lastAddTime<COOLDOWN){
-    if(btn){
-      clearTimeout(_btnResetTimer);
-      btn.textContent='⚠️ Bấm quá nhanh!';
-      btn.style.background='#e67e22';
-      _btnResetTimer=setTimeout(()=>{
-        btn.textContent='MUA NGAY';
-        btn.style.background='';
-      },1000);
-    }
-    return;
+  // 節流防呆：按鈕被 disabled 時完全擋下，只顯示警告
+  if(btn && btn.disabled){
+    clearTimeout(_btnResetTimer);
+    btn.textContent='⚠️ Bấm quá nhanh!';
+    btn.style.background='#e67e22';
+    _btnResetTimer=setTimeout(()=>{
+      btn.textContent='MUA NGAY';
+      btn.style.background='';
+      btn.disabled=false;
+    },COOLDOWN);
+    return; // 不加購物車，不更新數字
   }
-  _lastAddTime=now;
+
+  // 立刻鎖住按鈕，防止任何後續點擊
+  if(btn){ btn.disabled=true; }
 
   // 樂觀更新：立刻 +1，不等 API
   const countEl=document.getElementById('cartCount');
   const prevCount=parseInt(countEl.textContent||'0',10);
   countEl.textContent=prevCount+1;
 
-  // 按鈕立刻給回饋，清掉舊計時器避免堆疊
+  // 按鈕顯示成功回饋
   if(btn){
     clearTimeout(_btnResetTimer);
     btn.textContent='✓ Đã thêm!';
+    btn.style.background='';
     _btnResetTimer=setTimeout(()=>{
       btn.textContent='MUA NGAY';
-    },1500);
+      btn.disabled=false; // 1.5秒後才解鎖
+    },COOLDOWN);
   }
 
   // 背景靜默送出 API
@@ -922,7 +923,7 @@ async function addCart(){
   }catch(e){
     // API 失敗：復原數字和按鈕
     countEl.textContent=prevCount;
-    if(btn){clearTimeout(_btnResetTimer);btn.textContent='MUA NGAY';btn.style.background='';}
+    if(btn){clearTimeout(_btnResetTimer);btn.textContent='MUA NGAY';btn.style.background='';btn.disabled=false;}
     alert('Có lỗi, vui lòng thử lại');
   }
 }
