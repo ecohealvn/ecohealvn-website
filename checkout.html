@@ -1442,7 +1442,6 @@ function bindInteractions(){
     if(e.target.classList.contains('remove-item-btn')) removeCartItem(Number(e.target.dataset.index));
   });
   document.getElementById('saveProfileCheckbox').addEventListener('change',updateSaveProfileSection);
-  // Tự động điền số điện thoại Step 1 → Step 2
   document.getElementById('email').addEventListener('input',function(){
     if(profileState.mode==='loggedIn'){
       profileState.mode='idle';
@@ -1451,8 +1450,6 @@ function bindInteractions(){
       updateSaveProfileSection();
       showProfileMessage('Số điện thoại đã thay đổi, vui lòng đăng nhập lại hoặc điền thẳng thông tin nhận hàng.');
     }
-    const recipientPhone=document.getElementById('recipient_phone');
-    if(recipientPhone) recipientPhone.value=this.value;
   });
 }
 
