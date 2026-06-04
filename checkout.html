@@ -714,18 +714,19 @@
 
       <form id="checkoutForm" novalidate autocomplete="off">
 
-        <!-- STEP 1: Email / Login -->
+        <!-- STEP 1: Contact Phone / Login -->
         <div class="section">
           <div class="section-head">
             <div class="step-badge">1</div>
-            <h2 class="section-title">Email đặt hàng</h2>
+            <h2 class="section-title">Điện thoại người đặt hàng</h2>
           </div>
           <div class="section-body">
             <div class="field login-area">
               <div class="email-only-row">
                 <div class="login-password-line">
-                  <input class="input-email" type="email" id="email" name="email"
-                    placeholder="Vui lòng nhập Email *" autocomplete="off" />
+                  <input class="input-email" type="tel" id="email" name="email"
+                    placeholder="Nhập số điện thoại liên lạc *"
+                    autocomplete="off" inputmode="numeric" maxlength="15" />
                   <button type="button" id="continueBtn" class="mini-btn primary login-single-btn"
                     style="min-width:80px;max-width:80px;width:80px;flex:0 0 80px">Tiếp tục</button>
                 </div>
@@ -1154,8 +1155,8 @@ function setError(name,msg){
   if(el) el.textContent=msg;
 }
 
-function isEmailValid(email){
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+function isEmailValid(phone){
+  return /^[0-9+]{8,15}$/.test(phone.trim());
 }
 
 function needsPasswordInput(saveChecked){
@@ -1234,8 +1235,8 @@ async function submitProfileLogin(email,password){
 }
 
 async function checkEmail(){
-  const email=String(document.getElementById('email').value||'').trim().toLowerCase();
-  if(!isEmailValid(email)){setError('email','Vui lòng nhập Email hợp lệ');return;}
+  const email=String(document.getElementById('email').value||'').trim();
+  if(!isEmailValid(email)){setError('email','Vui lòng nhập số điện thoại hợp lệ');return;}
   clearErrors();
   startCheckingAnim();
   try{
@@ -1276,10 +1277,10 @@ function stopCheckingAnim(){
 async function runProfileLogin(){
   if(profileState.loggingIn) return;
   clearErrors();
-  const email=String(document.getElementById('email').value||'').trim().toLowerCase();
+  const email=String(document.getElementById('email').value||'').trim();
   const password=String(document.getElementById('profile_password').value||'').trim();
   const loginBtn=document.getElementById('loginBtn');
-  if(!isEmailValid(email)){setError('email','Vui lòng nhập Email hợp lệ');return;}
+  if(!isEmailValid(email)){setError('email','Vui lòng nhập số điện thoại hợp lệ');return;}
   if(!password){showProfileMessage('Vui lòng nhập mật khẩu, hoặc điền thẳng thông tin nhận hàng');return;}
   profileState.loggingIn=true;
   loginBtn.disabled=true;
@@ -1327,8 +1328,8 @@ function validateForm(){
   const newPassword=String(data.get('new_password')||'').trim();
 
   if(!cartItems.length){alert('Giỏ hàng đang trống');ok=false;}
-  if(!email){setError('email','Vui lòng nhập Email');ok=false;}
-  else if(!isEmailValid(email)){setError('email','Email không hợp lệ');ok=false;}
+  if(!email){setError('email','Vui lòng nhập số điện thoại');ok=false;}
+  else if(!isEmailValid(email)){setError('email','Số điện thoại không hợp lệ');ok=false;}
   if(!name){setError('recipient_name','Vui lòng nhập tên người nhận');ok=false;}
   if(!phone){setError('recipient_phone','Vui lòng nhập số điện thoại');ok=false;}
   else if(!/^[0-9]+$/.test(phone)){setError('recipient_phone','Số điện thoại chỉ được nhập số');ok=false;}
@@ -1441,14 +1442,17 @@ function bindInteractions(){
     if(e.target.classList.contains('remove-item-btn')) removeCartItem(Number(e.target.dataset.index));
   });
   document.getElementById('saveProfileCheckbox').addEventListener('change',updateSaveProfileSection);
-  document.getElementById('email').addEventListener('input',()=>{
+  // Tự động điền số điện thoại Step 1 → Step 2
+  document.getElementById('email').addEventListener('input',function(){
     if(profileState.mode==='loggedIn'){
       profileState.mode='idle';
       setLoginControlsVisible(true);
       document.getElementById('saveProfileCheckbox').checked=true;
       updateSaveProfileSection();
-      showProfileMessage('Email đã thay đổi, vui lòng đăng nhập lại hoặc điền thẳng thông tin nhận hàng.');
+      showProfileMessage('Số điện thoại đã thay đổi, vui lòng đăng nhập lại hoặc điền thẳng thông tin nhận hàng.');
     }
+    const recipientPhone=document.getElementById('recipient_phone');
+    if(recipientPhone) recipientPhone.value=this.value;
   });
 }
 
