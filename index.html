@@ -872,23 +872,59 @@ const PROD_MAP={
   arc:        {sku:'ARC PLUS',   name:'ARC plus – Phiên bản dùng cho ô tô',  price:3500000},
   commercial: {sku:'PRO9',       name:'PRO9 – Phiên bản thương mại',         price:56780000},
 };
+let _lastAddTime=0;
+let _btnResetTimer=null;
+const COOLDOWN=1500;
+
 async function addCart(){
+  const now=Date.now();
   const active=document.querySelector('.product-panels.active');
   if(!active) return;
   const panelId=active.id.replace('panel-','');
   const prod=PROD_MAP[panelId];
   if(!prod) return;
-  const sid=getSid();
-  const qs=new URLSearchParams({sid,name:prod.name,price:prod.price,qty:1,sku:prod.sku,product_id:''});
+  const btn=document.querySelector('#panel-'+panelId+' .plan-btn');
+
+  // 節流防呆：1.5秒內重複點擊 → 提示按太快
+  if(now-_lastAddTime<COOLDOWN){
+    if(btn){
+      clearTimeout(_btnResetTimer);
+      btn.textContent='⚠️ Bấm quá nhanh!';
+      btn.style.background='#e67e22';
+      _btnResetTimer=setTimeout(()=>{
+        btn.textContent='MUA NGAY';
+        btn.style.background='';
+      },1000);
+    }
+    return;
+  }
+  _lastAddTime=now;
+
+  // 樂觀更新：立刻 +1，不等 API
+  const countEl=document.getElementById('cartCount');
+  const prevCount=parseInt(countEl.textContent||'0',10);
+  countEl.textContent=prevCount+1;
+
+  // 按鈕立刻給回饋，清掉舊計時器避免堆疊
+  if(btn){
+    clearTimeout(_btnResetTimer);
+    btn.textContent='✓ Đã thêm!';
+    _btnResetTimer=setTimeout(()=>{
+      btn.textContent='MUA NGAY';
+    },1500);
+  }
+
+  // 背景靜默送出 API
   try{
+    const sid=getSid();
+    const qs=new URLSearchParams({sid,name:prod.name,price:prod.price,qty:1,sku:prod.sku,product_id:''});
     await fetch(`${CART_API}/add?${qs}`);
-    const res=await fetch(`${CART_API}/cart?sid=${sid}`);
-    const data=await res.json();
-    const n=(data.cart||[]).reduce((s,i)=>s+i.qty,0);
-    document.getElementById('cartCount').textContent=n;
-    const btn=document.querySelector('#panel-'+panelId+' .plan-btn');
-    if(btn){const orig=btn.textContent;btn.textContent='✓ Đã thêm!';setTimeout(()=>btn.textContent=orig,1500);}
-  }catch(e){alert('Có lỗi, vui lòng thử lại');}
+  }catch(e){
+    // API 失敗：復原數字和按鈕
+    countEl.textContent=prevCount;
+    if(btn){clearTimeout(_btnResetTimer);btn.textContent='MUA NGAY';btn.style.background='';}
+    alert('Có lỗi, vui lòng thử lại');
+  }
 }
 (async()=>{const sid=localStorage.getItem('ecoheal_sid');if(!sid)return;const res=await fetch(`${CART_API}/cart?sid=${sid}`).catch(()=>null);if(!res)return;const data=await res.json();const n=(data.cart||[]).reduce((s,i)=>s+i.qty,0);document.getElementById('cartCount').textContent=n;})();
 
