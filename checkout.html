@@ -1387,19 +1387,11 @@ function showSuccess(payload){
   clearCart();
   localStorage.removeItem(SID_KEY);
   const c=payload&&payload.customer;
-  const shouldSave=c&&c.save_profile&&c.email&&(c.new_password||profileState.mode==='loggedIn');
-  if(shouldSave){
-    const body={
-      email:c.email,
-      recipient_name:c.recipient_name,
-      recipient_phone:c.recipient_phone,
-      recipient_address:c.recipient_address,
-      remarks:c.remarks,
-      invoice_tax_id:c.invoice_tax_id
-    };
-    if(c.new_password) body.password=c.new_password;
+  if(c&&c.save_profile&&c.new_password&&c.email){
     fetch(`${CART_API}/profile/save`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(body)}).catch(()=>{});
+      body:JSON.stringify({email:c.email,password:c.new_password,recipient_name:c.recipient_name,
+        recipient_phone:c.recipient_phone,recipient_address:c.recipient_address,
+        remarks:c.remarks,invoice_tax_id:c.invoice_tax_id})}).catch(()=>{});
   }
   window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
 }
