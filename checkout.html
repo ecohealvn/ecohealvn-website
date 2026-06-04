@@ -976,7 +976,7 @@ function refreshSidLinks(){
 }
 
 // ── profile state ─────────────────────────────────────
-const profileState={mode:'idle',loginAttempts:0,maxLoginAttempts:3,loggingIn:false};
+const profileState={mode:'idle',loginAttempts:0,maxLoginAttempts:3,loggingIn:false,savedPassword:null};
 const DEFAULT_LOGIN_HINT='Khách hàng lần đầu chưa có mật khẩu, có thể điền thẳng thông tin nhận hàng bên dưới';
 
 let loginCountdownTimer=null;
@@ -1288,6 +1288,7 @@ async function runProfileLogin(){
   try{
     const data=await submitProfileLogin(email,password);
     if(!data||!data.ok||!data.login||!data.profile){handleLoginFailed();return;}
+    profileState.savedPassword=password; // เก็บไว้ใช้ตอน submit
     setLoggedIn(data.profile);
   }catch(_){handleLoginFailed();}
   finally{profileState.loggingIn=false;loginBtn.disabled=false;loginBtn.textContent='Đăng nhập';}
@@ -1387,9 +1388,11 @@ function showSuccess(payload){
   clearCart();
   localStorage.removeItem(SID_KEY);
   const c=payload&&payload.customer;
-  if(c&&c.save_profile&&c.new_password&&c.email){
+  // บันทึก profile: ทั้งกรณีตั้ง password ใหม่ และกรณี login แล้วแก้ข้อมูล
+  const savePassword=c?.new_password||(profileState.mode==='loggedIn'?profileState.savedPassword:null);
+  if(c&&c.save_profile&&c.email&&savePassword){
     fetch(`${CART_API}/profile/save`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:c.email,password:c.new_password,recipient_name:c.recipient_name,
+      body:JSON.stringify({email:c.email,password:savePassword,recipient_name:c.recipient_name,
         recipient_phone:c.recipient_phone,recipient_address:c.recipient_address,
         remarks:c.remarks,invoice_tax_id:c.invoice_tax_id})}).catch(()=>{});
   }
