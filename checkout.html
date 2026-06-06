@@ -1684,14 +1684,26 @@ function _startECPay() {
   _ecpayMsg('Đang tải trang thanh toán...');
 
   if (!ecpaySDKLoaded) {
-    var s = document.createElement('script');
-    s.src = 'https://ecpg-stage.ecpay.com.tw/Scripts/sdk/js/ecpay.min.js'; // Test env
-    s.onload  = function() { ecpaySDKLoaded = true; _getToken(); };
-    s.onerror = function() { _ecpayMsg('Không tải được SDK, vui lòng thử lại.'); };
-    document.head.appendChild(s);
+    // ECPay SDK cần jQuery + node-forge trước
+    _loadScript('https://code.jquery.com/jquery-3.5.1.min.js', function() {
+      _loadScript('https://cdn.jsdelivr.net/npm/node-forge@0.7.0/dist/forge.min.js', function() {
+        _loadScript('https://ecpg.ecpay.com.tw/Scripts/sdk-1.0.0.js', function() {
+          ecpaySDKLoaded = true;
+          _getToken();
+        });
+      });
+    });
   } else {
     _getToken();
   }
+}
+
+function _loadScript(src, onload) {
+  var s = document.createElement('script');
+  s.src = src;
+  s.onload  = onload;
+  s.onerror = function() { _ecpayMsg('Không tải được thư viện: ' + src); };
+  document.head.appendChild(s);
 }
 
 async function _getToken() {
@@ -1732,7 +1744,9 @@ async function _getToken() {
 
 function _renderECPay(token) {
   _ecpayMsg('Đang khởi tạo form thanh toán...');
-  ECPay.initialize('Stage', function(errMsg) { // Test env
+  // GetEnvi là hàm của ECPay SDK: 'STAGE' hoặc 'PROD'
+  var env = GetEnvi('STAGE'); // Đổi thành 'PROD' khi chạy thật
+  ECPay.initialize(env, 1, function(errMsg) {
     if (errMsg) { _ecpayMsg('Lỗi khởi tạo: ' + errMsg); return; }
     ECPay.createPayment(token, ECPay.Language.enUS, function(errMsg) {
       if (errMsg) { _ecpayMsg('Lỗi form: ' + errMsg); return; }
