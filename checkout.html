@@ -508,36 +508,29 @@
       .pay-card{ width:100% !important;max-width:none !important; }
     }
 
-    /* ── Payment method tabs ─────────────────────── */
-    .pay-method-tabs{
-      display:flex;gap:10px;margin-bottom:16px;
-    }
+    /* ── Payment method tabs ──────────────────────── */
+    .pay-method-tabs{display:flex;gap:10px;margin-bottom:16px;}
     .pay-tab{
       flex:1;padding:11px 8px;border-radius:8px;
       border:2px solid #d0e0be;background:#fff;
       font-size:14px;font-weight:700;color:#6a7a58;
       cursor:pointer;transition:all .15s;font-family:inherit;
     }
-    .pay-tab.active{
-      border-color:#2e6b3e;background:#2e6b3e;color:#fff;
-    }
-    .pay-tab:not(.active):hover{ border-color:#4a9e5c;color:#3a6228; }
-
-    .pay-section{ display:none; }
-    .pay-section.active{ display:block; }
-
-    /* ECPay iframe container */
+    .pay-tab.active{border-color:#2e6b3e;background:#2e6b3e;color:#fff;}
+    .pay-tab:not(.active):hover{border-color:#4a9e5c;color:#3a6228;}
+    .pay-section{display:none;}
+    .pay-section.active{display:block;}
     #ecpayContainer{
-      min-height:300px;border-radius:8px;
-      overflow:hidden;border:1px solid #d0e0be;background:#fff;
+      min-height:280px;border-radius:8px;overflow:hidden;
+      border:1px solid #d0e0be;background:#fff;
     }
     .ecpay-loading{
-      min-height:200px;display:flex;align-items:center;justify-content:center;
-      flex-direction:column;gap:12px;color:#6a7a58;font-size:14px;
+      min-height:200px;display:flex;align-items:center;
+      justify-content:center;flex-direction:column;gap:12px;
+      color:#6a7a58;font-size:14px;
     }
-    .ecpay-loading svg{ animation:qrSpin 1s linear infinite; }
-
-    /* ── Payment method tabs ─────────────────────── */
+    .ecpay-loading svg{animation:qrSpin 1s linear infinite;}
+    /* ─────────────────────────────────────────────── */
 
     .submit-wrap{ margin-top:22px; text-align:center; }
 
@@ -825,20 +818,20 @@
         <div class="section">
           <div class="section-head">
             <div class="step-badge">3</div>
-            <h2 class="section-title">Thanh toán chuyển khoản</h2>
+            <h2 class="section-title">Thanh toán</h2>
           </div>
           <div class="section-body form-stack">
 
-            <!-- Payment method selector -->
+            <!-- Tabs -->
             <div class="pay-method-tabs">
-              <button type="button" class="pay-tab active" data-method="bank"
+              <button type="button" class="pay-tab" data-method="bank"
                 onclick="switchPayMethod('bank')">🏦 Chuyển khoản</button>
               <button type="button" class="pay-tab" data-method="card"
                 onclick="switchPayMethod('card')">💳 Thẻ tín dụng</button>
             </div>
 
-            <!-- Bank transfer section -->
-            <div id="payBankSection" class="pay-section active">
+            <!-- Bank transfer (hidden by default) -->
+            <div id="payBankSection" class="pay-section">
               <div class="pay-card">
                 <div class="pay-bank-header">
                   <div class="pay-bank-icon">
@@ -855,14 +848,7 @@
                     <div class="pay-acct-num">9102121005638</div>
                   </div>
                   <button type="button" class="pay-copy-btn" id="copyAcctBtn"
-                    onclick="
-                      navigator.clipboard.writeText('9102121005638').then(function(){
-                        var b=document.getElementById('copyAcctBtn');
-                        b.textContent='Đã sao chép ✓';
-                        b.classList.add('copied');
-                        setTimeout(function(){ b.textContent='Sao chép'; b.classList.remove('copied'); },2000);
-                      });
-                    ">Sao chép</button>
+                    onclick="navigator.clipboard.writeText('9102121005638').then(function(){var b=document.getElementById('copyAcctBtn');b.textContent='Đã sao chép ✓';b.classList.add('copied');setTimeout(function(){b.textContent='Sao chép';b.classList.remove('copied');},2000);});">Sao chép</button>
                 </div>
                 <div class="pay-body">
                   <div class="pay-qr-wrap">
@@ -885,9 +871,19 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Bank transfer name field -->
+              <div class="field" style="margin-top:12px;">
+                <label for="bank_last5">Tên người chuyển khoản *</label>
+                <input class="input-bank" type="text" id="bank_last5" name="bank_last5"
+                  maxlength="40"
+                  placeholder="Nhập họ tên người chuyển khoản (để đối chiếu) *"
+                  autocomplete="off" />
+                <div class="error" data-error-for="bank_last5"></div>
+              </div>
             </div>
 
-            <!-- Credit card section (ECPay) -->
+            <!-- Credit card via ECPay (hidden by default) -->
             <div id="payCardSection" class="pay-section">
               <div id="ecpayContainer">
                 <div class="ecpay-loading" id="ecpayLoading">
@@ -895,19 +891,9 @@
                     <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
                     <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
                   </svg>
-                  <span>Vui lòng điền xong Bước 1 và Bước 2 trước</span>
+                  <span id="ecpayMsg">Vui lòng điền xong Bước 1 và Bước 2 trước</span>
                 </div>
               </div>
-            </div>
-
-            <!-- Transfer person name (bank transfer only) -->
-            <div id="bankLast5Field" class="field">
-              <label for="bank_last5">Tên người chuyển khoản *</label>
-              <input class="input-bank" type="text" id="bank_last5" name="bank_last5"
-                maxlength="40"
-                placeholder="Nhập họ tên người chuyển khoản (để đối chiếu) *"
-                autocomplete="off" />
-              <div class="error" data-error-for="bank_last5"></div>
             </div>
 
           </div>
@@ -1030,7 +1016,6 @@ let loginCountdownTimer=null;
 let submitCountdownTimer=null;
 let orderLocked=false;
 let cartItems=[];
-let currentPayMethod='bank';
 
 // ── cart API ─────────────────────────────────────────
 async function loadCart(){
@@ -1383,8 +1368,7 @@ function validateForm(){
   if(!phone){setError('recipient_phone','Vui lòng nhập số điện thoại');ok=false;}
   else if(!/^[0-9]+$/.test(phone)){setError('recipient_phone','Số điện thoại chỉ được nhập số');ok=false;}
   if(!address){setError('recipient_address','Vui lòng nhập địa chỉ nhận hàng');ok=false;}
-  // bank_last5 chỉ bắt buộc khi chọn chuyển khoản
-  if(currentPayMethod==='bank'&&!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
+  if(payMethod==='bank'&&!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
   if(needsPasswordInput(saveProfile)){
     if(!newPassword){setError('new_password','Vui lòng đặt mật khẩu');ok=false;}
     else if(newPassword.length<4){setError('new_password','Mật khẩu tối thiểu 4 ký tự');ok=false;}
@@ -1658,142 +1642,112 @@ function _renderQR(total){
   }catch(e){ _showQR('images/bank.jpg'); }
 }
 
-// ════════════════════════════════════════════════════
-// PAYMENT METHOD: 匯款 / 信用卡
-// ════════════════════════════════════════════════════
-var currentPayMethod = 'bank';
-var ecpayInitialized = false;
+// ── Payment method ─────────────────────────────────
+var payMethod        = 'bank'; // 'bank' | 'card'
+var ecpayReady       = false;
 var ecpaySDKLoaded   = false;
 
 function switchPayMethod(method) {
-  currentPayMethod = method;
+  payMethod = method;
 
-  // Toggle tabs
-  document.querySelectorAll('.pay-tab').forEach(function(btn) {
-    btn.classList.toggle('active', btn.dataset.method === method);
+  document.querySelectorAll('.pay-tab').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.method === method);
   });
-
-  // Toggle sections
   document.getElementById('payBankSection').classList.toggle('active', method === 'bank');
   document.getElementById('payCardSection').classList.toggle('active', method === 'card');
 
-  // bank_last5 field: show for bank, hide for card
-  var f = document.getElementById('bankLast5Field');
-  if (f) f.style.display = (method === 'bank') ? '' : 'none';
+  var submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) {
+    submitBtn.style.display = (method === 'card') ? 'none' : '';
+  }
 
-  // Submit button label
-  var btn = document.getElementById('submitBtn');
-  if (btn) btn.textContent = method === 'card' ? 'Thanh toán bằng thẻ tín dụng' : 'Gửi đơn hàng';
-
-  if (method === 'card') {
-    _maybeInitECPay();
+  if (method === 'card' && !ecpayReady) {
+    _startECPay();
   }
 }
 
-function _maybeInitECPay() {
-  if (ecpayInitialized) return;
-  var loading = document.getElementById('ecpayLoading');
-  if (loading) loading.querySelector('span').textContent = 'Đang xác nhận thông tin...';
+function _ecpayMsg(txt) {
+  var el = document.getElementById('ecpayMsg');
+  if (el) el.textContent = txt;
+}
 
-  // Must validate steps 1 & 2 first
-  if (!_validateForECPay()) {
-    if (loading) loading.querySelector('span').textContent = 'Vui lòng điền xong Bước 1 và Bước 2 trước';
+function _startECPay() {
+  var email   = (document.getElementById('email')             || {}).value || '';
+  var name    = (document.getElementById('recipient_name')    || {}).value || '';
+  var phone   = (document.getElementById('recipient_phone')   || {}).value || '';
+  var address = (document.getElementById('recipient_address') || {}).value || '';
+
+  if (!email.trim() || !name.trim() || !phone.trim() || !address.trim() || !cartItems.length) {
+    _ecpayMsg('Vui lòng điền xong Bước 1 và Bước 2 trước');
     return;
   }
+  _ecpayMsg('Đang tải trang thanh toán...');
 
-  _loadECPaySDK(function() {
-    _getECPayToken();
-  });
+  if (!ecpaySDKLoaded) {
+    var s = document.createElement('script');
+    s.src = 'https://ecpg-stage.ecpay.com.tw/Scripts/sdk/js/ecpay.min.js'; // Test env
+    s.onload  = function() { ecpaySDKLoaded = true; _getToken(); };
+    s.onerror = function() { _ecpayMsg('Không tải được SDK, vui lòng thử lại.'); };
+    document.head.appendChild(s);
+  } else {
+    _getToken();
+  }
 }
 
-function _validateForECPay() {
-  var email   = String(document.getElementById('email').value || '').trim();
-  var name    = String((document.getElementById('recipient_name')   || {}).value || '').trim();
-  var phone   = String((document.getElementById('recipient_phone')  || {}).value || '').trim();
-  var address = String((document.getElementById('recipient_address')|| {}).value || '').trim();
-  return email && name && phone && address && cartItems.length > 0;
-}
-
-function _loadECPaySDK(callback) {
-  if (ecpaySDKLoaded) { callback(); return; }
-  var s = document.createElement('script');
-  s.src = 'https://ecpg.ecpay.com.tw/Scripts/sdk/js/ecpay.min.js'; // 正式環境
-  s.onload = function() { ecpaySDKLoaded = true; callback(); };
-  s.onerror = function() {
-    var loading = document.getElementById('ecpayLoading');
-    if (loading) loading.querySelector('span').textContent = 'Không tải được SDK thanh toán, vui lòng thử lại.';
-  };
-  document.head.appendChild(s);
-}
-
-async function _getECPayToken() {
-  var loading = document.getElementById('ecpayLoading');
-  if (loading) loading.querySelector('span').textContent = 'Đang khởi tạo thanh toán...';
-
+async function _getToken() {
+  _ecpayMsg('Đang kết nối...');
   var total    = getGrandTotal(cartItems);
   var sid      = getSid();
-  var itemName = cartItems.map(function(i){ return i.name; }).join('#').slice(0, 200);
+  var itemName = cartItems.map(function(i){ return i.name; }).join('#').slice(0,200);
   var customer = {
-    email:             String(document.getElementById('email').value || '').trim(),
-    recipient_name:    String((document.getElementById('recipient_name')   || {}).value || '').trim(),
-    recipient_phone:   String((document.getElementById('recipient_phone')  || {}).value || '').trim(),
-    recipient_address: String((document.getElementById('recipient_address')|| {}).value || '').trim(),
-    remarks:           String((document.getElementById('remarks')           || {}).value || '').trim(),
-    invoice_tax_id:    String((document.getElementById('invoice_tax_id')   || {}).value || '').trim(),
+    email:             ((document.getElementById('email')             || {}).value || '').trim(),
+    recipient_name:    ((document.getElementById('recipient_name')    || {}).value || '').trim(),
+    recipient_phone:   ((document.getElementById('recipient_phone')   || {}).value || '').trim(),
+    recipient_address: ((document.getElementById('recipient_address') || {}).value || '').trim(),
+    remarks:           ((document.getElementById('remarks')           || {}).value || '').trim(),
+    invoice_tax_id:    ((document.getElementById('invoice_tax_id')    || {}).value || '').trim(),
     bank_last5: '信用卡付款'
   };
-
   try {
     var resp = await fetch(CART_API + '/ecpay/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: total, itemName, customer, cart: cartItems.map(normalizeCartItemForPayload), sid })
+      body: JSON.stringify({
+        amount: total, itemName: itemName,
+        customer: customer,
+        cart: cartItems.map(normalizeCartItemForPayload),
+        sid: sid
+      })
     });
     var data = await resp.json();
-
     if (!data.ok || !data.token) {
-      if (loading) loading.querySelector('span').textContent = 'Lỗi khởi tạo thanh toán: ' + (data.error || 'unknown');
+      _ecpayMsg('Lỗi: ' + (data.error || 'Không lấy được token'));
       return;
     }
-
-    _showECPayForm(data.token);
-  } catch (e) {
-    if (loading) loading.querySelector('span').textContent = 'Không kết nối được với máy chủ thanh toán.';
+    _renderECPay(data.token);
+  } catch(e) {
+    _ecpayMsg('Không kết nối được máy chủ thanh toán.');
   }
 }
 
-function _showECPayForm(token) {
-  var loading = document.getElementById('ecpayLoading');
-  if (loading) loading.style.display = 'none';
-
-  ECPay.initialize('Prod', function(errMsg) {
-    if (errMsg) {
-      if (loading) { loading.style.display = ''; loading.querySelector('span').textContent = 'Lỗi SDK: ' + errMsg; }
-      return;
-    }
+function _renderECPay(token) {
+  _ecpayMsg('Đang khởi tạo form thanh toán...');
+  ECPay.initialize('Stage', function(errMsg) { // Test env
+    if (errMsg) { _ecpayMsg('Lỗi khởi tạo: ' + errMsg); return; }
     ECPay.createPayment(token, ECPay.Language.enUS, function(errMsg) {
-      if (errMsg) {
-        if (loading) { loading.style.display = ''; loading.querySelector('span').textContent = 'Lỗi tải form: ' + errMsg; }
-      } else {
-        ecpayInitialized = true;
-        // Ẩn nút submit (ECPay có nút pay riêng)
-        var btn = document.getElementById('submitBtn');
-        if (btn) btn.style.display = 'none';
-      }
+      if (errMsg) { _ecpayMsg('Lỗi form: ' + errMsg); return; }
+      ecpayReady = true;
+      document.getElementById('ecpayLoading').style.display = 'none';
     }, 'V2');
   });
 }
 
-// Xử lý kết quả thanh toán ECPay (redirect về checkout?ecpay_result=1)
+// Xử lý kết quả ECPay redirect (checkout?ecpay_result=1)
 (function() {
-  var params = new URLSearchParams(window.location.search);
-  if (params.get('ecpay_result') === '1') {
-    // Hiển thị success sau khi trang load xong
-    window.addEventListener('DOMContentLoaded', function() {
-      setTimeout(function() {
-        var sid = params.get('sid') || getSid();
-        showSuccess({ orderNo: 'Credit Card', sid: sid }, 'credit_card');
-      }, 500);
+  var p = new URLSearchParams(window.location.search);
+  if (p.get('ecpay_result') === '1') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(showSuccess, 600);
     });
   }
 })();
