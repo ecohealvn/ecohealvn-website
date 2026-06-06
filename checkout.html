@@ -508,6 +508,37 @@
       .pay-card{ width:100% !important;max-width:none !important; }
     }
 
+    /* ── Payment method tabs ─────────────────────── */
+    .pay-method-tabs{
+      display:flex;gap:10px;margin-bottom:16px;
+    }
+    .pay-tab{
+      flex:1;padding:11px 8px;border-radius:8px;
+      border:2px solid #d0e0be;background:#fff;
+      font-size:14px;font-weight:700;color:#6a7a58;
+      cursor:pointer;transition:all .15s;font-family:inherit;
+    }
+    .pay-tab.active{
+      border-color:#2e6b3e;background:#2e6b3e;color:#fff;
+    }
+    .pay-tab:not(.active):hover{ border-color:#4a9e5c;color:#3a6228; }
+
+    .pay-section{ display:none; }
+    .pay-section.active{ display:block; }
+
+    /* ECPay iframe container */
+    #ecpayContainer{
+      min-height:300px;border-radius:8px;
+      overflow:hidden;border:1px solid #d0e0be;background:#fff;
+    }
+    .ecpay-loading{
+      min-height:200px;display:flex;align-items:center;justify-content:center;
+      flex-direction:column;gap:12px;color:#6a7a58;font-size:14px;
+    }
+    .ecpay-loading svg{ animation:qrSpin 1s linear infinite; }
+
+    /* ── Payment method tabs ─────────────────────── */
+
     .submit-wrap{ margin-top:22px; text-align:center; }
 
     .submit-btn{
@@ -798,63 +829,79 @@
           </div>
           <div class="section-body form-stack">
 
-            <div class="pay-card">
-              <!-- Header: bank info -->
-              <div class="pay-bank-header">
-                <div class="pay-bank-icon">
-                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3V10.5z"/></svg>
-                </div>
-                <div>
-                  <div class="pay-bank-name">E.SUN BANK – Chi nhánh Đồng Nai</div>
-                  <div class="pay-bank-sub">CONG TY TNHH KNOWLEDGE CANDY</div>
-                </div>
-              </div>
+            <!-- Payment method selector -->
+            <div class="pay-method-tabs">
+              <button type="button" class="pay-tab active" data-method="bank"
+                onclick="switchPayMethod('bank')">🏦 Chuyển khoản</button>
+              <button type="button" class="pay-tab" data-method="card"
+                onclick="switchPayMethod('card')">💳 Thẻ tín dụng</button>
+            </div>
 
-              <!-- Account number + copy -->
-              <div class="pay-acct-row">
-                <div>
-                  <div class="pay-acct-label">Số tài khoản</div>
-                  <div class="pay-acct-num">9102121005638</div>
-                </div>
-                <button type="button" class="pay-copy-btn" id="copyAcctBtn"
-                  onclick="
-                    navigator.clipboard.writeText('9102121005638').then(function(){
-                      var b=document.getElementById('copyAcctBtn');
-                      b.textContent='Đã sao chép ✓';
-                      b.classList.add('copied');
-                      setTimeout(function(){ b.textContent='Sao chép'; b.classList.remove('copied'); },2000);
-                    });
-                  ">Sao chép</button>
-              </div>
-
-              <!-- Body: QR + info -->
-              <div class="pay-body">
-                <!-- QR -->
-                <div class="pay-qr-wrap">
-                  <img id="qrImage" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
-                  <div class="pay-qr-spinner" id="qrSpinner">
-                    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-                      <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
-                      <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
-                    </svg>
+            <!-- Bank transfer section -->
+            <div id="payBankSection" class="pay-section active">
+              <div class="pay-card">
+                <div class="pay-bank-header">
+                  <div class="pay-bank-icon">
+                    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3V10.5z"/></svg>
+                  </div>
+                  <div>
+                    <div class="pay-bank-name">E.SUN BANK – Chi nhánh Đồng Nai</div>
+                    <div class="pay-bank-sub">CONG TY TNHH KNOWLEDGE CANDY</div>
                   </div>
                 </div>
-
-                <!-- Info panel -->
-                <div class="pay-info">
-                  <div class="pay-amount-label">Số tiền cần chuyển</div>
-                  <div class="pay-amount-value empty" id="payAmountDisplay">Đang tải...</div>
-
-                  <ul class="pay-hints">
-                    <li>Số tiền đã điền sẵn khi quét QR</li>
-                    <li>Nhấn giữ ảnh để lưu QR về máy</li>
-                    <li>Chuyển khoản trước khi gửi đơn</li>
-                  </ul>
+                <div class="pay-acct-row">
+                  <div>
+                    <div class="pay-acct-label">Số tài khoản</div>
+                    <div class="pay-acct-num">9102121005638</div>
+                  </div>
+                  <button type="button" class="pay-copy-btn" id="copyAcctBtn"
+                    onclick="
+                      navigator.clipboard.writeText('9102121005638').then(function(){
+                        var b=document.getElementById('copyAcctBtn');
+                        b.textContent='Đã sao chép ✓';
+                        b.classList.add('copied');
+                        setTimeout(function(){ b.textContent='Sao chép'; b.classList.remove('copied'); },2000);
+                      });
+                    ">Sao chép</button>
+                </div>
+                <div class="pay-body">
+                  <div class="pay-qr-wrap">
+                    <img id="qrImage" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
+                    <div class="pay-qr-spinner" id="qrSpinner">
+                      <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
+                        <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="pay-info">
+                    <div class="pay-amount-label">Số tiền cần chuyển</div>
+                    <div class="pay-amount-value empty" id="payAmountDisplay">Đang tải...</div>
+                    <ul class="pay-hints">
+                      <li>Số tiền đã điền sẵn khi quét QR</li>
+                      <li>Nhấn giữ ảnh để lưu QR về máy</li>
+                      <li>Chuyển khoản trước khi gửi đơn</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="field">
+            <!-- Credit card section (ECPay) -->
+            <div id="payCardSection" class="pay-section">
+              <div id="ecpayContainer">
+                <div class="ecpay-loading" id="ecpayLoading">
+                  <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+                    <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
+                    <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
+                  </svg>
+                  <span>Vui lòng điền xong Bước 1 và Bước 2 trước</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transfer person name (bank transfer only) -->
+            <div id="bankLast5Field" class="field">
               <label for="bank_last5">Tên người chuyển khoản *</label>
               <input class="input-bank" type="text" id="bank_last5" name="bank_last5"
                 maxlength="40"
@@ -983,6 +1030,7 @@ let loginCountdownTimer=null;
 let submitCountdownTimer=null;
 let orderLocked=false;
 let cartItems=[];
+let currentPayMethod='bank';
 
 // ── cart API ─────────────────────────────────────────
 async function loadCart(){
@@ -1335,7 +1383,8 @@ function validateForm(){
   if(!phone){setError('recipient_phone','Vui lòng nhập số điện thoại');ok=false;}
   else if(!/^[0-9]+$/.test(phone)){setError('recipient_phone','Số điện thoại chỉ được nhập số');ok=false;}
   if(!address){setError('recipient_address','Vui lòng nhập địa chỉ nhận hàng');ok=false;}
-  if(!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
+  // bank_last5 chỉ bắt buộc khi chọn chuyển khoản
+  if(currentPayMethod==='bank'&&!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
   if(needsPasswordInput(saveProfile)){
     if(!newPassword){setError('new_password','Vui lòng đặt mật khẩu');ok=false;}
     else if(newPassword.length<4){setError('new_password','Mật khẩu tối thiểu 4 ký tự');ok=false;}
@@ -1608,6 +1657,146 @@ function _renderQR(total){
     _showQR(cv.toDataURL('image/png'));
   }catch(e){ _showQR('images/bank.jpg'); }
 }
+
+// ════════════════════════════════════════════════════
+// PAYMENT METHOD: 匯款 / 信用卡
+// ════════════════════════════════════════════════════
+var currentPayMethod = 'bank';
+var ecpayInitialized = false;
+var ecpaySDKLoaded   = false;
+
+function switchPayMethod(method) {
+  currentPayMethod = method;
+
+  // Toggle tabs
+  document.querySelectorAll('.pay-tab').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.method === method);
+  });
+
+  // Toggle sections
+  document.getElementById('payBankSection').classList.toggle('active', method === 'bank');
+  document.getElementById('payCardSection').classList.toggle('active', method === 'card');
+
+  // bank_last5 field: show for bank, hide for card
+  var f = document.getElementById('bankLast5Field');
+  if (f) f.style.display = (method === 'bank') ? '' : 'none';
+
+  // Submit button label
+  var btn = document.getElementById('submitBtn');
+  if (btn) btn.textContent = method === 'card' ? 'Thanh toán bằng thẻ tín dụng' : 'Gửi đơn hàng';
+
+  if (method === 'card') {
+    _maybeInitECPay();
+  }
+}
+
+function _maybeInitECPay() {
+  if (ecpayInitialized) return;
+  var loading = document.getElementById('ecpayLoading');
+  if (loading) loading.querySelector('span').textContent = 'Đang xác nhận thông tin...';
+
+  // Must validate steps 1 & 2 first
+  if (!_validateForECPay()) {
+    if (loading) loading.querySelector('span').textContent = 'Vui lòng điền xong Bước 1 và Bước 2 trước';
+    return;
+  }
+
+  _loadECPaySDK(function() {
+    _getECPayToken();
+  });
+}
+
+function _validateForECPay() {
+  var email   = String(document.getElementById('email').value || '').trim();
+  var name    = String((document.getElementById('recipient_name')   || {}).value || '').trim();
+  var phone   = String((document.getElementById('recipient_phone')  || {}).value || '').trim();
+  var address = String((document.getElementById('recipient_address')|| {}).value || '').trim();
+  return email && name && phone && address && cartItems.length > 0;
+}
+
+function _loadECPaySDK(callback) {
+  if (ecpaySDKLoaded) { callback(); return; }
+  var s = document.createElement('script');
+  s.src = 'https://ecpg.ecpay.com.tw/Scripts/sdk/js/ecpay.min.js'; // 正式環境
+  s.onload = function() { ecpaySDKLoaded = true; callback(); };
+  s.onerror = function() {
+    var loading = document.getElementById('ecpayLoading');
+    if (loading) loading.querySelector('span').textContent = 'Không tải được SDK thanh toán, vui lòng thử lại.';
+  };
+  document.head.appendChild(s);
+}
+
+async function _getECPayToken() {
+  var loading = document.getElementById('ecpayLoading');
+  if (loading) loading.querySelector('span').textContent = 'Đang khởi tạo thanh toán...';
+
+  var total    = getGrandTotal(cartItems);
+  var sid      = getSid();
+  var itemName = cartItems.map(function(i){ return i.name; }).join('#').slice(0, 200);
+  var customer = {
+    email:             String(document.getElementById('email').value || '').trim(),
+    recipient_name:    String((document.getElementById('recipient_name')   || {}).value || '').trim(),
+    recipient_phone:   String((document.getElementById('recipient_phone')  || {}).value || '').trim(),
+    recipient_address: String((document.getElementById('recipient_address')|| {}).value || '').trim(),
+    remarks:           String((document.getElementById('remarks')           || {}).value || '').trim(),
+    invoice_tax_id:    String((document.getElementById('invoice_tax_id')   || {}).value || '').trim(),
+    bank_last5: '信用卡付款'
+  };
+
+  try {
+    var resp = await fetch(CART_API + '/ecpay/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: total, itemName, customer, cart: cartItems.map(normalizeCartItemForPayload), sid })
+    });
+    var data = await resp.json();
+
+    if (!data.ok || !data.token) {
+      if (loading) loading.querySelector('span').textContent = 'Lỗi khởi tạo thanh toán: ' + (data.error || 'unknown');
+      return;
+    }
+
+    _showECPayForm(data.token);
+  } catch (e) {
+    if (loading) loading.querySelector('span').textContent = 'Không kết nối được với máy chủ thanh toán.';
+  }
+}
+
+function _showECPayForm(token) {
+  var loading = document.getElementById('ecpayLoading');
+  if (loading) loading.style.display = 'none';
+
+  ECPay.initialize('Prod', function(errMsg) {
+    if (errMsg) {
+      if (loading) { loading.style.display = ''; loading.querySelector('span').textContent = 'Lỗi SDK: ' + errMsg; }
+      return;
+    }
+    ECPay.createPayment(token, ECPay.Language.enUS, function(errMsg) {
+      if (errMsg) {
+        if (loading) { loading.style.display = ''; loading.querySelector('span').textContent = 'Lỗi tải form: ' + errMsg; }
+      } else {
+        ecpayInitialized = true;
+        // Ẩn nút submit (ECPay có nút pay riêng)
+        var btn = document.getElementById('submitBtn');
+        if (btn) btn.style.display = 'none';
+      }
+    }, 'V2');
+  });
+}
+
+// Xử lý kết quả thanh toán ECPay (redirect về checkout?ecpay_result=1)
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('ecpay_result') === '1') {
+    // Hiển thị success sau khi trang load xong
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        var sid = params.get('sid') || getSid();
+        showSuccess({ orderNo: 'Credit Card', sid: sid }, 'credit_card');
+      }, 500);
+    });
+  }
+})();
 
 init();
 </script>
