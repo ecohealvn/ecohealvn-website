@@ -1745,7 +1745,7 @@ async function _getToken() {
 function _renderECPay(token) {
   _ecpayMsg('Đang khởi tạo form thanh toán...');
   // GetEnvi là hàm của ECPay SDK: 'STAGE' hoặc 'PROD'
-  var env = GetEnvi('STAGE'); // Đổi thành 'PROD' khi chạy thật
+  var env = GetEnvi('PROD'); // 正式環境
   ECPay.initialize(env, 1, function(errMsg) {
     if (errMsg) { _ecpayMsg('Lỗi khởi tạo: ' + errMsg); return; }
     ECPay.createPayment(token, ECPay.Language.enUS, function(errMsg) {
