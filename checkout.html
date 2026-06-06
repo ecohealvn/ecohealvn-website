@@ -1733,7 +1733,7 @@ async function _getToken() {
     });
     var data = await resp.json();
     if (!data.ok || !data.token) {
-      _ecpayMsg('Lỗi: ' + (data.error || 'Không lấy được token'));
+      _ecpayMsg('Lỗi: ' + (data.error || 'Không lấy được token') + (data.debug ? ' | ' + JSON.stringify(data.debug) : ''));
       return;
     }
     _renderECPay(data.token);
