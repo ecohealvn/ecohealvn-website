@@ -1733,7 +1733,11 @@ async function _getToken() {
     });
     var data = await resp.json();
     if (!data.ok || !data.token) {
-      _ecpayMsg('Lỗi: ' + (data.error || 'Không lấy được token') + (data.debug ? ' | ' + JSON.stringify(data.debug) : ''));
+      var errMsg = 'Lỗi: ' + (data.error || 'Không lấy được token');
+      if (data._debug) errMsg += '\n\nDEBUG innerData:\n' + JSON.stringify(data._debug.innerData, null, 2);
+      if (data.debug) errMsg += '\n\nECPay response: ' + JSON.stringify(data.debug);
+      _ecpayMsg(errMsg);
+      console.error('ECPay debug:', data);
       return;
     }
     _renderECPay(data.token);
