@@ -1795,7 +1795,7 @@ function _renderECPay(token) {
   // GetEnvi là hàm của ECPay SDK: 'STAGE' hoặc 'PROD'
   ECPay.initialize('Prod', 1, function(errMsg) {
     if (errMsg) { _ecpayMsg('Lỗi khởi tạo: ' + errMsg); return; }
-    ECPay.createPayment(token, ECPay.Language.enUS, function(errMsg) {
+    ECPay.createPayment(token, ECPay.Language.zhTW, function(errMsg) {
       if (errMsg) { _ecpayMsg('Lỗi form: ' + errMsg); return; }
       ecpayReady = true;
       // 完全隱藏 loading 框
