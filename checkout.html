@@ -1747,7 +1747,8 @@ async function _getToken() {
     }
     _renderECPay(data.token);
   } catch(e) {
-    _ecpayMsg('Không kết nối được máy chủ thanh toán.');
+    _ecpayMsg('Không kết nối được máy chủ thanh toán. | ' + (e && e.message || String(e)));
+    console.error('_getToken error:', e);
   }
 }
 
