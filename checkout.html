@@ -829,88 +829,57 @@
         <div class="section">
           <div class="section-head">
             <div class="step-badge">3</div>
-            <h2 class="section-title">Thanh toán</h2>
+            <h2 class="section-title">Thanh toán chuyển khoản</h2>
           </div>
           <div class="section-body form-stack">
 
-            <!-- Tabs -->
-            <div class="pay-method-tabs">
-              <button type="button" class="pay-tab" data-method="bank"
-                onclick="switchPayMethod('bank')">🏦 Chuyển khoản</button>
-              <button type="button" class="pay-tab" data-method="card"
-                onclick="switchPayMethod('card')">💳 Thẻ tín dụng</button>
-            </div>
-
-            <!-- Bank transfer (hidden by default) -->
-            <div id="payBankSection" class="pay-section">
-              <div class="pay-card">
-                <div class="pay-bank-header">
-                  <div class="pay-bank-icon">
-                    <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3V10.5z"/></svg>
-                  </div>
-                  <div>
-                    <div class="pay-bank-name">E.SUN BANK – Chi nhánh Đồng Nai</div>
-                    <div class="pay-bank-sub">CONG TY TNHH KNOWLEDGE CANDY</div>
-                  </div>
+            <div class="pay-card">
+              <div class="pay-bank-header">
+                <div class="pay-bank-icon">
+                  <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3V10.5z"/></svg>
                 </div>
-                <div class="pay-acct-row">
-                  <div>
-                    <div class="pay-acct-label">Số tài khoản</div>
-                    <div class="pay-acct-num">9102121005638</div>
-                  </div>
-                  <button type="button" class="pay-copy-btn" id="copyAcctBtn"
-                    onclick="navigator.clipboard.writeText('9102121005638').then(function(){var b=document.getElementById('copyAcctBtn');b.textContent='Đã sao chép ✓';b.classList.add('copied');setTimeout(function(){b.textContent='Sao chép';b.classList.remove('copied');},2000);});">Sao chép</button>
-                </div>
-                <div class="pay-body">
-                  <div class="pay-qr-wrap">
-                    <img id="qrImage" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
-                    <div class="pay-qr-spinner" id="qrSpinner">
-                      <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-                        <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
-                        <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="pay-info">
-                    <div class="pay-amount-label">Số tiền cần chuyển</div>
-                    <div class="pay-amount-value empty" id="payAmountDisplay">Đang tải...</div>
-                    <ul class="pay-hints">
-                      <li>Số tiền đã điền sẵn khi quét QR</li>
-                      <li>Nhấn giữ ảnh để lưu QR về máy</li>
-                      <li>Chuyển khoản trước khi gửi đơn</li>
-                    </ul>
-                  </div>
+                <div>
+                  <div class="pay-bank-name">E.SUN BANK – Chi nhánh Đồng Nai</div>
+                  <div class="pay-bank-sub">CONG TY TNHH KNOWLEDGE CANDY</div>
                 </div>
               </div>
-
-              <!-- Bank transfer name field -->
-              <div class="field" style="margin-top:12px;">
-                <label for="bank_last5">Tên người chuyển khoản *</label>
-                <input class="input-bank" type="text" id="bank_last5" name="bank_last5"
-                  maxlength="40"
-                  placeholder="Nhập họ tên người chuyển khoản (để đối chiếu) *"
-                  autocomplete="off" />
-                <div class="error" data-error-for="bank_last5"></div>
+              <div class="pay-acct-row">
+                <div>
+                  <div class="pay-acct-label">Số tài khoản</div>
+                  <div class="pay-acct-num">9102121005638</div>
+                </div>
+                <button type="button" class="pay-copy-btn" id="copyAcctBtn"
+                  onclick="navigator.clipboard.writeText('9102121005638').then(function(){var b=document.getElementById('copyAcctBtn');b.textContent='Đã sao chép ✓';b.classList.add('copied');setTimeout(function(){b.textContent='Sao chép';b.classList.remove('copied');},2000);});">Sao chép</button>
+              </div>
+              <div class="pay-body">
+                <div class="pay-qr-wrap">
+                  <img id="qrImage" src="images/bank.jpg" alt="QR thanh toán ECOHEAL" />
+                  <div class="pay-qr-spinner" id="qrSpinner">
+                    <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+                      <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
+                      <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="pay-info">
+                  <div class="pay-amount-label">Số tiền cần chuyển</div>
+                  <div class="pay-amount-value empty" id="payAmountDisplay">Đang tải...</div>
+                  <ul class="pay-hints">
+                    <li>Số tiền đã điền sẵn khi quét QR</li>
+                    <li>Nhấn giữ ảnh để lưu QR về máy</li>
+                    <li>Chuyển khoản trước khi gửi đơn</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
-            <!-- Credit card via ECPay (hidden by default) -->
-            <div id="payCardSection" class="pay-section">
-              <div id="ecpayContainer">
-                <!-- 綠界 SDK 需要這個 id -->
-                <div id="ECPayPayment"></div>
-                <div class="ecpay-loading" id="ecpayLoading">
-                  <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
-                    <circle cx="18" cy="18" r="14" stroke="#c8ddb0" stroke-width="4"/>
-                    <path d="M18 4 A14 14 0 0 1 32 18" stroke="#2e6b3e" stroke-width="4" stroke-linecap="round"/>
-                  </svg>
-                  <span id="ecpayMsg">Vui lòng điền xong Bước 1 và Bước 2 trước</span>
-                </div>
-              </div>
-              <button type="button" id="ecpayPayBtn" onclick="doECPayPay()">
-                💳 Thanh toán ngay
-              </button>
-              <div id="ecpayError" style="display:none;color:#c0392b;font-size:13px;padding:8px;margin-top:8px;background:#fff0f0;border-radius:6px;word-break:break-all;"></div>
+            <div class="field" style="margin-top:12px;">
+              <label for="bank_last5">Tên người chuyển khoản *</label>
+              <input class="input-bank" type="text" id="bank_last5" name="bank_last5"
+                maxlength="40"
+                placeholder="Nhập họ tên người chuyển khoản (để đối chiếu) *"
+                autocomplete="off" />
+              <div class="error" data-error-for="bank_last5"></div>
             </div>
 
           </div>
@@ -1385,7 +1354,7 @@ function validateForm(){
   if(!phone){setError('recipient_phone','Vui lòng nhập số điện thoại');ok=false;}
   else if(!/^[0-9]+$/.test(phone)){setError('recipient_phone','Số điện thoại chỉ được nhập số');ok=false;}
   if(!address){setError('recipient_address','Vui lòng nhập địa chỉ nhận hàng');ok=false;}
-  if(payMethod==='bank'&&!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
+  if(!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
   if(needsPasswordInput(saveProfile)){
     if(!newPassword){setError('new_password','Vui lòng đặt mật khẩu');ok=false;}
     else if(newPassword.length<4){setError('new_password','Mật khẩu tối thiểu 4 ký tự');ok=false;}
