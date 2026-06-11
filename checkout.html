@@ -1798,9 +1798,12 @@ function _renderECPay(token) {
 async function doECPayPay() {
   var btn = document.getElementById('ecpayPayBtn');
   if (btn) { btn.disabled = true; btn.textContent = 'Đang xử lý...'; }
+  console.log('[ECPay] doECPayPay clicked, ECPay=', typeof ECPay, 'getPayToken=', typeof (ECPay && ECPay.getPayToken));
 
+  try {
   // ECPay.getPayToken callback: (paymentInfo, errMsg)
   ECPay.getPayToken(async function(paymentInfo, errMsg) {
+    console.log('[ECPay] getPayToken callback: paymentInfo=', paymentInfo, 'errMsg=', errMsg);
     if (errMsg != null) {
       _ecpayMsg('Lỗi lấy PayToken: ' + JSON.stringify(errMsg));
       if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
@@ -1823,9 +1826,15 @@ async function doECPayPay() {
       }
     } catch(e) {
       _ecpayMsg('Lỗi kết nối: ' + e.message);
+      console.error('[ECPay] fetch error:', e);
       if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
     }
   });
+  } catch(outerErr) {
+    console.error('[ECPay] getPayToken threw:', outerErr);
+    _ecpayMsg('Lỗi: ' + outerErr.message);
+    if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
+  }
 }
 
 // Xử lý kết quả ECPay redirect (checkout?ecpay_result=1)
