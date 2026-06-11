@@ -1786,7 +1786,9 @@ function _renderECPay(token) {
     ECPay.createPayment(token, ECPay.Language.enUS, function(errMsg) {
       if (errMsg) { _ecpayMsg('Lỗi form: ' + errMsg); return; }
       ecpayReady = true;
-      _ecpayHideLoading();
+      // 完全隱藏 loading 框
+      var loadingDiv = document.getElementById('ecpayLoading');
+      if (loadingDiv) { loadingDiv.style.display = 'none'; loadingDiv.style.visibility = 'hidden'; loadingDiv.style.height = '0'; loadingDiv.style.overflow = 'hidden'; }
       var payBtn = document.getElementById('ecpayPayBtn');
       if (payBtn) payBtn.style.display = 'block';
     }, 'V2');
@@ -1797,23 +1799,26 @@ async function doECPayPay() {
   var btn = document.getElementById('ecpayPayBtn');
   if (btn) { btn.disabled = true; btn.textContent = 'Đang xử lý...'; }
 
-  ECPay.getPayToken(async function(errMsg, payToken) {
-    if (errMsg) {
-      _ecpayMsg('Lỗi lấy PayToken: ' + errMsg);
+  // ECPay.getPayToken callback: (paymentInfo, errMsg)
+  ECPay.getPayToken(async function(paymentInfo, errMsg) {
+    if (errMsg != null) {
+      _ecpayMsg('Lỗi lấy PayToken: ' + JSON.stringify(errMsg));
       if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
       return;
     }
+    var payToken = paymentInfo.PayToken;
+    var merchantTradeNo = paymentInfo.MerchantTradeNo;
     try {
       var resp = await fetch(CART_API + '/ecpay/pay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ payToken: payToken, sid: getSid() })
+        body: JSON.stringify({ payToken: payToken, tradeNo: merchantTradeNo, sid: getSid() })
       });
       var data = await resp.json();
       if (data.ok && data.threeDUrl) {
         window.location.href = data.threeDUrl;
       } else {
-        _ecpayMsg('Lỗi tạo giao dịch: ' + (data.error || 'unknown'));
+        _ecpayMsg('Lỗi: ' + (data.error || JSON.stringify(data)));
         if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
       }
     } catch(e) {
