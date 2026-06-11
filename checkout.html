@@ -522,11 +522,19 @@
     .pay-section.active{display:block;}
     #ecpayContainer{
       border-radius:8px;
-      border:1px solid #d0e0be;background:#fff;
+      border:1px solid #d0e0be;
+      background:#fff;
+      min-height:420px;
     }
-    #ECPayPayment{
-      width:100%;
+    #ECPayPayment{ width:100%; }
+    #ecpayPayBtn{
+      display:none;
+      width:100%;margin-top:12px;padding:14px;
+      background:#2e6b3e;color:#fff;border:none;border-radius:8px;
+      font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;
     }
+    #ecpayPayBtn:hover{ background:#1e5a2e; }
+    #ecpayPayBtn:disabled{ background:#aaa;cursor:default; }
     .ecpay-loading{
       min-height:200px;display:flex;align-items:center;
       justify-content:center;flex-direction:column;gap:12px;
@@ -899,6 +907,9 @@
                   <span id="ecpayMsg">Vui lòng điền xong Bước 1 và Bước 2 trước</span>
                 </div>
               </div>
+              <button type="button" id="ecpayPayBtn" onclick="doECPayPay()">
+                💳 Thanh toán ngay
+              </button>
             </div>
 
           </div>
@@ -1776,7 +1787,39 @@ function _renderECPay(token) {
       if (errMsg) { _ecpayMsg('Lỗi form: ' + errMsg); return; }
       ecpayReady = true;
       _ecpayHideLoading();
+      var payBtn = document.getElementById('ecpayPayBtn');
+      if (payBtn) payBtn.style.display = 'block';
     }, 'V2');
+  });
+}
+
+async function doECPayPay() {
+  var btn = document.getElementById('ecpayPayBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Đang xử lý...'; }
+
+  ECPay.getPayToken(async function(errMsg, payToken) {
+    if (errMsg) {
+      _ecpayMsg('Lỗi lấy PayToken: ' + errMsg);
+      if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
+      return;
+    }
+    try {
+      var resp = await fetch(CART_API + '/ecpay/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payToken: payToken, sid: getSid() })
+      });
+      var data = await resp.json();
+      if (data.ok && data.threeDUrl) {
+        window.location.href = data.threeDUrl;
+      } else {
+        _ecpayMsg('Lỗi tạo giao dịch: ' + (data.error || 'unknown'));
+        if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
+      }
+    } catch(e) {
+      _ecpayMsg('Lỗi kết nối: ' + e.message);
+      if (btn) { btn.disabled = false; btn.textContent = '💳 Thanh toán ngay'; }
+    }
   });
 }
 
