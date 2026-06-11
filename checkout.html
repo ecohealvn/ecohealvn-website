@@ -1411,17 +1411,22 @@ function lockCheckout(){
   document.querySelectorAll('.summary-top .continue-btn').forEach(el=>{el.classList.add('disabled-link');el.setAttribute('aria-disabled','true');});
 }
 
-function showSuccess(payload){
+function showSuccess(payload, paymentMethod){
   const resultBox=document.getElementById('resultBox');
   const resultText=document.getElementById('resultText');
   const submitBtn=document.getElementById('submitBtn');
-  resultText.textContent='Chúng tôi đã nhận được đơn hàng của bạn. Đội ngũ ECOHEAL sẽ liên hệ xác nhận trong vòng 24 giờ. Nếu có thắc mắc vui lòng liên hệ ecoheal@ecohealvn.com';
+
+  if (paymentMethod === 'credit_card') {
+    resultText.innerHTML = '🎉 <strong>Chúc mừng! Bạn đã nhận được ưu đãi giảm giá bất ngờ từ ECOHEAL!</strong><br><br>Đơn hàng thanh toán thành công. Đội ngũ ECOHEAL sẽ liên hệ xác nhận và giao hàng trong vòng 24 giờ. Nếu có thắc mắc vui lòng liên hệ ecoheal@ecohealvn.com';
+  } else {
+    resultText.textContent='Chúng tôi đã nhận được đơn hàng của bạn. Đội ngũ ECOHEAL sẽ liên hệ xác nhận trong vòng 24 giờ. Nếu có thắc mắc vui lòng liên hệ ecoheal@ecohealvn.com';
+  }
+
   resultBox.style.display='block';
   submitBtn.disabled=true;
   clearCart();
   localStorage.removeItem(SID_KEY);
   const c=payload&&payload.customer;
-  // บันทึก profile: ทั้งกรณีตั้ง password ใหม่ และกรณี login แล้วแก้ข้อมูล
   const savePassword=c?.new_password||(profileState.mode==='loggedIn'?profileState.savedPassword:null);
   if(c&&c.save_profile&&c.email&&savePassword){
     fetch(`${CART_API}/profile/save`,{method:'POST',headers:{'Content-Type':'application/json'},
@@ -1765,7 +1770,7 @@ function _renderECPay(token) {
   var p = new URLSearchParams(window.location.search);
   if (p.get('ecpay_result') === '1') {
     document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(showSuccess, 600);
+      setTimeout(function(){ showSuccess({}, 'credit_card'); }, 600);
     });
   }
 })();
