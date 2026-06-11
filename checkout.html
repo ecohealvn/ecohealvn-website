@@ -521,8 +521,11 @@
     .pay-section{display:none;}
     .pay-section.active{display:block;}
     #ecpayContainer{
-      min-height:280px;border-radius:8px;overflow:hidden;
+      border-radius:8px;
       border:1px solid #d0e0be;background:#fff;
+    }
+    #ECPayPayment{
+      width:100%;
     }
     .ecpay-loading{
       min-height:200px;display:flex;align-items:center;
@@ -1676,6 +1679,14 @@ function switchPayMethod(method) {
 function _ecpayMsg(txt) {
   var el = document.getElementById('ecpayMsg');
   if (el) el.textContent = txt;
+  // 同時更新 loading 顯示狀態
+  var loading = document.getElementById('ecpayLoading');
+  if (loading) loading.style.display = txt ? 'flex' : 'none';
+}
+
+function _ecpayHideLoading() {
+  var loading = document.getElementById('ecpayLoading');
+  if (loading) loading.style.display = 'none';
 }
 
 function _startECPay() {
@@ -1688,12 +1699,14 @@ function _startECPay() {
     _ecpayMsg('Vui lòng điền xong Bước 1 và Bước 2 trước');
     return;
   }
-  _ecpayMsg('Đang tải trang thanh toán...');
+  _ecpayMsg('Đang tải thư viện thanh toán... (1/3)');
 
   if (!ecpaySDKLoaded) {
     // ECPay SDK cần jQuery + node-forge trước
     _loadScript('https://code.jquery.com/jquery-3.5.1.min.js', function() {
+      _ecpayMsg('Đang tải thư viện bảo mật... (2/3)');
       _loadScript('https://cdn.jsdelivr.net/npm/node-forge@0.7.0/dist/forge.min.js', function() {
+        _ecpayMsg('Đang kết nối cổng thanh toán... (3/3)');
         _loadScript('https://ecpg.ecpay.com.tw/Scripts/sdk-1.0.0.js?t=20210121100116', function() {
           ecpaySDKLoaded = true;
           _getToken();
@@ -1762,7 +1775,7 @@ function _renderECPay(token) {
     ECPay.createPayment(token, ECPay.Language.enUS, function(errMsg) {
       if (errMsg) { _ecpayMsg('Lỗi form: ' + errMsg); return; }
       ecpayReady = true;
-      document.getElementById('ecpayLoading').style.display = 'none';
+      _ecpayHideLoading();
     }, 'V2');
   });
 }
