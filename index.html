@@ -877,7 +877,9 @@ function switchProduct(id, btn){
   btn.classList.add('active');
 }
 
-const CART_API = 'https://ecoheal-cart-api.ecoheal.workers.dev';
+const CART_API = ['localhost','127.0.0.1'].includes(location.hostname)
+  ? 'http://127.0.0.1:8787'
+  : 'https://ecoheal-cart-api.ecoheal.workers.dev';
 const SID_KEY = 'ecoheal_sid';
 function getSid(){
   let s=localStorage.getItem(SID_KEY);
@@ -933,11 +935,17 @@ async function addCart(){
     },COOLDOWN);
   }
 
-  // 背景靜默送出 API
+  // 背景送出 API；商品名稱與價格由 Worker 的商品目錄決定
   try{
     const sid=getSid();
-    const qs=new URLSearchParams({sid,name:prod.name,price:prod.price,qty:1,sku:prod.sku,product_id:''});
-    await fetch(`${CART_API}/add?${qs}`);
+    const res=await fetch(`${CART_API}/cart/add`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({sid,sku:prod.sku,qty:1})
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data.ok) throw new Error('add_failed');
+    countEl.textContent=(data.cart||[]).reduce((sum,item)=>sum+Number(item.qty||0),0);
   }catch(e){
     // API 失敗：復原數字和按鈕
     countEl.textContent=prevCount;

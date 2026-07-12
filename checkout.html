@@ -746,7 +746,7 @@
               <div id="loginControls" class="hidden-controls">
                 <div class="password-row login-password-line">
                   <input class="input-password" type="password" id="profile_password"
-                    placeholder="Nhập mật khẩu" autocomplete="new-password" />
+                    placeholder="Nhập mật khẩu" autocomplete="current-password" />
                   <button type="button" id="loginBtn" class="mini-btn primary login-single-btn">Đăng nhập</button>
                 </div>
               </div>
@@ -878,7 +878,7 @@
                   <div class="error" data-error-for="new_password"></div>
                 </div>
                 <div class="hint" id="passwordHint">
-                  Lần sau dùng email và mật khẩu này để tải lại thông tin nhận hàng
+                  Lần sau dùng số điện thoại và mật khẩu này để tải lại thông tin nhận hàng
                 </div>
               </div>
             </div>
@@ -925,8 +925,9 @@
 </main>
 
 <script>
-const CART_API       = 'https://ecoheal-cart-api.ecoheal.workers.dev';
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzSJXgPaqwOTD36nWdiy8c7uwO39rVWG1kNKxnDAwRiwUYGikrP3KpfPEO0t6FddnQOoQ/exec';
+const CART_API       = ['localhost','127.0.0.1'].includes(location.hostname)
+  ? 'http://127.0.0.1:8787'
+  : 'https://ecoheal-cart-api.ecoheal.workers.dev';
 const SID_KEY        = 'ecoheal_sid';
 
 // ── sid ──────────────────────────────────────────────
@@ -968,11 +969,12 @@ function refreshSidLinks(){
 }
 
 // ── profile state ─────────────────────────────────────
-const profileState={mode:'idle',loginAttempts:0,maxLoginAttempts:3,loggingIn:false,savedPassword:null};
+const profileState={mode:'idle',loginAttempts:0,maxLoginAttempts:5,loggingIn:false,sessionToken:''};
 const DEFAULT_LOGIN_HINT='Khách hàng lần đầu chưa có mật khẩu, có thể điền thẳng thông tin nhận hàng bên dưới';
 
 let loginCountdownTimer=null;
 let submitCountdownTimer=null;
+let activeSubmissionId='';
 let orderLocked=false;
 let cartItems=[];
 
@@ -998,34 +1000,48 @@ async function loadCartWithRetry(){
 async function clearCart(){
   try{
     const sid=getSid();
-    await fetch(`${CART_API}/clear?sid=${sid}`,{method:'POST'});
+    await fetch(`${CART_API}/cart?sid=${encodeURIComponent(sid)}`,{method:'DELETE'});
   }catch(_){}
 }
 
 async function updateCartItemQty(index,qty){
   if(orderLocked) return;
+  const previous=cartItems.map(item=>({...item}));
   cartItems[index].qty=normalizeQty(qty);
-  await saveCartToServer();
-  renderSummary();
+  try{
+    await saveCartToServer();
+    renderSummary();
+  }catch(_){
+    cartItems=previous;
+    renderSummary();
+    alert('Không thể cập nhật giỏ hàng. Vui lòng thử lại.');
+  }
 }
 
 async function removeCartItem(index){
   if(orderLocked) return;
+  const previous=cartItems.map(item=>({...item}));
   cartItems.splice(index,1);
-  await saveCartToServer();
-  renderSummary();
+  try{
+    await saveCartToServer();
+    renderSummary();
+  }catch(_){
+    cartItems=previous;
+    renderSummary();
+    alert('Không thể cập nhật giỏ hàng. Vui lòng thử lại.');
+  }
 }
 
 async function saveCartToServer(){
   const sid=getSid();
-  await fetch(`${CART_API}/clear?sid=${sid}`,{method:'POST'});
-  for(const item of cartItems){
-    const qs=new URLSearchParams({
-      sid,name:item.name,price:item.price,
-      qty:item.qty,sku:item.sku||item.code||'',product_id:''
-    });
-    await fetch(`${CART_API}/add?${qs}`);
-  }
+  const res=await fetch(`${CART_API}/cart`,{
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({sid,items:cartItems.map(item=>({sku:item.sku||item.code||'',qty:item.qty}))})
+  });
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok||!data.ok) throw new Error('save_cart_failed');
+  cartItems=data.cart||[];
 }
 
 // ── utils ─────────────────────────────────────────────
@@ -1110,32 +1126,22 @@ function stopLoginCountdown(){
   if(loginCountdownTimer){clearInterval(loginCountdownTimer);loginCountdownTimer=null;}
 }
 
-function startSubmitCountdown(onDone){
-  stopSubmitCountdown();
-  const btn=document.getElementById('submitBtn');
-  let sec=3;
-  btn.textContent='Đang gửi đơn hàng...'+sec;
-  submitCountdownTimer=setInterval(()=>{
-    sec-=1;
-    if(sec>0){btn.textContent='Đang gửi đơn hàng...'+sec;}
-    else{stopSubmitCountdown();if(typeof onDone==='function')onDone();}
-  },1000);
-}
-
 function stopSubmitCountdown(){
   if(submitCountdownTimer){clearInterval(submitCountdownTimer);submitCountdownTimer=null;}
 }
 
-function sendOrderWithoutWaiting(payload){
-  const json=JSON.stringify(payload);
-  const blob=new Blob([json],{type:'text/plain;charset=UTF-8'});
-  try{
-    if(navigator.sendBeacon&&navigator.sendBeacon(GAS_WEB_APP_URL,blob)) return true;
-  }catch(_){}
-  try{
-    fetch(GAS_WEB_APP_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain'},body:json}).catch(()=>{});
-    return true;
-  }catch(_){return false;}
+async function submitOrder(payload){
+  if(!activeSubmissionId) activeSubmissionId=crypto.randomUUID();
+  const headers={'Content-Type':'application/json'};
+  if(profileState.sessionToken) headers.Authorization='Bearer '+profileState.sessionToken;
+  const res=await fetch(`${CART_API}/order`,{
+    method:'POST',
+    headers,
+    body:JSON.stringify({sid:getSid(),submissionId:activeSubmissionId,customer:payload.customer})
+  });
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok||!data.ok) throw new Error(data.error||'order_failed');
+  return data;
 }
 
 function clearErrors(){
@@ -1178,22 +1184,12 @@ function showProfileMessage(msg){
   document.getElementById('loginMsg').textContent=msg||'';
 }
 
-function setResetPasswordMode(){
-  stopLoginCountdown();
-  profileState.mode='resetPassword';
-  profileState.loggingIn=false;
-  setLoginControlsVisible(false);
-  document.getElementById('saveProfileCheckbox').checked=true;
-  document.getElementById('profile_password').value='';
-  showProfileMessage('Sai mật khẩu 3 lần, vui lòng điền thông tin nhận hàng và đặt mật khẩu mới bên dưới');
-  updateSaveProfileSection();
-}
-
-function setLoggedIn(profile){
+function setLoggedIn(profile,token){
   stopLoginCountdown();
   profileState.mode='loggedIn';
   profileState.loginAttempts=0;
   profileState.loggingIn=false;
+  profileState.sessionToken=token||'';
   fillProfileFields(profile);
   setLoginControlsVisible(false);
   document.getElementById('profile_password').value='';
@@ -1279,29 +1275,30 @@ async function runProfileLogin(){
   startLoginCountdown();
   try{
     const data=await submitProfileLogin(email,password);
-    if(!data||!data.ok||!data.login||!data.profile){handleLoginFailed();return;}
-    profileState.savedPassword=password; // เก็บไว้ใช้ตอน submit
-    setLoggedIn(data.profile);
+    if(!data||!data.ok||!data.login||!data.profile||!data.token){handleLoginFailed(data&&data.error);return;}
+    setLoggedIn(data.profile,data.token);
   }catch(_){handleLoginFailed();}
   finally{profileState.loggingIn=false;loginBtn.disabled=false;loginBtn.textContent='Đăng nhập';}
 }
 
-function handleLoginFailed(){
+function handleLoginFailed(reason){
   stopLoginCountdown();
   profileState.loginAttempts+=1;
   const pw=document.getElementById('profile_password');
   if(pw) pw.value='';
-  const remaining=profileState.maxLoginAttempts-profileState.loginAttempts;
+  const remaining=reason==='too_many_attempts'?0:profileState.maxLoginAttempts-profileState.loginAttempts;
   if(remaining>0){
     document.getElementById('loginMsg').textContent='Mật khẩu không đúng, còn '+remaining+' lần thử. Nếu quên mật khẩu, hãy bỏ qua và điền thẳng thông tin nhận hàng.';
     document.getElementById('loginMsg').style.color='#d9534f';
     if(pw) pw.focus();
   }else{
-    const email=String(document.getElementById('email').value||'').trim().toLowerCase();
-    fetch(`${CART_API}/profile/lock`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})}).catch(()=>{});
     setLoginControlsVisible(false);
-    document.getElementById('loginMsg').textContent='';
-    profileState.mode='resetPassword';
+    profileState.mode='idle';
+    profileState.sessionToken='';
+    document.getElementById('loginMsg').textContent='Đã vượt quá số lần thử. Vui lòng chờ 15 phút hoặc điền thông tin nhận hàng mà không lưu hồ sơ.';
+    document.getElementById('loginMsg').style.color='#d9534f';
+    document.getElementById('saveProfileCheckbox').checked=false;
+    updateSaveProfileSection();
     goToStep2();
   }
 }
@@ -1330,7 +1327,7 @@ function validateForm(){
   if(!bankLast5){setError('bank_last5','Vui lòng nhập tên người chuyển khoản');ok=false;}
   if(needsPasswordInput(saveProfile)){
     if(!newPassword){setError('new_password','Vui lòng đặt mật khẩu');ok=false;}
-    else if(newPassword.length<4){setError('new_password','Mật khẩu tối thiểu 4 ký tự');ok=false;}
+    else if(newPassword.length<8){setError('new_password','Mật khẩu tối thiểu 8 ký tự');ok=false;}
   }
   return ok;
 }
@@ -1354,7 +1351,7 @@ function buildPayload(){
       invoice_title:'',
       save_profile:saveProfile,
       new_password:needsPasswordInput(saveProfile)?String(data.get('new_password')||'').trim():'',
-      change_password:profileState.mode==='resetPassword'
+      change_password:false
     },
     cart,
     total,
@@ -1370,7 +1367,16 @@ function lockCheckout(){
   document.querySelectorAll('.summary-top .continue-btn').forEach(el=>{el.classList.add('disabled-link');el.setAttribute('aria-disabled','true');});
 }
 
-function showSuccess(payload, paymentMethod){
+function unlockCheckout(){
+  orderLocked=false;
+  document.body.classList.remove('order-locked');
+  document.querySelectorAll('#checkoutForm input,#checkoutForm textarea,#checkoutForm button').forEach(el=>el.disabled=false);
+  document.querySelectorAll('.qty-input,.remove-item-btn').forEach(el=>el.disabled=false);
+  document.querySelectorAll('.summary-top .continue-btn').forEach(el=>{el.classList.remove('disabled-link');el.removeAttribute('aria-disabled');});
+  updateSaveProfileSection();
+}
+
+function showSuccess(payload, paymentMethod, orderResult){
   const resultBox=document.getElementById('resultBox');
   const resultText=document.getElementById('resultText');
   const submitBtn=document.getElementById('submitBtn');
@@ -1383,15 +1389,12 @@ function showSuccess(payload, paymentMethod){
 
   resultBox.style.display='block';
   submitBtn.disabled=true;
-  clearCart();
   localStorage.removeItem(SID_KEY);
-  const c=payload&&payload.customer;
-  const savePassword=c?.new_password||(profileState.mode==='loggedIn'?profileState.savedPassword:null);
-  if(c&&c.save_profile&&c.email&&savePassword){
-    fetch(`${CART_API}/profile/save`,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:c.email,password:savePassword,recipient_name:c.recipient_name,
-        recipient_phone:c.recipient_phone,recipient_address:c.recipient_address,
-        remarks:c.remarks,invoice_tax_id:c.invoice_tax_id})}).catch(()=>{});
+  if(orderResult&&orderResult.orderId){
+    resultText.textContent+=' Mã đơn hàng: '+orderResult.orderId;
+  }
+  if(payload.customer.save_profile&&!orderResult.profileSaved){
+    resultText.textContent+=' Hồ sơ không được lưu; đơn hàng vẫn đã được ghi nhận.';
   }
   window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
 }
@@ -1402,24 +1405,22 @@ function bindSubmit(){
   form.addEventListener('keydown',function(e){
     if(e.key==='Enter'&&e.target&&e.target.tagName!=='TEXTAREA') e.preventDefault();
   });
-  form.addEventListener('submit',function(e){
+  form.addEventListener('submit',async function(e){
     e.preventDefault();
     if(!validateForm()) return;
     const payload=buildPayload();
     lockCheckout();
-    const queued=sendOrderWithoutWaiting(payload);
-    if(!queued){
-      orderLocked=false;
-      document.body.classList.remove('order-locked');
+    submitBtn.textContent='Đang gửi đơn hàng...';
+    try{
+      const orderResult=await submitOrder(payload);
+      showSuccess(payload,null,orderResult);
+      submitBtn.textContent='Đã gửi đơn hàng ✓';
+    }catch(error){
+      unlockCheckout();
       submitBtn.disabled=false;
       submitBtn.textContent='Gửi đơn hàng';
-      alert('Gửi thất bại, vui lòng thử lại.');
-      return;
+      alert('Không thể xác nhận đơn hàng. Vui lòng kiểm tra kết nối và thử lại.');
     }
-    startSubmitCountdown(function(){
-      showSuccess(payload);
-      submitBtn.textContent='Đã gửi đơn hàng ✓';
-    });
   });
 }
 
@@ -1445,6 +1446,7 @@ function bindInteractions(){
   document.getElementById('email').addEventListener('input',function(){
     if(profileState.mode==='loggedIn'){
       profileState.mode='idle';
+      profileState.sessionToken='';
       setLoginControlsVisible(true);
       document.getElementById('saveProfileCheckbox').checked=true;
       updateSaveProfileSection();

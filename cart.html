@@ -218,7 +218,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 </div>
 
 <script>
-const API = 'https://ecoheal-cart-api.ecoheal.workers.dev';
+const API = ['localhost','127.0.0.1'].includes(location.hostname)
+  ? 'http://127.0.0.1:8787'
+  : 'https://ecoheal-cart-api.ecoheal.workers.dev';
 const SID_KEY = 'ecoheal_sid';
 const CHECKOUT = 'checkout.html';
 
@@ -255,27 +257,41 @@ function updateSummary(){
 
 async function saveCart(){
   const sid = getSid();
-  await fetch(`${API}/clear?sid=${sid}`, {method:'POST'});
-  for(const item of cartItems){
-    const qs = new URLSearchParams({
-      sid, name:item.name, price:item.price,
-      qty:item.qty, sku:item.sku||'', product_id:''
-    });
-    await fetch(`${API}/add?${qs}`);
-  }
+  const res = await fetch(`${API}/cart`, {
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({sid,items:cartItems.map(item=>({sku:item.sku||'',qty:item.qty}))})
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok||!data.ok) throw new Error('save_cart_failed');
+  cartItems = data.cart||[];
 }
 
 async function removeItem(idx){
+  const previous=cartItems.map(item=>({...item}));
   cartItems.splice(idx,1);
-  await saveCart();
-  renderItems();
+  try{
+    await saveCart();
+    renderItems();
+  }catch(_){
+    cartItems=previous;
+    renderItems();
+    alert('Không thể cập nhật giỏ hàng. Vui lòng thử lại.');
+  }
 }
 
 async function changeQty(idx, val){
+  const previous=cartItems.map(item=>({...item}));
   const n = parseInt(val,10);
   if(n > 0) cartItems[idx].qty = n;
-  await saveCart();
-  renderItems();
+  try{
+    await saveCart();
+    renderItems();
+  }catch(_){
+    cartItems=previous;
+    renderItems();
+    alert('Không thể cập nhật giỏ hàng. Vui lòng thử lại.');
+  }
 }
 
 function buildRow(item, idx){

@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ecoheal-cart-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-05-25",
+  "workers_dev": true,
+  "vars": {
+    "FRONTEND_URL": "https://www.ecohealvn.com",
+    "GAS_URL": "https://script.google.com/macros/s/AKfycbzSJXgPaqwOTD36nWdiy8c7uwO39rVWG1kNKxnDAwRiwUYGikrP3KpfPEO0t6FddnQOoQ/exec"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "CART",
+      "id": "291b10794fbc4303a88abbcadd4c4a81"
+    },
+    {
+      "binding": "PROFILE",
+      "id": "7f5d8697a0c54732934b202fe6e323fa"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
