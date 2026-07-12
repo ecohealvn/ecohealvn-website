@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ECOHEAL – Hít thở khác biệt, Sống chất an nhiên</title>
+<meta name="description" content="ECOHEAL Vietnam – thiết bị làm sạch không khí ứng dụng công nghệ PHIT từ Đài Loan cho gia đình, ô tô, không gian di động và thương mại.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.ecohealvn.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="ECOHEAL Vietnam">
+<meta property="og:title" content="ECOHEAL Vietnam – Công nghệ PHIT từ Đài Loan">
+<meta property="og:description" content="Giải pháp làm sạch không khí cho gia đình, ô tô, không gian di động và thương mại.">
+<meta property="og:url" content="https://www.ecohealvn.com/">
+<meta property="og:image" content="https://www.ecohealvn.com/images/hero.jpg.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -194,6 +204,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 .ship-icon{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--green2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ship-icon svg{width:15px;height:15px;stroke:var(--green);fill:none;stroke-width:2}
 .ship-label{font-weight:700;color:var(--text);display:block;margin-bottom:1px}
+.policy-link{color:var(--green);font-weight:600;text-underline-offset:2px}
+
+/* RETURN POLICY */
+.return-policy{background:#fff;padding:48px 80px}
+.return-policy-inner{max-width:1200px;margin:0 auto}
+.return-policy-intro{text-align:center;max-width:760px;margin:-20px auto 28px;color:var(--text2);font-size:.82rem;line-height:1.7}
+.return-policy-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.return-policy-card{border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--cream)}
+.return-policy-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--green);color:#fff;font-size:.72rem;font-weight:800;margin-bottom:10px}
+.return-policy-card h3{font-size:.82rem;line-height:1.45;margin-bottom:6px;color:var(--text)}
+.return-policy-card p{font-size:.73rem;line-height:1.65;color:var(--text2)}
 
 /* FOOTER CTA */
 .footer-cta{position:relative;overflow:hidden;min-height:300px;display:flex;align-items:center;padding:32px 80px 64px}
@@ -248,7 +269,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   .made-badge{right:16px;bottom:16px;font-size:.68rem;padding:5px 10px}
 
   /* Sections */
-  .sec,.cert-section,.kol-section,.product-section{padding:40px 16px}
+  .sec,.cert-section,.kol-section,.product-section,.return-policy{padding:40px 16px}
   .tech-btn-wrap{padding:0 16px 32px}
 
   /* Stats image */
@@ -257,6 +278,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 
   /* Problems */
   .hospital-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .return-policy-grid{grid-template-columns:1fr 1fr}
 
   /* Tech image */
   .tech-img{width:100%;overflow:hidden}
@@ -305,6 +327,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   .cert-docs-grid{grid-template-columns:repeat(2,1fr)}
   .product-tab{flex:1 1 100%}
   .footer-trust{flex-direction:column;gap:10px}
+  .return-policy-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -312,7 +335,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 
 <!-- FLOATING CART -->
 <div class="float-cart">
-  <a href="cart.html" class="float-btn" id="floatCartBtn" onclick="handleCartClick(event)">
+  <a href="cart.html" class="float-btn" id="floatCartBtn" onclick="handleCartClick(event)" aria-label="Mở giỏ hàng">
     <svg viewBox="0 0 24 24"><path d="M6 2H3v2h1.5L8 14h10l2-9H6z" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>
     <div class="float-cnt" id="cartCount">0</div>
   </a>
@@ -348,10 +371,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
   </a>
   <ul class="nav-links">
     <li><a href="#tech">Công nghệ</a></li>
-    <li><a href="#san-pham">Sản phẩm</a></li>
+    <li><a href="#products">Sản phẩm</a></li>
     <li><a href="#certs">Chứng nhận</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></button>
+  <button type="button" class="hamburger" onclick="toggleNav()" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- HERO -->
@@ -444,7 +467,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     </div>
     <div class="hero-badges">
       <div class="hero-badge-item"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Miễn phí giao hàng</div>
-      <div class="hero-badge-item"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Đổi trả 7 ngày</div>
+      <div class="hero-badge-item"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Đổi/trả 7 ngày có điều kiện</div>
       <div class="hero-badge-item"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 001 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>Chính ngạch Đài Loan</div>
       <div class="hero-badge-item"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Mã số thuế: 0318111262</div>
     </div>
@@ -548,10 +571,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <section class="analysis-section" id="san-pham">
   <div class="analysis-grid">
     <div class="analysis-card">
-      <img src="images/Analysis-1.png" alt="PHIT Analysis 1">
+      <img src="images/Analysis-1.png" alt="PHIT Analysis 1" loading="lazy">
     </div>
     <div class="analysis-card">
-      <img src="images/Analysis-2.png" alt="PHIT Analysis 2">
+      <img src="images/Analysis-2.png" alt="PHIT Analysis 2" loading="lazy">
     </div>
   </div>
 </section>
@@ -560,10 +583,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 <section class="analysis-section">
   <div class="analysis-grid">
     <div class="analysis-card">
-      <img src="images/Analysis-3.png" alt="PHIT Analysis 3">
+      <img src="images/Analysis-3.png" alt="PHIT Analysis 3" loading="lazy">
     </div>
     <div class="analysis-card">
-      <img src="images/Analysis-4.png" alt="PHIT Analysis 4">
+      <img src="images/Analysis-4.png" alt="PHIT Analysis 4" loading="lazy">
     </div>
   </div>
 </section>
@@ -607,27 +630,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <h2 class="sec-center-title" style="margin-bottom:18px;margin-top:0">Kiểm chứng chất lượng</h2>
     <div class="hospital-grid">
       <div class="hospital-card">
-        <div class="hospital-img"><img src="images/SGS-1.png" alt="SGS PM2.5"></div>
+        <div class="hospital-img"><img src="images/SGS-1.png" alt="SGS PM2.5" loading="lazy"></div>
         <div class="hospital-name">SGS PM2.5: 90,9%</div>
       </div>
       <div class="hospital-card">
-        <div class="hospital-img"><img src="images/SGS-2.png" alt="SGS Formaldehyde"></div>
+        <div class="hospital-img"><img src="images/SGS-2.png" alt="SGS Formaldehyde" loading="lazy"></div>
         <div class="hospital-name">SGS Formaldehyde: 89,5%</div>
       </div>
       <div class="hospital-card">
-        <div class="hospital-img"><img src="images/SGS-3.png" alt="SGS Ozone"></div>
+        <div class="hospital-img"><img src="images/SGS-3.png" alt="SGS Ozone" loading="lazy"></div>
         <div class="hospital-name">SGS Ozone: 0,0042 ppm</div>
       </div>
       <div class="hospital-card">
-        <div class="hospital-img"><img src="images/SGS-4.png" alt="SGS Ozone"></div>
+        <div class="hospital-img"><img src="images/SGS-4.png" alt="SGS Ozone" loading="lazy"></div>
         <div class="hospital-name">SGS Ozone: 0,0018 ppmv</div>
       </div>
       <div class="hospital-card">
-        <div class="hospital-img"><img src="images/SGS-5.png" alt="Gmicro Virus"></div>
+        <div class="hospital-img"><img src="images/SGS-5.png" alt="Gmicro Virus" loading="lazy"></div>
         <div class="hospital-name">Gmicro Virus: &gt;99,99%</div>
       </div>
       <div class="hospital-card">
-        <div class="hospital-img"><img src="images/SGS-6.png" alt="SGS Vi khuẩn"></div>
+        <div class="hospital-img"><img src="images/SGS-6.png" alt="SGS Vi khuẩn" loading="lazy"></div>
         <div class="hospital-name">SGS Vi khuẩn: &gt;99,9%</div>
       </div>
     </div>
@@ -640,19 +663,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
     <h2 class="sec-center-title">Video thực tế &amp; thông tin tham khảo</h2>
     <div class="kols-grid">
       <div class="kol-card">
-        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/xMQkHqXYyi4" allowfullscreen loading="lazy"></iframe></div>
+        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/xMQkHqXYyi4" title="Video thực tế ECOHEAL tại Đài Loan 1" allowfullscreen loading="lazy"></iframe></div>
         <div class="kol-body"><div class="kol-q">Video thực tế được ghi hình tại Đài Loan</div><div class="kol-name">ECOHEAL Taiwan</div></div>
       </div>
       <div class="kol-card">
-        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/MjzsFg33PZc" allowfullscreen loading="lazy"></iframe></div>
+        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/MjzsFg33PZc" title="Video thực tế ECOHEAL tại Đài Loan 2" allowfullscreen loading="lazy"></iframe></div>
         <div class="kol-body"><div class="kol-q">Video thực tế được ghi hình tại Đài Loan</div><div class="kol-name">ECOHEAL Taiwan</div></div>
       </div>
       <div class="kol-card">
-        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/WcalkMtkdhg" allowfullscreen loading="lazy"></iframe></div>
+        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/WcalkMtkdhg" title="Video tham khảo ECOHEAL trong ô tô" allowfullscreen loading="lazy"></iframe></div>
         <div class="kol-body"><div class="kol-q">Video tham khảo về ứng dụng trong không gian xe</div><div class="kol-name">Nội dung tham khảo từ YouTube</div></div>
       </div>
       <div class="kol-card">
-        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/aZOA_-B4UR4" allowfullscreen loading="lazy"></iframe></div>
+        <div class="kol-vid"><iframe src="https://www.youtube.com/embed/aZOA_-B4UR4" title="Video tham khảo ECOHEAL trong không gian sống" allowfullscreen loading="lazy"></iframe></div>
         <div class="kol-body"><div class="kol-q">Video tham khảo về ứng dụng trong không gian sống</div><div class="kol-name">Nội dung tham khảo từ YouTube</div></div>
       </div>
     </div>
@@ -666,10 +689,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
 
     <!-- TABS -->
     <div class="product-tabs">
-      <button class="product-tab active" onclick="switchProduct('bm6',this)">BM6+ (Gia đình)</button>
-      <button class="product-tab" onclick="switchProduct('arcii',this)">ARCII plus (Di động)</button>
-      <button class="product-tab" onclick="switchProduct('arc',this)">ARC plus (Ô tô)</button>
-      <button class="product-tab" onclick="switchProduct('commercial',this)">PRO9 (Thương mại)</button>
+      <button type="button" class="product-tab active" onclick="switchProduct('bm6',this)">BM6+ (Gia đình)</button>
+      <button type="button" class="product-tab" onclick="switchProduct('arcii',this)">ARCII plus (Di động)</button>
+      <button type="button" class="product-tab" onclick="switchProduct('arc',this)">ARC plus (Ô tô)</button>
+      <button type="button" class="product-tab" onclick="switchProduct('commercial',this)">PRO9 (Thương mại)</button>
     </div>
 
     <!-- BM6+ -->
@@ -698,13 +721,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-range">Phiên bản gia đình – khoảng 23 đến 50 m²</div>
           <div class="plan-price-row"><span class="plan-price">17.600.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
-          <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
+          <button type="button" class="plan-btn" onclick="addCart()">MUA NGAY</button>
           <div class="plan-feats"><div class="plan-feat">BM6+</div><div class="plan-feat">Dây nguồn chuyên dụng</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng chính hãng</div></div>
         </div>
       </div>
       <div class="shipping-col">
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><span class="ship-label">Miễn phí giao hàng toàn quốc</span>Dự kiến 3–5 ngày; miền Bắc hoặc khu vực xa có thể lâu hơn</div></div>
-        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi trả 7 ngày</span>nếu không hài lòng</div></div>
+        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi/trả trong 7 ngày</span><a class="policy-link" href="#return-policy">Theo điều kiện áp dụng</a></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><span class="ship-label">Bảo hành chính hãng</span>12 tháng</div></div>
       </div>
     </div>
@@ -722,6 +745,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <tr><td>Diện tích hiệu quả</td><td>Khoảng 3 – 10 m²</td></tr>
           <tr><td>Công suất</td><td>&lt;3W</td></tr>
           <tr><td>Điện áp</td><td>DC 5V ⎓ 2A</td></tr>
+          <tr><td>Sạc</td><td>USB Type-C; có thể vừa sạc vừa sử dụng</td></tr>
+          <tr><td>Thời lượng pin</td><td>Sạc khoảng 2 giờ; sử dụng 8–12 giờ</td></tr>
           <tr><td>Tuổi thọ bóng đèn</td><td>25.000 giờ (thiết kế)</td></tr>
           <tr><td>Vật liệu ngoài</td><td>ABS + PC</td></tr>
           <tr><td>Màu sắc</td><td>Trắng</td></tr>
@@ -735,13 +760,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-range">Phiên bản di động – khoảng 3 đến 10 m²</div>
           <div class="plan-price-row"><span class="plan-price">5.800.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
-          <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">ARCII plus</div><div class="plan-feat">Cáp chuyển đổi từ Type sang USB</div><div class="plan-feat">Ốp bảo vệ silicone</div><div class="plan-feat">Dây đeo cổ</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
+          <button type="button" class="plan-btn" onclick="addCart()">MUA NGAY</button>
+          <div class="plan-feats"><div class="plan-feat">ARCII plus</div><div class="plan-feat">Cáp sạc USB Type-C</div><div class="plan-feat">Ốp bảo vệ silicone</div><div class="plan-feat">Dây đeo cổ</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
         </div>
       </div>
       <div class="shipping-col">
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><span class="ship-label">Miễn phí giao hàng toàn quốc</span>Dự kiến 3–5 ngày; miền Bắc hoặc khu vực xa có thể lâu hơn</div></div>
-        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi trả 7 ngày</span>nếu không hài lòng</div></div>
+        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi/trả trong 7 ngày</span><a class="policy-link" href="#return-policy">Theo điều kiện áp dụng</a></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><span class="ship-label">Bảo hành chính hãng</span>12 tháng</div></div>
       </div>
     </div>
@@ -759,6 +784,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <tr><td>Diện tích hiệu quả</td><td>Khoảng 3,3 m²</td></tr>
           <tr><td>Công suất</td><td>&lt;2W</td></tr>
           <tr><td>Điện áp</td><td>DC 12V / 500mA</td></tr>
+          <tr><td>Lắp đặt</td><td>Kẹp vào cửa gió điều hòa ô tô</td></tr>
           <tr><td>Nhiệt độ vận hành</td><td>-10°C ~ +45°C</td></tr>
           <tr><td>Vật liệu ngoài</td><td>ABS + PC</td></tr>
           <tr><td>Màu sắc</td><td>Trắng</td></tr>
@@ -772,13 +798,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-range">Phiên bản dùng cho ô tô – khoảng 3,3 m²</div>
           <div class="plan-price-row"><span class="plan-price">3.500.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
-          <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
-          <div class="plan-feats"><div class="plan-feat">ARC plus</div><div class="plan-feat">Cáp chuyển đổi từ Type sang USB</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
+          <button type="button" class="plan-btn" onclick="addCart()">MUA NGAY</button>
+          <div class="plan-feats"><div class="plan-feat">ARC plus</div><div class="plan-feat">Bộ đổi nguồn tẩu thuốc ô tô</div><div class="plan-feat">Kẹp gắn cửa gió điều hòa</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng</div></div>
         </div>
       </div>
       <div class="shipping-col">
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div><span class="ship-label">Miễn phí giao hàng toàn quốc</span>Dự kiến 3–5 ngày; miền Bắc hoặc khu vực xa có thể lâu hơn</div></div>
-        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi trả 7 ngày</span>nếu không hài lòng</div></div>
+        <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div><div><span class="ship-label">Đổi/trả trong 7 ngày</span><a class="policy-link" href="#return-policy">Theo điều kiện áp dụng</a></div></div>
         <div class="ship-item"><div class="ship-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><span class="ship-label">Bảo hành chính hãng</span>12 tháng</div></div>
       </div>
     </div>
@@ -809,7 +835,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
           <div class="plan-range">Phiên bản thương mại – khoảng 50 đến 132 m²</div>
           <div class="plan-price-row"><span class="plan-price">56.780.000₫</span></div>
           <span class="plan-save" style="visibility:hidden">_</span>
-          <button class="plan-btn" onclick="addCart()">MUA NGAY</button>
+          <button type="button" class="plan-btn" onclick="addCart()">MUA NGAY</button>
           <div class="plan-feats"><div class="plan-feat">PRO9</div><div class="plan-feat">Dây nguồn chuyên dụng</div><div class="plan-feat">Vật liệu lắp ráp dạng đứng</div><div class="plan-feat">Hướng dẫn sử dụng</div><div class="plan-feat">Bảo hành 12 tháng chính hãng</div></div>
         </div>
       </div>
@@ -820,6 +846,36 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- RETURN POLICY -->
+<section class="return-policy" id="return-policy">
+  <div class="return-policy-inner">
+    <h2 class="sec-center-title">Chính sách đổi/trả trong 7 ngày</h2>
+    <p class="return-policy-intro">Thời hạn 7 ngày là thời gian cân nhắc, không phải thời gian dùng thử. Vui lòng giữ nguyên tình trạng sản phẩm và toàn bộ bao bì để được hỗ trợ nhanh chóng.</p>
+    <div class="return-policy-grid">
+      <article class="return-policy-card">
+        <div class="return-policy-num">1</div>
+        <h3>Sản phẩm còn mới 100%</h3>
+        <p>Thiết bị không có dấu hiệu đã qua sử dụng, trầy xước hoặc hư hỏng.</p>
+      </article>
+      <article class="return-policy-card">
+        <div class="return-policy-num">2</div>
+        <h3>Đầy đủ phụ kiện</h3>
+        <p>Gửi lại đầy đủ sản phẩm, phụ kiện, tài liệu đi kèm và hộp/bao bì ban đầu.</p>
+      </article>
+      <article class="return-policy-card">
+        <div class="return-policy-num">3</div>
+        <h3>Không áp dụng với lỗi sử dụng</h3>
+        <p>Không áp dụng cho hư hỏng do dùng sai hướng dẫn hoặc tác động từ người dùng.</p>
+      </article>
+      <article class="return-policy-card">
+        <div class="return-policy-num">4</div>
+        <h3>Bao bì là một phần sản phẩm</h3>
+        <p>Bao bì thiếu hoặc hư hỏng có thể ảnh hưởng quyền đổi/trả và phát sinh chi phí khôi phục.</p>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -855,17 +911,25 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:60px;display:flex;ali
       <div class="footer-ti"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>An toàn · Hiệu quả · Bền bỉ</div>
       <div class="footer-ti"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Knowledge Candy – Tổng đại lý ECOHEAL tại Việt Nam</div>
     </div>
-    <div class="footer-copy">© 2024 ECOHEAL Vietnam · ecoheal@ecohealvn.com</div>
+    <div class="footer-copy">© 2026 ECOHEAL Vietnam · ecoheal@ecohealvn.com</div>
   </div>
 </footer>
 
 <script>
 function toggleNav(){
   const m=document.querySelector('.nav-links');
+  const button=document.querySelector('.hamburger');
   if(m.style.display==='flex'){closeNav()}
-  else{m.style.cssText='display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:#fff;padding:20px 24px;gap:18px;border-bottom:1px solid #e8e8e8;z-index:997;box-shadow:0 8px 24px rgba(0,0,0,.08)'}
+  else{
+    m.style.cssText='display:flex;flex-direction:column;position:fixed;top:60px;left:0;right:0;background:#fff;padding:20px 24px;gap:18px;border-bottom:1px solid #e8e8e8;z-index:997;box-shadow:0 8px 24px rgba(0,0,0,.08)';
+    button.setAttribute('aria-expanded','true');
+  }
 }
-function closeNav(){document.querySelector('.nav-links').style.display=''}
+function closeNav(){
+  document.querySelector('.nav-links').style.display='';
+  document.querySelector('.hamburger').setAttribute('aria-expanded','false');
+}
+document.querySelectorAll('.nav-links a').forEach(link=>link.addEventListener('click',closeNav));
 document.addEventListener('click',function(e){
   if(!document.querySelector('nav').contains(e.target))closeNav();
 });
